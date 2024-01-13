@@ -11,9 +11,8 @@ final sampleFeatureDetailPage = [
     builder: (context, state) {
       final extra = state.extra as Map<String, dynamic>;
       return BlocProvider(
-        create: (_) => sl<SampleFeatureDetailCubit>(),
+        create: (_) => sl<SampleFeatureDetailCubit>()..onInit(extra),
         child: SampleFeatureDetailView(
-          idArgs: extra['id'] as int,
           usernameArgs: extra['username'] as String,
         ),
       );

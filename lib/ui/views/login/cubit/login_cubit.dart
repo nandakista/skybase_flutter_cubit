@@ -1,18 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/auth_manager/auth_manager.dart';
+import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
 
 part 'login_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
+class LoginCubit extends BaseCubit<LoginState, void> {
   String tag = 'LoginBloc::->';
 
   final AuthRepository repository;
-  CancelToken cancelToken = CancelToken();
 
   LoginCubit(this.repository) : super(LoginInitial());
 
@@ -48,11 +46,5 @@ class LoginCubit extends Cubit<LoginState> {
     } catch (e) {
       emit(LoginFailed(e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    cancelToken.cancel();
-    return super.close();
   }
 }

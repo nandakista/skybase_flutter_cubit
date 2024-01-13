@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skybase/config/base/pagination_mixin.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/config/themes/app_style.dart';
@@ -16,58 +15,21 @@ import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 import 'package:skybase/ui/widgets/sky_view.dart';
 
-class SampleFeatureListView extends StatefulWidget {
+class SampleFeatureListView extends StatelessWidget {
   static const String route = '/user-list';
 
   const SampleFeatureListView({super.key});
 
   @override
-  State<SampleFeatureListView> createState() => _SampleFeatureListViewState();
-}
-
-class _SampleFeatureListViewState extends State<SampleFeatureListView>
-    with PaginationMixin<SampleFeature>, AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    loadData(() => context
-        .read<SampleFeatureListCubit>()
-        .onLoadData(page: page, perPage: perPage));
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Future<void> onRefresh() {
-    deleteCached(CachedKey.SAMPLE_FEATURE_LIST);
-    return super.onRefresh();
-  }
-
-  @override
-  void dispose() {
-    pagingController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: SkyAppBar.secondary(title: 'txt_list_users'.tr()),
-      body: BlocConsumer<SampleFeatureListCubit, SampleFeatureListState>(
-        listener: (BuildContext context, SampleFeatureListState state) {
-          if (state is SampleFeatureListError) {
-            showError(state.message);
-          } else if (state is SampleFeatureListLoaded) {
-            finishLoadData(data: state.result);
-          }
-        },
+      body: BlocBuilder<SampleFeatureListCubit, SampleFeatureListState>(
         builder: (context, state) {
           return SkyView.pagination<SampleFeature>(
-            pagingController: pagingController,
+            pagingController: context.read<SampleFeatureListCubit>().pagingController,
             loadingView: const ShimmerList(),
-            onRefresh: onRefresh,
+            onRefresh: context.read<SampleFeatureListCubit>().onRefresh,
             itemBuilder: (BuildContext context, item, int index) {
               return ListTile(
                 onTap: () {

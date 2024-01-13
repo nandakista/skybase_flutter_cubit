@@ -8,38 +8,17 @@ import 'package:skybase/ui/widgets/sky_view.dart';
 import 'package:skybase/ui/widgets/shimmer/shimmer_detail.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 
-class SampleFeatureDetailView extends StatefulWidget {
+class SampleFeatureDetailView extends StatelessWidget {
   static const String route = '/user-detail';
 
-  const SampleFeatureDetailView({
-    super.key,
-    required this.idArgs,
-    required this.usernameArgs,
-  });
+  const SampleFeatureDetailView({super.key, required this.usernameArgs});
 
-  final int idArgs;
   final String usernameArgs;
-
-  @override
-  State<SampleFeatureDetailView> createState() =>
-      _SampleFeatureDetailViewState();
-}
-
-class _SampleFeatureDetailViewState extends State<SampleFeatureDetailView> {
-  @override
-  void initState() {
-    Future.microtask(
-      () => context
-          .read<SampleFeatureDetailCubit>()
-          .onLoadData(id: widget.idArgs, username: widget.usernameArgs),
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SkyAppBar.primary(title: widget.usernameArgs),
+      appBar: SkyAppBar.primary(title: usernameArgs),
       body: SafeArea(
         child: BlocBuilder<SampleFeatureDetailCubit, SampleFeatureDetailState>(
           builder: (context, state) {
@@ -55,14 +34,8 @@ class _SampleFeatureDetailViewState extends State<SampleFeatureDetailView> {
               emptyEnabled: false,
               loadingView: const ShimmerDetail(),
               errorTitle: errMessage,
-              onRefresh: () => cubit.onRefreshData(
-                id: widget.idArgs,
-                username: widget.usernameArgs,
-              ),
-              onRetry: () => cubit.onRefreshData(
-                id: widget.idArgs,
-                username: widget.usernameArgs,
-              ),
+              onRefresh: cubit.onRefreshData,
+              onRetry: cubit.onRefreshData,
               child: Column(
                 children: [
                   SampleFeatureDetailHeader(

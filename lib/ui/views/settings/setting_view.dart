@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:skybase/app_configuration.dart';
-import 'package:skybase/config/auth_manager/auth_manager.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/themes/theme_manager/theme_manager.dart';
-import 'package:skybase/core/helper/dialog_helper.dart';
 import 'package:skybase/ui/views/settings/cubit/setting_cubit.dart';
 import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
@@ -51,8 +49,7 @@ class _SettingViewState extends State<SettingView> {
               const SizedBox(height: 12),
               SkyButton(
                 onPressed: () {
-                  LoadingDialog.show(context);
-                  AuthManager.instance.logout();
+                  context.read<SettingCubit>().onLogout(context);
                 },
                 text: 'txt_logout'.tr(),
               ),
