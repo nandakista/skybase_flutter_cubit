@@ -29,21 +29,21 @@ class SampleFeatureListCubit
 
   void onLoadData() async {
     try {
-      emit(SampleFeatureListLoading());
+      emitLoading(SampleFeatureListLoading());
       final response = await repository.getUsers(
         cancelToken: cancelToken,
         page: page,
         perPage: perPage,
       );
-      finishAndEmit(
-        state: SampleFeatureListLoaded(response),
+      emitSuccess(
+        SampleFeatureListLoaded(response),
         data: response,
       );
     } catch (e) {
       debugPrint('Error : $e');
-      finishAndEmit(
-        state: SampleFeatureListError(e.toString()),
-        error: e.toString(),
+      emitError(
+        SampleFeatureListError(e.toString()),
+        message: e.toString(),
       );
     }
   }

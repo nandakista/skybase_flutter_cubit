@@ -30,14 +30,14 @@ class ProfileCubit extends BaseCubit<ProfileState, User> {
 
   Future<void> onLoadData() async {
     try {
-      emit(ProfileLoading());
+      emitLoading(ProfileLoading());
       final response = await repository.getProfile(
         cancelToken: cancelToken,
         username: 'nandakista',
       );
-      emit(ProfileLoaded(response));
+      emitSuccess(ProfileLoaded(response));
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      emitError(ProfileError(e.toString()));
     }
   }
 }

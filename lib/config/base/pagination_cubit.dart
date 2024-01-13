@@ -7,9 +7,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:skybase/config/base/connectivity_mixin.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
 
-class PaginationCubit<S, T> extends Cubit<S> {
+class PaginationCubit<S, T> extends Cubit<S> with ConnectivityMixin {
   PaginationCubit(super.initialState);
 
   StorageManager storage = StorageManager.instance;
@@ -20,7 +21,13 @@ class PaginationCubit<S, T> extends Cubit<S> {
   final pagingController = PagingController<int, T>(firstPageKey: 0);
 
   @mustCallSuper
-  void onInit([dynamic args]) {}
+  void onInit([dynamic args]) {
+    listenConnectivity(() {
+      if (pagingController.value.status == PagingStatus.firstPageError) {
+        onRefresh();
+      }
+    });
+  }
 
   @mustCallSuper
   void onRefresh([BuildContext? context]) {
@@ -49,16 +56,17 @@ class PaginationCubit<S, T> extends Cubit<S> {
     }
   }
 
-  void finishLoad({List<T>? data, int? page, String? error}) {
-    if (error != null) {
-      showError(error);
-    } else {
-      loadNextData(data: data ?? [], page: page);
-    }
+  void emitLoading(S state) {
+    emit(state);
   }
 
-  void finishAndEmit({required S state, List<T>? data, int? page, String? error}) {
-    finishLoad(data: data, page: page, error: error);
+  void emitSuccess(S state, {List<T>? data, int? page}) {
+    loadNextData(data: data ?? [], page: page);
+    emit(state);
+  }
+
+  void emitError(S state, {String? message}) {
+    pagingController.error = message;
     emit(state);
   }
 
@@ -67,6 +75,7 @@ class PaginationCubit<S, T> extends Cubit<S> {
   Future<void> close() {
     pagingController.dispose();
     cancelToken.cancel();
+    cancelConnectivity();
     return super.close();
   }
 }

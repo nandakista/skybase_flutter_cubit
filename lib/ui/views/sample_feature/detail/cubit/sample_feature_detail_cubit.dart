@@ -38,15 +38,15 @@ class SampleFeatureDetailCubit
 
   Future<void> onLoadData() async {
     try {
-      emit(SampleFeatureDetailLoading());
+      emitLoading(SampleFeatureDetailLoading());
       final response = await repository.getDetailUser(
         cancelToken: cancelToken,
         id: argsId,
         username: argsUsername,
       );
-      emit(SampleFeatureDetailLoaded(response));
+      emitSuccess(SampleFeatureDetailLoaded(response));
     } catch (e) {
-      emit(SampleFeatureDetailError(e.toString()));
+      emitError(SampleFeatureDetailError(e.toString()));
     }
   }
 }

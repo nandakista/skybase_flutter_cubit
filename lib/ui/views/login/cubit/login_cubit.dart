@@ -19,19 +19,19 @@ class LoginCubit extends BaseCubit<LoginState, void> {
     required String password,
   }) async {
     try {
-      emit(LoginLoading());
+      emitLoading(LoginLoading());
       await repository.login(
         phoneNumber: phone,
         password: password,
       );
-      emit(const LoginSuccess());
+      emitSuccess(const LoginSuccess());
     } catch (e) {
-      emit(LoginFailed(e.toString()));
+      emitError(LoginFailed(e.toString()));
     }
   }
 
   void onBypass() async {
-    emit(LoginLoading());
+    emitLoading(LoginLoading());
     try {
       final response = await repository.getProfile(
         cancelToken: cancelToken,
@@ -42,9 +42,9 @@ class LoginCubit extends BaseCubit<LoginState, void> {
         token: 'dummy',
         refreshToken: 'dummyRefresh',
       );
-      emit(const LoginSuccess());
+      emitSuccess(const LoginSuccess());
     } catch (e) {
-      emit(LoginFailed(e.toString()));
+      emitError(LoginFailed(e.toString()));
     }
   }
 }

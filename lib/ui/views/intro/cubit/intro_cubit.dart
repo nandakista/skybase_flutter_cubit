@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/core/database/storage/storage_key.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/ui/views/intro/intro_data.dart';
@@ -9,7 +9,7 @@ import 'package:skybase/ui/views/login/login_view.dart';
 
 part 'intro_state.dart';
 
-class IntroCubit extends Cubit<IntroState> {
+class IntroCubit extends BaseCubit<IntroState, void> {
   String tag = 'IntroCubit::->';
 
   int currentIndex = 0;
@@ -57,8 +57,8 @@ class IntroCubit extends Cubit<IntroState> {
   }
 
   @override
-  Future<void> close() {
+  void onClose() {
     pageController.dispose();
-    return super.close();
+    super.onClose();
   }
 }
