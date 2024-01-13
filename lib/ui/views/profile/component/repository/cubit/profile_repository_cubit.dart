@@ -1,24 +1,30 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
 
 part 'profile_repository_state.dart';
 
-class ProfileRepositoryCubit extends Cubit<ProfileRepositoryState> {
-  String tag = 'ProfileRepositoryBloc::->';
+class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState, Repo> {
+  String tag = 'ProfileRepositoryCubit::->';
 
   final AuthRepository repository;
-  CancelToken cancelToken = CancelToken();
+  ProfileRepositoryCubit(this.repository) : super(ProfileRepositoryInitial());
 
-  ProfileRepositoryCubit(this.repository) : super(ProfileRepositoryInitial()) {
-    onLoadData();
+  @override
+  void onInit([args]) {
+    loadData(() => onLoadData());
+    super.onInit(args);
   }
 
-  void onLoadData() async {
+  @override
+  Future<void> onRefresh([BuildContext? context]) async {
+    super.onRefresh(context);
+    await onLoadData();
+  }
+
+  Future<void> onLoadData() async {
     try {
       emit(ProfileRepositoryLoading());
       final response = await repository.getProfileRepository(
@@ -29,11 +35,5 @@ class ProfileRepositoryCubit extends Cubit<ProfileRepositoryState> {
     } catch (e) {
       emit(ProfileRepositoryError(e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    cancelToken.cancel();
-    return super.close();
   }
 }

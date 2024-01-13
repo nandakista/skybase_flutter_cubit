@@ -43,8 +43,8 @@ class ProfileView extends StatelessWidget {
             errorEnabled: state is ProfileError,
             emptyEnabled: false,
             errorTitle: errMessage,
-            onRetry: () => cubit.onLoadData(),
-            onRefresh: () => cubit.onLoadData(),
+            onRetry: () => cubit.onRefresh(context),
+            onRefresh: () => cubit.onRefresh(context),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(

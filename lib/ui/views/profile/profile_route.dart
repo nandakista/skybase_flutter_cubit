@@ -12,8 +12,8 @@ final profileRoute = [
     builder: (context, state) {
       return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => sl<ProfileCubit>()),
-          BlocProvider(create: (_) => sl<ProfileRepositoryCubit>()),
+          BlocProvider(create: (_) => sl<ProfileCubit>()..onInit()),
+          BlocProvider(create: (_) => sl<ProfileRepositoryCubit>()..onInit()),
         ],
         child: const ProfileView(),
       );

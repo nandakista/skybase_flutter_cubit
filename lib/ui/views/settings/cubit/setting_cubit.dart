@@ -10,7 +10,7 @@ import 'package:skybase/core/database/storage/storage_manager.dart';
 part 'setting_state.dart';
 
 class SettingCubit extends Cubit<SettingState> {
-  String tag = 'SettingBloc::->';
+  String tag = 'SettingCubit::->';
 
   SettingCubit()
       : super(

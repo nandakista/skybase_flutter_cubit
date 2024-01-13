@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
@@ -11,7 +10,7 @@ part 'sample_feature_detail_state.dart';
 
 class SampleFeatureDetailCubit
     extends BaseCubit<SampleFeatureDetailState, SampleFeature> {
-  String tag = 'SampleFeatureDetailBloc::->';
+  String tag = 'SampleFeatureDetailCubit::->';
 
   final SampleFeatureRepository repository;
 
@@ -29,7 +28,9 @@ class SampleFeatureDetailCubit
     super.onInit(args);
   }
 
-  Future<void> onRefreshData() async {
+  @override
+  void onRefresh([BuildContext? context]) async {
+    super.onRefresh(context);
     await StorageManager.instance
         .delete('${CachedKey.SAMPLE_FEATURE_DETAIL}/$argsId');
     await onLoadData();

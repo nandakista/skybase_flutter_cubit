@@ -26,10 +26,11 @@ class SampleFeatureListView extends StatelessWidget {
       appBar: SkyAppBar.secondary(title: 'txt_list_users'.tr()),
       body: BlocBuilder<SampleFeatureListCubit, SampleFeatureListState>(
         builder: (context, state) {
+          final cubit = context.read<SampleFeatureListCubit>();
           return SkyView.pagination<SampleFeature>(
-            pagingController: context.read<SampleFeatureListCubit>().pagingController,
+            pagingController: cubit.pagingController,
             loadingView: const ShimmerList(),
-            onRefresh: context.read<SampleFeatureListCubit>().onRefresh,
+            onRefresh: () => cubit.onRefresh(),
             itemBuilder: (BuildContext context, item, int index) {
               return ListTile(
                 onTap: () {

@@ -34,8 +34,8 @@ class SampleFeatureDetailView extends StatelessWidget {
               emptyEnabled: false,
               loadingView: const ShimmerDetail(),
               errorTitle: errMessage,
-              onRefresh: cubit.onRefreshData,
-              onRetry: cubit.onRefreshData,
+              onRefresh: () => cubit.onRefresh(context),
+              onRetry: () => cubit.onRefresh(context),
               child: Column(
                 children: [
                   SampleFeatureDetailHeader(

@@ -10,7 +10,7 @@ import 'package:skybase/ui/views/login/login_view.dart';
 part 'intro_state.dart';
 
 class IntroCubit extends Cubit<IntroState> {
-  String tag = 'IntroBloc::->';
+  String tag = 'IntroCubit::->';
 
   int currentIndex = 0;
   PageController pageController = PageController(initialPage: 0);

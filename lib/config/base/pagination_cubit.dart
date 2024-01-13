@@ -23,7 +23,7 @@ class PaginationCubit<S, T> extends Cubit<S> {
   void onInit([dynamic args]) {}
 
   @mustCallSuper
-  void onRefresh() {
+  void onRefresh([BuildContext? context]) {
     page = 1;
     pagingController.refresh();
   }

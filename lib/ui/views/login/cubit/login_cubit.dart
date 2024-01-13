@@ -8,7 +8,7 @@ import 'package:skybase/data/repositories/auth/auth_repository.dart';
 part 'login_state.dart';
 
 class LoginCubit extends BaseCubit<LoginState, void> {
-  String tag = 'LoginBloc::->';
+  String tag = 'LoginCubit::->';
 
   final AuthRepository repository;
 

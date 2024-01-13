@@ -13,8 +13,8 @@ final mainNavRoute = [
     builder: (context, state) => MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<SampleFeatureListCubit>()..onInit()),
-        BlocProvider(create: (_) => sl<ProfileCubit>()),
-        BlocProvider(create: (_) => sl<ProfileRepositoryCubit>()),
+        BlocProvider(create: (_) => sl<ProfileCubit>()..onInit()),
+        BlocProvider(create: (_) => sl<ProfileRepositoryCubit>()..onInit()),
       ],
       child: const MainNavView(),
     ),
