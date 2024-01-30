@@ -238,6 +238,7 @@ class _BaseImageState extends State<BaseImage> {
                     isAsset: widget.isAsset,
                     title: widget.previewTitle,
                     titleStyle: widget.previewTitleStyle,
+                    forceImage: true,
                   ),
                 ),
               )
@@ -268,7 +269,7 @@ class _BaseImageState extends State<BaseImage> {
     final isSvg = widget.src.endsWith('svg');
     final isAssets = widget.isAsset ||
         widget.src.startsWith('lib/resources/') ||
-        widget.src.startsWith('assets/');
+        widget.src.startsWith('assets/images/');
     final isFile = !isFromRemote && !isAssets && !isSvg;
 
     if (isSvg || widget.forceSvgSrc) {
