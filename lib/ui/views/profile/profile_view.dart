@@ -5,7 +5,7 @@ import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/ui/views/profile/cubit/profile_cubit.dart';
 import 'package:skybase/ui/views/settings/setting_view.dart';
-import 'package:skybase/ui/widgets/sky_view.dart';
+import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
 import 'component/repository/profile_repository_view.dart';
@@ -38,7 +38,7 @@ class ProfileView extends StatelessWidget {
           final data = (state is ProfileLoaded) ? state.result : null;
           final errMessage = (state is ProfileError) ? state.message : null;
 
-          return SkyView.page(
+          return StateView.page(
             loadingEnabled: state is ProfileLoading,
             errorEnabled: state is ProfileError,
             emptyEnabled: false,

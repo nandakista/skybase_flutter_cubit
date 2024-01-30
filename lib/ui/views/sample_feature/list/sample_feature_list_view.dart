@@ -10,10 +10,10 @@ import 'package:skybase/data/sources/local/cached_key.dart';
 import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/ui/views/sample_feature/detail/sample_feature_detail_view.dart';
 import 'package:skybase/ui/views/sample_feature/list/cubit/sample_feature_list_cubit.dart';
+import 'package:skybase/ui/widgets/base/pagination_state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/shimmer_list.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
-import 'package:skybase/ui/widgets/sky_view.dart';
 
 class SampleFeatureListView extends StatelessWidget {
   static const String route = '/user-list';
@@ -27,7 +27,7 @@ class SampleFeatureListView extends StatelessWidget {
       body: BlocBuilder<SampleFeatureListCubit, SampleFeatureListState>(
         builder: (context, state) {
           final cubit = context.read<SampleFeatureListCubit>();
-          return SkyView.pagination<SampleFeature>(
+          return PaginationStateView<SampleFeature>.list(
             pagingController: cubit.pagingController,
             loadingView: const ShimmerList(),
             onRefresh: () => cubit.onRefresh(),

@@ -4,7 +4,7 @@ import 'package:skybase/ui/views/sample_feature/detail/cubit/sample_feature_deta
 import 'package:skybase/ui/views/sample_feature/detail/widgets/sample_feature_detail_header.dart';
 import 'package:skybase/ui/views/sample_feature/detail/widgets/sample_feature_detail_info.dart';
 import 'package:skybase/ui/views/sample_feature/detail/widgets/sample_feature_detail_tab.dart';
-import 'package:skybase/ui/widgets/sky_view.dart';
+import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/shimmer_detail.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 
@@ -28,7 +28,7 @@ class SampleFeatureDetailView extends StatelessWidget {
             final errMessage =
                 (state is SampleFeatureDetailError) ? state.message : null;
 
-            return SkyView.page(
+            return StateView.page(
               loadingEnabled: state is SampleFeatureDetailLoading,
               errorEnabled: state is SampleFeatureDetailError,
               emptyEnabled: false,

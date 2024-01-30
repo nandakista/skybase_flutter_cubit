@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/ui/views/profile/component/repository/cubit/profile_repository_cubit.dart';
-import 'package:skybase/ui/widgets/sky_view.dart';
+import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/shimmer_list.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
@@ -18,7 +18,7 @@ class ProfileRepositoryView extends StatelessWidget {
         final errMessage =
             (state is ProfileRepositoryError) ? state.message : null;
 
-        return SkyView.component(
+        return StateView.component(
           loadingEnabled: state is ProfileRepositoryLoading,
           errorEnabled: state is ProfileRepositoryError,
           emptyEnabled: state is ProfileRepositoryInitial,
