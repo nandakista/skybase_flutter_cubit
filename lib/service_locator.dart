@@ -43,11 +43,7 @@ class ServiceLocator {
     AppInfo.setInfo(await PackageInfo.fromPlatform());
 
     // _initConfig
-    sl.registerSingleton(
-      const FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true),
-      ),
-    );
+    sl.registerSingleton(const FlutterSecureStorage());
     sl.registerLazySingleton(() => Dio());
     sl.registerLazySingleton(() => DioClient());
     sl.registerSingleton<SharedPreferences>(sharedPreferences);

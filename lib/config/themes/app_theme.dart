@@ -14,7 +14,6 @@ class AppTheme {
       ),
       primaryColor: AppColors.primary,
       primarySwatch: AppColors.materialPrimary,
-      indicatorColor: AppColors.secondary,
       fontFamily: "Poppins",
       inputDecorationTheme: inputDecorationTheme(),
       checkboxTheme: checkboxThemeData(),
@@ -32,6 +31,7 @@ class AppTheme {
           statusBarColor: AppColors.primary,
         ),
       ),
+      tabBarTheme: TabBarThemeData(indicatorColor: AppColors.secondary),
     );
   }
 
@@ -44,7 +44,6 @@ class AppTheme {
       ),
       primaryColor: AppColors.primary,
       primarySwatch: AppColors.materialPrimary,
-      indicatorColor: AppColors.secondary,
       fontFamily: "Poppins",
       inputDecorationTheme: inputDecorationTheme(),
       checkboxTheme: checkboxThemeData(),
@@ -66,13 +65,15 @@ class AppTheme {
       ),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarBrightness: Platform.isIOS || Platform.isMacOS
-              ? Brightness.dark
-              : Brightness.light,
+          statusBarBrightness:
+              Platform.isIOS || Platform.isMacOS
+                  ? Brightness.dark
+                  : Brightness.light,
           systemNavigationBarColor: Colors.black,
           statusBarColor: AppColors.primary,
         ),
       ),
+      tabBarTheme: TabBarThemeData(indicatorColor: AppColors.secondary),
     );
   }
 
@@ -82,60 +83,60 @@ class AppTheme {
         borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
       side: const BorderSide(width: 1, color: Color(0xFFCFCFCF)),
-      fillColor: WidgetStateProperty.resolveWith<Color?>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
-          if (states.contains(WidgetState.selected)) {
-            return AppColors.secondary;
-          }
+      fillColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.disabled)) {
           return null;
-        },
-      ),
+        }
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.secondary;
+        }
+        return null;
+      }),
     );
   }
 
   static RadioThemeData radioThemeData() {
     return RadioThemeData(
-      fillColor: WidgetStateProperty.resolveWith<Color?>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
-          if (states.contains(WidgetState.selected)) {
-            return AppColors.secondary;
-          }
+      fillColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.disabled)) {
           return null;
-        },
-      ),
+        }
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.secondary;
+        }
+        return null;
+      }),
     );
   }
 
   static SwitchThemeData switchThemeData() {
     return SwitchThemeData(
-      thumbColor: WidgetStateProperty.resolveWith<Color?>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
-          if (states.contains(WidgetState.selected)) {
-            return AppColors.materialAccent[200];
-          }
+      thumbColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.disabled)) {
           return null;
-        },
-      ),
-      trackColor: WidgetStateProperty.resolveWith<Color?>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
-          if (states.contains(WidgetState.selected)) {
-            return AppColors.secondary;
-          }
+        }
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.materialAccent[200];
+        }
+        return null;
+      }),
+      trackColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.disabled)) {
           return null;
-        },
-      ),
+        }
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.secondary;
+        }
+        return null;
+      }),
     );
   }
 
@@ -170,8 +171,6 @@ extension DarkMode on BuildContext {
 
 class AppOrientation {
   static lock(DeviceOrientation orientation) {
-    return SystemChrome.setPreferredOrientations([
-      orientation,
-    ]);
+    return SystemChrome.setPreferredOrientations([orientation]);
   }
 }

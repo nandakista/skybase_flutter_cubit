@@ -22,12 +22,6 @@ class SettingView extends StatefulWidget {
 
 class _SettingViewState extends State<SettingView> {
   @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => context.read<SettingCubit>());
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ColoredStatusBar.primary(
       child: Scaffold(
@@ -65,14 +59,12 @@ class _SettingViewState extends State<SettingView> {
                 children: [
                   Flexible(child: Text('txt_language'.tr())),
                   Flexible(
-                    child: BlocBuilder<SettingCubit, SettingState>(
-                      builder: (context, state) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Text('ENG'),
-                            Radio<String>(
-                              value: 'en',
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        BlocBuilder<SettingCubit, SettingState>(
+                          builder: (context, state) {
+                            return RadioGroup(
                               groupValue: state.languageCode,
                               onChanged: (value) {
                                 context.read<SettingCubit>().onUpdateLocale(
@@ -80,21 +72,18 @@ class _SettingViewState extends State<SettingView> {
                                   languageCode: value.toString(),
                                 );
                               },
-                            ),
-                            const Text('ID'),
-                            Radio(
-                              value: 'id',
-                              groupValue: state.languageCode,
-                              onChanged: (value) async {
-                                context.read<SettingCubit>().onUpdateLocale(
-                                  context: context,
-                                  languageCode: value.toString(),
-                                );
-                              },
-                            ),
-                          ],
-                        );
-                      },
+                              child: Row(
+                                children: [
+                                  const Text('ENG'),
+                                  Radio(value: 'en'),
+                                  const Text('ID'),
+                                  Radio(value: 'id'),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ],

@@ -39,12 +39,14 @@ class _ThemeComponentUtilsViewState extends State<ThemeComponentUtilsView> {
                 ),
               ],
             ),
-            Radio(
-              value: switchValue,
+            RadioGroup(
               groupValue: true,
-              onChanged: (value) => setState(() {
+              onChanged: (value) {
                 switchValue = !switchValue;
-              }),
+              },
+              child: Radio(
+                value: switchValue,
+              ),
             ),
             Switch(
               value: switchValue,
