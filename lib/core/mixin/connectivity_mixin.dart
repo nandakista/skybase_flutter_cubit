@@ -10,7 +10,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 
 mixin ConnectivityMixin {
-  StreamSubscription<ConnectivityResult>? streamConnectivity;
+  StreamSubscription<List<ConnectivityResult>>? streamConnectivity;
   final Connectivity connectivity = Connectivity();
 
   /// **Note:**
@@ -20,8 +20,7 @@ mixin ConnectivityMixin {
     try {
       streamConnectivity = connectivity.onConnectivityChanged.listen(
         (connection) {
-          if (connection == ConnectivityResult.none ||
-              connection == ConnectivityResult.bluetooth) {
+          if (connection.contains(ConnectivityResult.none)) {
             log('Connectivity: Disconnect from internet $connection');
           } else {
             log('Connectivity: Connect to $connection');

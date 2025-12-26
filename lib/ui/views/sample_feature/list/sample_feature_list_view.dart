@@ -9,11 +9,12 @@ import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
 import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/ui/views/sample_feature/detail/sample_feature_detail_view.dart';
-import 'package:skybase/ui/views/sample_feature/list/cubit/sample_feature_list_cubit.dart';
 import 'package:skybase/ui/widgets/base/pagination_state_view.dart';
-import 'package:skybase/ui/widgets/shimmer/shimmer_list.dart';
+import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_list.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
+
+import 'cubit/sample_feature_list_cubit.dart';
 
 class SampleFeatureListView extends StatelessWidget {
   static const String route = '/user-list';
@@ -29,18 +30,17 @@ class SampleFeatureListView extends StatelessWidget {
           final cubit = context.read<SampleFeatureListCubit>();
           return PaginationStateView<SampleFeature>.list(
             pagingController: cubit.pagingController,
-            loadingView: const ShimmerList(),
+            loadingView: const ShimmerSampleFeatureList(),
             onRefresh: () => cubit.onRefresh(),
+            scrollController: cubit.scrollController,
+            onRetry: () => cubit.onRefresh(context),
             itemBuilder: (BuildContext context, item, int index) {
               return ListTile(
                 onTap: () {
                   Navigation.instance.push(
                     context,
                     SampleFeatureDetailView.route,
-                    arguments: {
-                      'id': item.id,
-                      'username': item.username,
-                    },
+                    arguments: {'id': item.id, 'username': item.username},
                   );
                 },
                 leading: SkyImage(
@@ -49,24 +49,47 @@ class SampleFeatureListView extends StatelessWidget {
                   src: '${item.avatarUrl}&s=200',
                 ),
                 title: Text(item.username.toString()),
-                subtitle: Text(
-                  item.gitUrl.toString(),
-                  style: AppStyle.body2,
-                ),
+                subtitle: Text(item.gitUrl.toString(), style: AppStyle.body2),
               );
             },
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        onPressed: () async {
-          LoadingDialog.show(context);
-          await StorageManager.instance.delete(CachedKey.SAMPLE_FEATURE_LIST);
-          await StorageManager.instance.delete(CachedKey.SAMPLE_FEATURE_DETAIL);
-          if (context.mounted) LoadingDialog.dismiss(context);
-        },
-        child: const Icon(Icons.delete, color: Colors.white),
+
+      floatingActionButton: Align(
+        alignment: Alignment.bottomRight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          spacing: 12,
+          children: [
+            FloatingActionButton(
+              heroTag: 'clear_cache',
+              backgroundColor: AppColors.primary,
+              onPressed: () async {
+                LoadingDialog.show(context);
+                await StorageManager.instance.delete(
+                  CachedKey.SAMPLE_FEATURE_LIST,
+                );
+                await StorageManager.instance.delete(
+                  CachedKey.SAMPLE_FEATURE_DETAIL,
+                );
+                if (context.mounted) LoadingDialog.dismiss(context);
+              },
+              child: const Icon(Icons.delete, color: Colors.white),
+            ),
+            FloatingActionButton(
+              heroTag: 'search',
+              backgroundColor: AppColors.primary,
+              onPressed: () {
+                // TODO: Search feature
+                // context.read<SampleFeatureListCubit>().onUpdateSearch(
+                //   search: 'ada',
+                // );
+              },
+              child: const Icon(Icons.search, color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }

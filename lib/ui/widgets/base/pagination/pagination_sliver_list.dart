@@ -17,10 +17,11 @@ class PaginationSliverList<T> extends StatelessWidget {
     super.key,
     required this.pagingController,
     required this.itemBuilder,
+    required this.onRetry,
     this.loadingView,
     this.emptyView,
     this.errorView,
-    this.errorLoadView,
+    this.errorLoadMoreView,
     this.maxItemView,
     this.emptyImage,
     this.emptyTitle,
@@ -54,12 +55,13 @@ class PaginationSliverList<T> extends StatelessWidget {
 
   final PagingController<int, T> pagingController;
   final ItemWidgetBuilder<T> itemBuilder;
+  final VoidCallback onRetry;
   final bool emptyRetryEnabled;
   final Widget? loadingView;
   final Widget? emptyView;
   final Widget? maxItemView;
   final Widget? errorView;
-  final Widget? errorLoadView;
+  final Widget? errorLoadMoreView;
   final bool shrinkWrapFirstPageIndicators;
   final Widget? separator;
   final Widget? emptyImageWidget;
@@ -102,6 +104,7 @@ class PaginationSliverList<T> extends StatelessWidget {
         addRepaintBoundaries: addRepaintBoundaries,
         builderDelegate: PaginationDelegate<T>(
           pagingController: pagingController,
+          onRetry: onRetry,
           loadingView: loadingView,
           emptyView: emptyView,
           emptyRetryEnabled: emptyRetryEnabled,
@@ -125,7 +128,7 @@ class PaginationSliverList<T> extends StatelessWidget {
           imageHeight: imageHeight,
           imageWidth: imageWidth,
           itemBuilder: itemBuilder,
-          errorLoadView: errorLoadView,
+          errorLoadMoreView: errorLoadMoreView,
           errorView: errorView,
         ),
         separatorBuilder: (BuildContext context, int index) {

@@ -22,16 +22,17 @@ class PaginationStateView<T> extends StatelessWidget {
     super.key,
     required this.pagingController,
     required this.itemBuilder,
+    required this.onRetry,
+    this.onRefresh,
     this.loadingView,
     this.emptyView,
     this.maxItemView,
     this.errorView,
-    this.errorLoadView,
+    this.errorLoadMoreView,
     this.shrinkWrap = false,
     this.shrinkWrapFirstPageIndicators = false,
     this.physics,
     this.separator,
-    this.onRefresh,
     this.emptyImageWidget,
     this.emptyImage,
     this.errorTitle,
@@ -82,6 +83,8 @@ class PaginationStateView<T> extends StatelessWidget {
     required this.pagingController,
     required this.itemBuilder,
     required this.gridDelegate,
+    required this.onRetry,
+    this.onRefresh,
     this.showNewPageErrorIndicatorAsGridChild,
     this.showNewPageProgressIndicatorAsGridChild,
     this.showNoMoreItemsIndicatorAsGridChild,
@@ -104,11 +107,10 @@ class PaginationStateView<T> extends StatelessWidget {
     this.emptyView,
     this.maxItemView,
     this.errorView,
-    this.errorLoadView,
+    this.errorLoadMoreView,
     this.shrinkWrap = false,
     this.shrinkWrapFirstPageIndicators = false,
     this.physics,
-    this.onRefresh,
     this.emptyImageWidget,
     this.emptyImage,
     this.errorTitle,
@@ -180,9 +182,10 @@ class PaginationStateView<T> extends StatelessWidget {
   final Widget? emptyView;
   final Widget? maxItemView;
   final Widget? errorView;
-  final Widget? errorLoadView;
+  final Widget? errorLoadMoreView;
   final bool shrinkWrapFirstPageIndicators;
   final VoidCallback? onRefresh;
+  final VoidCallback onRetry;
   final Widget? emptyImageWidget;
   final String? emptyImage;
   final String? errorTitle;
@@ -237,7 +240,7 @@ class PaginationStateView<T> extends StatelessWidget {
   }
 
   Widget _iosPaginationView() {
-    if (onRefresh != null) {
+    if (onRefresh != null && scrollDirection == Axis.vertical) {
       return Padding(
         key: key,
         padding: padding ?? EdgeInsets.zero,
@@ -367,6 +370,7 @@ class PaginationStateView<T> extends StatelessWidget {
   PagedChildBuilderDelegate<T> _builderDelete() {
     return PaginationDelegate<T>(
       pagingController: pagingController,
+      onRetry: onRetry,
       loadingView: loadingView,
       emptyView: emptyView,
       emptyRetryEnabled: emptyRetryEnabled,
@@ -390,7 +394,7 @@ class PaginationStateView<T> extends StatelessWidget {
       imageHeight: imageHeight,
       imageWidth: imageWidth,
       itemBuilder: itemBuilder,
-      errorLoadView: errorLoadView,
+      errorLoadMoreView: errorLoadMoreView,
       errorView: errorView,
     );
   }

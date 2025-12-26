@@ -4,6 +4,7 @@
 */
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:skybase/ui/widgets/base/empty_view.dart';
@@ -14,6 +15,7 @@ import 'package:skybase/ui/widgets/platform_loading_indicator.dart';
 PagedChildBuilderDelegate<T> PaginationDelegate<T>({
   required PagingController<int, T> pagingController,
   required ItemWidgetBuilder<T> itemBuilder,
+  required VoidCallback onRetry,
   Widget? loadingView,
   Widget? emptyView,
   Widget? emptyImageWidget,
@@ -32,7 +34,7 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
   TextStyle? emptySubtitleStyle,
   bool emptyRetryEnabled = false,
   Widget? errorView,
-  Widget? errorLoadView,
+  Widget? errorLoadMoreView,
   String? retryText,
   Widget? retryWidget,
   TextStyle? errorTitleStyle,
@@ -52,7 +54,7 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           child: PlatformLoadingIndicator(),
         ),
     noItemsFoundIndicatorBuilder: (ctx) =>
-    emptyView ??
+        emptyView ??
         EmptyView(
           emptyImage: emptyImage,
           emptyImageWidget: emptyImageWidget,
@@ -65,13 +67,16 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           imageHeight: imageHeight,
           imageWidth: imageWidth,
           emptyRetryEnabled: emptyRetryEnabled,
-          onRetry: () => pagingController.refresh(),
+          onRetry: () {
+            pagingController.refresh();
+            onRetry();
+          },
           physics: const NeverScrollableScrollPhysics(),
         ),
     firstPageErrorIndicatorBuilder: (ctx) =>
         errorView ??
         ErrorView(
-          errorImage:  errorImage,
+          errorImage: errorImage,
           errorImageWidget: errorImageWidget,
           errorTitle:
               '${errorTitle ?? pagingController.error ?? 'txt_err_general_formal'.tr()}',
@@ -85,12 +90,28 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           retryText: retryText,
           retryWidget: retryWidget,
           physics: const BouncingScrollPhysics(),
-          onRetry: () => pagingController.retryLastFailedRequest(),
+          onRetry: () {
+            onRetry();
+            pagingController.retryLastFailedRequest();
+          },
         ),
     noMoreItemsIndicatorBuilder: (ctx) =>
         maxItemView ?? const SizedBox.shrink(),
     newPageErrorIndicatorBuilder: (ctx) =>
-        errorLoadView ?? const SizedBox.shrink(),
+        errorLoadMoreView ??
+        InkWell(
+          onTap: onRetry,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: errorLoadMoreView ?? const Icon(CupertinoIcons.refresh),
+              ),
+              Text('txt_tap_retry'.tr())
+            ],
+          ),
+        ),
     itemBuilder: itemBuilder,
   );
 }

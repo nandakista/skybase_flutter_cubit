@@ -28,6 +28,8 @@ class ShimmerBox extends StatelessWidget {
         height: height,
         width: width,
         borderRadius: borderRadius ?? 6,
+        enabledCard: false,
+        color: Colors.grey,
         child: const SizedBox.shrink(),
       ),
     );

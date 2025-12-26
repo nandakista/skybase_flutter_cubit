@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/base/main_navigation.dart';
-import 'package:skybase/ui/views/profile/cubit/profile_cubit.dart';
 import 'package:skybase/ui/views/settings/setting_view.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
 import 'component/repository/profile_repository_view.dart';
+import 'cubit/profile_cubit.dart';
 
 class ProfileView extends StatelessWidget {
   static const String route = '/profile';
@@ -33,10 +33,10 @@ class ProfileView extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          final cubit = context.read<ProfileCubit>();
-          final data = (state is ProfileLoaded) ? state.result : null;
-          final errMessage = (state is ProfileError) ? state.message : null;
+          builder: (context, state) {
+            final cubit = context.read<ProfileCubit>();
+            final data = (state is ProfileLoaded) ? state.result : null;
+            final errMessage = (state is ProfileError) ? state.message : null;
 
           return StateView.page(
             loadingEnabled: state is ProfileLoading,
@@ -53,7 +53,6 @@ class ProfileView extends StatelessWidget {
                     shapeImage: ShapeImage.circle,
                     size: 40,
                     src: '${data?.avatarUrl}&s=200',
-                    enablePreview: true,
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -121,7 +120,7 @@ class ProfileView extends StatelessWidget {
               ),
             ),
           );
-        },
+        }
       ),
     );
   }

@@ -22,7 +22,17 @@ class SampleFeatureListCubit
   }
 
   @override
+  String get cachedKey => CachedKey.SAMPLE_FEATURE_LIST;
+
+  @override
   void onRefresh([BuildContext? context]) async {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
     await deleteCached(CachedKey.SAMPLE_FEATURE_LIST);
     super.onRefresh();
   }
@@ -31,20 +41,14 @@ class SampleFeatureListCubit
     try {
       emitLoading(SampleFeatureListLoading());
       final response = await repository.getUsers(
-        cancelToken: cancelToken,
+        requestParams: requestParams,
         page: page,
         perPage: perPage,
       );
-      emitSuccess(
-        SampleFeatureListLoaded(response),
-        data: response,
-      );
+      emitSuccess(SampleFeatureListLoaded(response), data: response);
     } catch (e) {
       debugPrint('Error : $e');
-      emitError(
-        SampleFeatureListError(e.toString()),
-        message: e.toString(),
-      );
+      emitError(SampleFeatureListError(e.toString()), message: e.toString());
     }
   }
 }

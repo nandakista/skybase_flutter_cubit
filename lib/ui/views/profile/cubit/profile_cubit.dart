@@ -17,8 +17,8 @@ class ProfileCubit extends BaseCubit<ProfileState, User> {
 
   @override
   void onInit([args]) {
-    loadData(() => onLoadData());
     super.onInit(args);
+    loadData(() => onLoadData());
   }
 
   @override
@@ -32,7 +32,7 @@ class ProfileCubit extends BaseCubit<ProfileState, User> {
     try {
       emitLoading(ProfileLoading());
       final response = await repository.getProfile(
-        cancelToken: cancelToken,
+        requestParams: requestParams,
         username: 'nandakista',
       );
       emitSuccess(ProfileLoaded(response));

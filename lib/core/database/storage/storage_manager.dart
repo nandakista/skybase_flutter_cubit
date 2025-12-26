@@ -42,7 +42,12 @@ class StorageManager {
 
   Future<void> logout() async {
     try {
-      List<String> permanentKeys = StorageKey.permanentKeys;
+      List<String> permanentKeys = [
+        StorageKey.FIRST_INSTALL,
+        StorageKey.CURRENT_LOCALE,
+        StorageKey.IS_DARK_THEME,
+      ];
+
       List<String> deleteKeys = (sharedPreferences.getKeys()).where((key) {
         return !permanentKeys.contains(key);
       }).toList();

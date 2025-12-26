@@ -10,6 +10,7 @@ abstract class AuthSources {
 
   Future<User> login({
     required String phoneNumber,
+    required String email,
     required String password,
   });
 

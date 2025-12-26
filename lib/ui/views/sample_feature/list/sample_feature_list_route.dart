@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skybase/service_locator.dart';
-import 'package:skybase/ui/views/sample_feature/list/cubit/sample_feature_list_cubit.dart';
 import 'package:skybase/ui/views/sample_feature/list/sample_feature_list_view.dart';
+
+import 'cubit/sample_feature_list_cubit.dart';
 
 final sampleFeatureRoute = [
   GoRoute(

@@ -7,21 +7,28 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:skybase/config/base/connectivity_mixin.dart';
-import 'package:skybase/core/database/storage/storage_manager.dart';
+import 'package:skybase/config/base/request_param.dart';
+import 'package:skybase/core/mixin/cache_mixin.dart';
+import 'package:skybase/core/mixin/connectivity_mixin.dart';
 
-class PaginationCubit<S, T> extends Cubit<S> with ConnectivityMixin {
+class PaginationCubit<S, T> extends Cubit<S> with ConnectivityMixin, CacheMixin {
   PaginationCubit(super.initialState);
 
-  StorageManager storage = StorageManager.instance;
-
   CancelToken cancelToken = CancelToken();
+  late RequestParams requestParams;
   int perPage = 20;
   int page = 1;
+  final scrollController = ScrollController();
   final pagingController = PagingController<int, T>(firstPageKey: 0);
+
+  String get cachedKey => '';
 
   @mustCallSuper
   void onInit([dynamic args]) {
+    requestParams = RequestParams(
+      cancelToken: cancelToken,
+      cachedKey: cachedKey,
+    );
     listenConnectivity(() {
       if (pagingController.value.status == PagingStatus.firstPageError) {
         onRefresh();
@@ -33,10 +40,6 @@ class PaginationCubit<S, T> extends Cubit<S> with ConnectivityMixin {
   void onRefresh([BuildContext? context]) {
     page = 1;
     pagingController.refresh();
-  }
-
-  Future<void> deleteCached(String cacheKey) async {
-    await storage.delete(cacheKey.toString());
   }
 
   void loadData(Function() onLoad) {
@@ -74,6 +77,7 @@ class PaginationCubit<S, T> extends Cubit<S> with ConnectivityMixin {
   @mustCallSuper
   Future<void> close() {
     pagingController.dispose();
+    scrollController.dispose();
     cancelToken.cancel();
     cancelConnectivity();
     return super.close();

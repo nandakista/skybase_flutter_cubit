@@ -1,12 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/config/themes/theme_manager.dart';
 import 'package:skybase/core/localization/locale_manager.dart';
-import 'package:skybase/config/themes/theme_manager/theme_manager.dart';
 
-import 'app_configuration.dart';
-import 'config/themes/app_theme.dart';
 import 'config/observer/app_bloc_observer.dart';
+import 'config/themes/app_theme.dart';
 import 'service_locator.dart';
 import 'ui/routes/app_routes.dart';
 import 'ui/views/404_500/crash_error_view.dart';
@@ -36,13 +35,13 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<ThemeManager>()..init()),
-        // Add global bloc provider here..
+        // Add global notifier here..
       ],
       child: BlocBuilder<ThemeManager, ThemeState>(
         builder: (context, state) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
-            title: AppConfiguration.appName,
+            title: 'Skybase Cubit',
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: (state is IsDarkMode) ? ThemeMode.dark : ThemeMode.light,

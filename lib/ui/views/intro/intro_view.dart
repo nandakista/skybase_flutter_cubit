@@ -18,13 +18,13 @@ class IntroView extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            BlocBuilder<IntroCubit, IntroState>(
-              builder: (context, state) {
-                final cubit = context.read<IntroCubit>();
-                return Container(
-                  height: kToolbarHeight,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
+            Container(
+              height: kToolbarHeight,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: BlocBuilder<IntroCubit, IntroState>(
+                builder: (context, state) {
+                  final cubit = context.read<IntroCubit>();
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       (state is IntroFirstPage)
@@ -38,14 +38,14 @@ class IntroView extends StatelessWidget {
                           : GestureDetector(
                               onTap: () => cubit.onSkipPage(),
                               child: const Text(
-                                'Lewati',
+                                "Lewati",
                                 style: TextStyle(color: AppColors.primary),
                               ),
                             ),
                     ],
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
             Expanded(
               child: PageView.builder(
@@ -66,7 +66,7 @@ class IntroView extends StatelessWidget {
             ),
             const SizedBox(height: 46),
             BlocBuilder<IntroCubit, IntroState>(
-              builder: (context, state) {
+                builder: (context, state) {
                 final bloc = context.read<IntroCubit>();
                 return SizedBox(
                   height: kBottomNavigationBarHeight,
@@ -109,7 +109,7 @@ class IntroView extends StatelessWidget {
                     ],
                   ),
                 );
-              },
+              }
             ),
             const SizedBox(height: 46),
           ],

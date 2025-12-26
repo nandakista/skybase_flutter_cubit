@@ -2,14 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/core/helper/dialog_helper.dart';
-import 'package:skybase/core/helper/validator_helper.dart';
+import 'package:skybase/core/helper/form_state_extension.dart';
+import 'package:skybase/core/helper/validator.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/config/themes/app_style.dart';
-import 'package:skybase/ui/views/login/cubit/login_cubit.dart';
 import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/keyboard_dismissible.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 import 'package:skybase/ui/widgets/sky_form_field.dart';
+
+import 'cubit/login_cubit.dart';
 
 class LoginView extends StatefulWidget {
   static const String route = '/login';
@@ -23,6 +25,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   bool isHiddenPassword = true;
@@ -80,8 +83,10 @@ class _LoginViewState extends State<LoginView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('txt_login'.tr(),
-                                    style: AppStyle.headline2),
+                                Text(
+                                  'txt_login'.tr(),
+                                  style: AppStyle.headline2,
+                                ),
                                 const SizedBox(height: 10),
                                 Text(
                                   'txt_login_subtitle'.tr(),
@@ -90,9 +95,7 @@ class _LoginViewState extends State<LoginView> {
                               ],
                             ),
                           ),
-                          const Flexible(
-                            child: FlutterLogo(size: 160),
-                          )
+                          const Flexible(child: FlutterLogo(size: 160)),
                         ],
                       ),
                       const SizedBox(height: 40),
@@ -108,11 +111,7 @@ class _LoginViewState extends State<LoginView> {
                               controller: phoneController,
                               keyboardType: TextInputType.phone,
                               icon: Icons.phone,
-                              validator: (value) => ValidatorHelper.field(
-                                title: 'txt_phone'.tr(),
-                                value: value.toString(),
-                                regex: AppRegex.phone,
-                              ),
+                              validator: Validator.phone(),
                             ),
                             const SizedBox(height: 20),
                             SkyPasswordFormField(
@@ -123,24 +122,24 @@ class _LoginViewState extends State<LoginView> {
                               hiddenText: isHiddenPassword,
                               endIcon: IconButton(
                                 icon: const Icon(Icons.visibility_off),
-                                onPressed: onHidePassword,
+                                onPressed: () {
+                                  isHiddenPassword = !isHiddenPassword;
+                                  setState(() {});
+                                },
                               ),
-                              validator: (value) => ValidatorHelper.field(
-                                title: 'txt_password'.tr(),
-                                value: value.toString(),
-                                regex: AppRegex.password,
-                              ),
+                              validator: Validator.password(),
                             ),
                             const SizedBox(height: 20),
                             SkyButton(
                               onPressed: () {
                                 FocusScope.of(context).unfocus();
-                                if (ValidatorHelper.validateForm(formKey)) {
-                                  cubit.onSubmit(
-                                    phone: phoneController.text,
-                                    password: passwordController.text,
-                                  );
-                                }
+                                bool isValid = formKey.saveAndValidate();
+                                if (!isValid) return;
+                                cubit.onSubmit(
+                                  phone: phoneController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
                               },
                               text: 'txt_login'.tr(),
                               icon: Icons.arrow_forward,

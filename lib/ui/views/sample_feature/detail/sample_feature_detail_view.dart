@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skybase/ui/views/sample_feature/detail/cubit/sample_feature_detail_cubit.dart';
 import 'package:skybase/ui/views/sample_feature/detail/widgets/sample_feature_detail_header.dart';
 import 'package:skybase/ui/views/sample_feature/detail/widgets/sample_feature_detail_info.dart';
 import 'package:skybase/ui/views/sample_feature/detail/widgets/sample_feature_detail_tab.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
-import 'package:skybase/ui/widgets/shimmer/shimmer_detail.dart';
+import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_detail.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
+
+import 'cubit/sample_feature_detail_cubit.dart';
 
 class SampleFeatureDetailView extends StatelessWidget {
   static const String route = '/user-detail';
@@ -32,7 +33,7 @@ class SampleFeatureDetailView extends StatelessWidget {
               loadingEnabled: state is SampleFeatureDetailLoading,
               errorEnabled: state is SampleFeatureDetailError,
               emptyEnabled: false,
-              loadingView: const ShimmerDetail(),
+              loadingView: const ShimmerSampleFeatureDetail(),
               errorTitle: errMessage,
               onRefresh: () => cubit.onRefresh(context),
               onRetry: () => cubit.onRefresh(context),

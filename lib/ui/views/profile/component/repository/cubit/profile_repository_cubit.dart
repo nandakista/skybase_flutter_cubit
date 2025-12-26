@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:skybase/config/base/base_cubit.dart';
@@ -14,8 +16,8 @@ class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState, Repo> {
 
   @override
   void onInit([args]) {
-    loadData(() => onLoadData());
     super.onInit(args);
+    loadData(() => onLoadData());
   }
 
   @override
@@ -28,11 +30,12 @@ class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState, Repo> {
     try {
       emit(ProfileRepositoryLoading());
       final response = await repository.getProfileRepository(
-        cancelToken: cancelToken,
+        requestParams: requestParams,
         username: 'nandakista',
       );
       emit(ProfileRepositoryLoaded(response));
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log('Error $e, $stackTrace');
       emit(ProfileRepositoryError(e.toString()));
     }
   }

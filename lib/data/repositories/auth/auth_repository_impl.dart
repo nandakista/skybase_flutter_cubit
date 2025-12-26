@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:skybase/config/base/request_param.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/models/user/user.dart';
 import 'package:skybase/data/sources/server/auth/auth_sources.dart';
@@ -15,10 +15,12 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> login({
     required String phoneNumber,
+    required String email,
     required String password,
   }) async {
     return await apiService.login(
       phoneNumber: phoneNumber,
+      email: email,
       password: password,
     );
   }
@@ -33,22 +35,22 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> getProfile({
-    required CancelToken cancelToken,
+    required RequestParams requestParams,
     required String username,
   }) async {
     return await apiService.getProfile(
-      cancelToken: cancelToken,
+      cancelToken: requestParams.cancelToken,
       username: username,
     );
   }
 
   @override
   Future<List<Repo>> getProfileRepository({
-    required CancelToken cancelToken,
+    required RequestParams requestParams,
     required String username,
   }) async {
     return await apiService.getProfileRepository(
-      cancelToken: cancelToken,
+      cancelToken: requestParams.cancelToken,
       username: username,
     );
   }

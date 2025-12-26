@@ -22,7 +22,7 @@ class BottomSheetHelper {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: ConstrainedBox(
           constraints:
-          BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 50),
+              BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 50),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
             child: child,
@@ -53,7 +53,7 @@ class BottomSheetHelper {
       builder: (btmContext) {
         return ConstrainedBox(
           constraints:
-          BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 50),
+              BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 50),
           child: Container(
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
+import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/platform_loading_indicator.dart';
 
 class SplashView extends StatelessWidget {
@@ -9,10 +10,12 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Center(
-        child: PlatformLoadingIndicator(color: Colors.white),
+    return ColoredStatusBar.primary(
+      child: const Scaffold(
+        backgroundColor: AppColors.primary,
+        body: Center(
+          child: PlatformLoadingIndicator(color: Colors.white),
+        ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:skybase/config/themes/theme_manager/theme_manager.dart';
+import 'package:skybase/config/themes/theme_manager.dart';
 
 import 'package:skybase/core/database/storage/storage_key.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
@@ -28,11 +28,9 @@ class AuthManager {
   ThemeManager themeManager = ThemeManager.instance;
 
   AppType authState = AppType.INITIAL;
-
   AppType? get state => authState;
 
   StreamController<AppType> authStreamController = StreamController<AppType>();
-
   Stream<AppType?> get stream => authStreamController.stream;
 
   AuthManager() {
@@ -63,8 +61,12 @@ class AuthManager {
   Future<void> clearExpiredCache() async {
     await Future.wait(
       storage.sharedPreferences.getKeys().map((key) async {
-        List<String> permanentKeys =
-            StorageKey.permanentKeys + [StorageKey.USERS];
+        List<String> permanentKeys = [
+          StorageKey.FIRST_INSTALL,
+          StorageKey.CURRENT_LOCALE,
+          StorageKey.IS_DARK_THEME,
+          StorageKey.USERS,
+        ];
 
         if (!permanentKeys.contains(key)) {
           final now = DateTime.now();
@@ -155,6 +157,13 @@ class AuthManager {
     await saveUserData(user: user);
     await secureStorage.setToken(value: token);
     await secureStorage.setRefreshToken(value: refreshToken);
+
+    /// TODO : Sync locale from API user locale
+    /// LocaleManager.find.updateLocale(
+    ///   Locale(
+    ///     user.locale ?? LocaleManager.find.fallbackLocale.languageCode,
+    ///   ),
+    /// );
   }
 
   Future<void> saveUserData({required User user}) async {

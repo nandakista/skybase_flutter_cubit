@@ -17,6 +17,7 @@ class AuthSourcesImpl extends AuthSources {
   @override
   Future<User> login({
     required String phoneNumber,
+    required String email,
     required String password,
   }) async {
     try {
@@ -25,6 +26,7 @@ class AuthSourcesImpl extends AuthSources {
         body: {
           'phone': phoneNumber,
           'password': password,
+          'email': email,
         },
       );
       return User.fromJson(ApiResponse.fromJson(response.data).data);
@@ -41,15 +43,12 @@ class AuthSourcesImpl extends AuthSources {
   }) async {
     try {
       String? token = await SecureStorageManager.instance.getToken();
-      String url = AppEnv.config.baseUrl;
-      url += 'auth/verify-token';
       final response = await Dio().get(
-        url,
+        '${AppEnv.config.baseUrl}/auth/verify-token',
         options: Options(
           headers: {
             HttpHeaders.authorizationHeader: 'Bearer $token',
             'Accept': Headers.jsonContentType,
-            'Client-Token': AppEnv.config.clientToken,
           },
           contentType: Headers.jsonContentType,
         ),

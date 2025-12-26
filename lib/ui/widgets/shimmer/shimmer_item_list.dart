@@ -19,34 +19,37 @@ class ShimmerItemList extends StatelessWidget {
     Color baseLight = Colors.grey[300] ?? Colors.grey;
     return SizedBox(
       height: height * 1.5,
-      child: Shimmer.fromColors(
-        baseColor: context.isDarkMode ?  baseDark : baseLight,
-        highlightColor: shimmerColor,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: shimmerColor,
-                ),
-                const SizedBox(width: 8),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ShimmerText(),
-                      SizedBox(height: 4),
-                      ShimmerText(),
-                      SizedBox(height: 4),
-                      ShimmerText(width: 40),
-                    ],
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Shimmer.fromColors(
+          baseColor: context.isDarkMode ?  baseDark : baseLight,
+          highlightColor: shimmerColor,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: shimmerColor,
                   ),
-                ),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ShimmerText(),
+                        SizedBox(height: 4),
+                        ShimmerText(),
+                        SizedBox(height: 4),
+                        ShimmerText(width: 40),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

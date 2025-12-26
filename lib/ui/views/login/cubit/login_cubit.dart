@@ -16,12 +16,14 @@ class LoginCubit extends BaseCubit<LoginState, void> {
 
   void onSubmit({
     required String phone,
+    required String email,
     required String password,
   }) async {
     try {
       emitLoading(LoginLoading());
       await repository.login(
         phoneNumber: phone,
+        email: email,
         password: password,
       );
       emitSuccess(const LoginSuccess());
@@ -34,7 +36,7 @@ class LoginCubit extends BaseCubit<LoginState, void> {
     emitLoading(LoginLoading());
     try {
       final response = await repository.getProfile(
-        cancelToken: cancelToken,
+        requestParams: requestParams,
         username: 'nandakista',
       );
       await AuthManager.instance.login(

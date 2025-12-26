@@ -1,12 +1,12 @@
 import 'package:intl/intl.dart';
 
-extension IntNullExtension on double? {
+extension NumExtension on num {
   String currencyFormat({
     String symbol = '',
     int decimalDigit = 0,
     String locale = 'id',
   }) {
-    double? number = this ?? 0;
+    num number = this;
     return NumberFormat.currency(
       locale: locale,
       decimalDigits: decimalDigit,
@@ -15,16 +15,17 @@ extension IntNullExtension on double? {
   }
 }
 
-extension IntExtension on double {
+extension NumNullExtension on num? {
   String currencyFormat({
-    String symbol = '',
+    String symbol = 'Rp. ',
     int decimalDigit = 0,
     String locale = 'id',
   }) {
+    num number = this ?? 0;
     return NumberFormat.currency(
       locale: locale,
       decimalDigits: decimalDigit,
       symbol: symbol,
-    ).format(this);
+    ).format(number);
   }
 }

@@ -1,5 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/service_locator.dart';
 import 'package:skybase/ui/views/intro/cubit/intro_cubit.dart';
 import 'package:skybase/ui/views/intro/intro_view.dart';

@@ -13,7 +13,7 @@ class DioClient {
 
   static Dio get instance => sl<DioClient>()._dio;
 
-  void init() {
+  DioClient() {
     _dio.options.baseUrl = baseURL;
     _dio.options.connectTimeout = const Duration(seconds: 60); //60s
     _dio.options.receiveTimeout = const Duration(seconds: 30); //30s

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:skybase/config/base/base_cubit.dart';
-import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/repositories/sample_feature/sample_feature_repository.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
@@ -29,10 +28,15 @@ class SampleFeatureDetailCubit
   }
 
   @override
+  String get cachedKey => CachedKey.SAMPLE_FEATURE_DETAIL;
+
+  @override
+  String get cachedId => argsId.toString();
+
+  @override
   void onRefresh([BuildContext? context]) async {
     super.onRefresh(context);
-    await StorageManager.instance
-        .delete('${CachedKey.SAMPLE_FEATURE_DETAIL}/$argsId');
+    deleteCached('$cachedKey/$cachedId');
     await onLoadData();
   }
 
@@ -40,7 +44,7 @@ class SampleFeatureDetailCubit
     try {
       emitLoading(SampleFeatureDetailLoading());
       final response = await repository.getDetailUser(
-        cancelToken: cancelToken,
+        requestParams: requestParams,
         id: argsId,
         username: argsUsername,
       );

@@ -1,13 +1,21 @@
 import 'package:skybase/config/network/api_token_manager.dart';
 
-class Config {
-  Config({
+/// Define your environment based variable here
+/// This data class will provided variable that have different value in every
+/// environments such as :
+/// 1. BaseUrl
+/// 2. API key
+/// 3. etc.
+///
+/// This data below is an example, you can delete or replace based on your requirement
+class ConfigData {
+  ConfigData({
     required this.baseUrl,
-    required this.clientToken,
     required this.tokenType,
+    required this.clientToken,
   });
 
   String baseUrl;
-  String clientToken;
   TokenType tokenType;
+  String clientToken;
 }

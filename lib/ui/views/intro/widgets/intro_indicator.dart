@@ -25,8 +25,9 @@ class IntroIndicator extends StatelessWidget {
                     width: 30,
                     height: 10,
                     decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12)),
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(12)
+                    ),
                   )
                 : Icon(Icons.circle, size: 10, color: Colors.grey.shade400),
           );
