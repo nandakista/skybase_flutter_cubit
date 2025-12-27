@@ -11,7 +11,7 @@ final sampleFeatureRoute = [
     name: SampleFeatureListView.route,
     builder: (context, state) {
       return BlocProvider(
-        create: (context) => sl<SampleFeatureListCubit>()..onInit(),
+        create: (context) => sl<SampleFeatureListCubit>(),
         child: const SampleFeatureListView(),
       );
     },

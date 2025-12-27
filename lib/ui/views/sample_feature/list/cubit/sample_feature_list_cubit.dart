@@ -1,54 +1,54 @@
-import 'package:equatable/equatable.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:skybase/config/base/pagination_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/config/base/request_param.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/repositories/sample_feature/sample_feature_repository.dart';
-import 'package:skybase/data/sources/local/cached_key.dart';
 
 part 'sample_feature_list_state.dart';
 
-class SampleFeatureListCubit
-    extends PaginationCubit<SampleFeatureListState, SampleFeature> {
+class SampleFeatureListCubit extends Cubit<PaginationState<SampleFeature>> {
   String tag = 'SampleFeatureListCubit::->';
 
   final SampleFeatureRepository repository;
 
-  SampleFeatureListCubit(this.repository) : super(SampleFeatureListInitial());
-
-  @override
-  void onInit([dynamic args]) {
-    loadData(() => onLoadData());
-    super.onInit(args);
+  SampleFeatureListCubit(this.repository) : super(PaginationState()) {
+   fetchNextPage();
   }
 
-  @override
-  String get cachedKey => CachedKey.SAMPLE_FEATURE_LIST;
+  CancelToken cancelToken = CancelToken();
 
-  @override
-  void onRefresh([BuildContext? context]) async {
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    }
-    await deleteCached(CachedKey.SAMPLE_FEATURE_LIST);
-    super.onRefresh();
+  Future<void> refresh() async {
+    emit(const PaginationState());
+    await fetchNextPage();
   }
 
-  void onLoadData() async {
+  Future<void> fetchNextPage() async {
+    if (state.isLoading || !state.hasNextPage) return;
+    emit(state.copyWith(isLoading: true));
     try {
-      emitLoading(SampleFeatureListLoading());
       final response = await repository.getUsers(
-        requestParams: requestParams,
-        page: page,
-        perPage: perPage,
+        requestParams: RequestParams(cancelToken: cancelToken),
+        page: state.page,
+        perPage: state.pageSize,
       );
-      emitSuccess(SampleFeatureListLoaded(response), data: response);
+      final isLastPage = response.length < state.pageSize;
+      emit(
+        state.copyWith(
+          isLoading: false,
+          items: [...state.items, ...response],
+          page: state.page + 1,
+          hasNextPage: !isLastPage,
+        ),
+      );
     } catch (e) {
-      debugPrint('Error : $e');
-      emitError(SampleFeatureListError(e.toString()), message: e.toString());
+      emit(state.copyWith(isLoading: false, error: e));
     }
+  }
+
+  @override
+  Future<void> close() {
+    cancelToken.cancel();
+    return super.close();
   }
 }
