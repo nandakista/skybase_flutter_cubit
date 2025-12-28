@@ -9,9 +9,10 @@ final loginRoute = [
   GoRoute(
     path: LoginView.route,
     name: LoginView.route,
-    builder: (context, state) => BlocProvider(
-      create: (context) => sl<LoginCubit>()..onInit(),
-      child: const LoginView(),
-    ),
+    builder:
+        (context, state) => BlocProvider(
+          create: (context) => sl<LoginCubit>(),
+          child: const LoginView(),
+        ),
   ),
 ];

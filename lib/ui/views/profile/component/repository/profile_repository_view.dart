@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_list.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
 import 'cubit/profile_repository_cubit.dart';
 
-class ProfileRepositoryView extends StatelessWidget {
+class ProfileRepositoryView extends StatefulWidget {
   const ProfileRepositoryView({super.key});
+
+  @override
+  State<ProfileRepositoryView> createState() => _ProfileRepositoryViewState();
+}
+
+class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
+    with ConnectivityMixin {
+  @override
+  void initState() {
+    super.initState();
+    listenConnectivity(() {
+      context.read<ProfileRepositoryCubit>().getProfileRepositories();
+    });
+  }
+
+  @override
+  void dispose() {
+    cancelConnectivity();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +45,7 @@ class ProfileRepositoryView extends StatelessWidget {
           errorEnabled: state is ProfileRepositoryError,
           emptyEnabled: state is ProfileRepositoryInitial,
           errorTitle: errMessage,
-          onRetry: () => cubit.onLoadData(),
+          onRetry: () => cubit.getProfileRepositories(),
           loadingView: const ShimmerSampleFeatureList(),
           child: ListView.builder(
             padding: EdgeInsets.zero,
@@ -56,13 +77,19 @@ class ProfileRepositoryView extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(Icons.star_border, size: 16),
-                            Text(' ${item?.totalStar ?? 0}', style: AppStyle.body3),
+                            Text(
+                              ' ${item?.totalStar ?? 0}',
+                              style: AppStyle.body3,
+                            ),
                           ],
                         ),
                         Row(
                           children: [
                             const Icon(Icons.remove_red_eye_outlined, size: 16),
-                            Text(' ${item?.totalWatch ?? 0}', style: AppStyle.body3),
+                            Text(
+                              ' ${item?.totalWatch ?? 0}',
+                              style: AppStyle.body3,
+                            ),
                           ],
                         ),
                         Row(
@@ -72,7 +99,10 @@ class ProfileRepositoryView extends StatelessWidget {
                               height: 14,
                               color: Colors.grey,
                             ),
-                            Text(' ${item?.totalFork ?? 0}', style: AppStyle.body3),
+                            Text(
+                              ' ${item?.totalFork ?? 0}',
+                              style: AppStyle.body3,
+                            ),
                           ],
                         ),
                       ],

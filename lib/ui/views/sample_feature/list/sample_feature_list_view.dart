@@ -5,6 +5,7 @@ import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/core/helper/dialog_helper.dart';
+import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
 import 'package:skybase/config/base/main_navigation.dart';
@@ -17,10 +18,30 @@ import 'package:skybase/ui/widgets/sky_image.dart';
 
 import 'cubit/sample_feature_list_cubit.dart';
 
-class SampleFeatureListView extends StatelessWidget {
+class SampleFeatureListView extends StatefulWidget {
   static const String route = '/user-list';
 
   const SampleFeatureListView({super.key});
+
+  @override
+  State<SampleFeatureListView> createState() => _SampleFeatureListViewState();
+}
+
+class _SampleFeatureListViewState extends State<SampleFeatureListView>
+    with ConnectivityMixin {
+  @override
+  void initState() {
+    super.initState();
+    listenConnectivity(() {
+      context.read<SampleFeatureListCubit>().refreshPage();
+    });
+  }
+
+  @override
+  void dispose() {
+    cancelConnectivity();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

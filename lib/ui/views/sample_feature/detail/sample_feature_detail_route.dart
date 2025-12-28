@@ -11,10 +11,16 @@ final sampleFeatureDetailPage = [
     name: SampleFeatureDetailView.route,
     builder: (context, state) {
       final extra = state.extra as Map<String, dynamic>;
+      final int userId = extra['id'];
+      final String username = extra['username'];
       return BlocProvider(
-        create: (_) => sl<SampleFeatureDetailCubit>()..onInit(extra),
+        create:
+            (_) =>
+                sl<SampleFeatureDetailCubit>()
+                  ..getUserDetail(userId: userId, userName: username),
         child: SampleFeatureDetailView(
-          usernameArgs: extra['username'] as String,
+          userIdArgs: userId,
+          usernameArgs: username,
         ),
       );
     },

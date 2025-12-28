@@ -5,33 +5,16 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skybase/core/mixin/connectivity_mixin.dart';
 
-import 'request_param.dart';
-
-abstract class PaginationCubit<T> extends Cubit<T> with ConnectivityMixin {
-  late RequestParams requestParams;
+abstract class PaginationCubit<T> extends Cubit<T> {
   CancelToken cancelToken = CancelToken();
 
-  PaginationCubit(super.initialState) {
-    requestParams = RequestParams(
-      cancelToken: cancelToken,
-      cachedKey: cachedKey,
-    );
-    listenConnectivity(() {
-      autoReconnect();
-    });
-  }
+  PaginationCubit(super.initialState);
 
-  String get cachedKey => '';
-
-  void autoReconnect();
-
-  void refreshPage() {}
+  void refreshPage();
 
   @override
   Future<void> close() {
-    cancelConnectivity();
     cancelToken.cancel();
     return super.close();
   }

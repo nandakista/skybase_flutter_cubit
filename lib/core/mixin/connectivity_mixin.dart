@@ -18,16 +18,16 @@ mixin ConnectivityMixin {
   /// When network connection is reconnect, this method automatically call [onRefresh]
   void listenConnectivity(VoidCallback onRefresh) {
     try {
-      streamConnectivity = connectivity.onConnectivityChanged.listen(
-        (connection) {
-          if (connection.contains(ConnectivityResult.none)) {
-            log('🛜❌Connectivity: Disconnect from internet $connection');
-          } else {
-            log('🛜✅Connectivity: Connect to $connection');
-            onRefresh();
-          }
-        },
-      );
+      streamConnectivity = connectivity.onConnectivityChanged.listen((
+        connection,
+      ) {
+        if (connection.contains(ConnectivityResult.none)) {
+          log('🛜❌Connectivity: Disconnect from internet $connection');
+        } else {
+          log('🛜✅Connectivity: Connect to $connection');
+          onRefresh();
+        }
+      });
     } catch (e, stackTrace) {
       log('🛜❌Failed stream connectivity :', error: e, stackTrace: stackTrace);
     }

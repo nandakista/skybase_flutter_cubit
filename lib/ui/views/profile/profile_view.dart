@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/base/main_navigation.dart';
+import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/views/settings/setting_view.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
@@ -10,10 +11,29 @@ import 'package:skybase/ui/widgets/sky_image.dart';
 import 'component/repository/profile_repository_view.dart';
 import 'cubit/profile_cubit.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   static const String route = '/profile';
 
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
+  @override
+  void initState() {
+    super.initState();
+    listenConnectivity(() {
+      context.read<ProfileCubit>().getProfile();
+    });
+  }
+
+  @override
+  void dispose() {
+    cancelConnectivity();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +43,8 @@ class ProfileView extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () => Navigation.instance.push(context, SettingView.route),
+            onPressed:
+                () => Navigation.instance.push(context, SettingView.route),
             icon: Icon(
               CupertinoIcons.settings,
               color: Theme.of(context).iconTheme.color,
@@ -33,18 +54,18 @@ class ProfileView extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            final cubit = context.read<ProfileCubit>();
-            final data = (state is ProfileLoaded) ? state.result : null;
-            final errMessage = (state is ProfileError) ? state.message : null;
+        builder: (context, state) {
+          final cubit = context.read<ProfileCubit>();
+          final data = (state is ProfileLoaded) ? state.result : null;
+          final errMessage = (state is ProfileError) ? state.message : null;
 
           return StateView.page(
             loadingEnabled: state is ProfileLoading,
             errorEnabled: state is ProfileError,
             emptyEnabled: false,
             errorTitle: errMessage,
-            onRetry: () => cubit.onRefresh(context),
-            onRefresh: () => cubit.onRefresh(context),
+            onRetry: () => cubit.getProfile(),
+            onRefresh: () => cubit.getProfile(),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
@@ -55,10 +76,7 @@ class ProfileView extends StatelessWidget {
                     src: '${data?.avatarUrl}&s=200',
                   ),
                   const SizedBox(height: 12),
-                  Text(
-                    data?.name ?? '--',
-                    style: AppStyle.headline3,
-                  ),
+                  Text(data?.name ?? '--', style: AppStyle.headline3),
                   Text(data?.bio ?? '--'),
                   const SizedBox(height: 24),
                   Row(
@@ -120,7 +138,7 @@ class ProfileView extends StatelessWidget {
               ),
             ),
           );
-        }
+        },
       ),
     );
   }

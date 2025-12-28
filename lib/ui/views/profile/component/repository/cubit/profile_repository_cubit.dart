@@ -3,34 +3,27 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:skybase/config/base/base_cubit.dart';
+import 'package:skybase/config/base/request_param.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
+import 'package:skybase/data/sources/local/cached_key.dart';
 
 part 'profile_repository_state.dart';
 
-class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState, Repo> {
+class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState> {
   String tag = 'ProfileRepositoryCubit::->';
 
   final AuthRepository repository;
   ProfileRepositoryCubit(this.repository) : super(ProfileRepositoryInitial());
 
-  @override
-  void onInit([args]) {
-    super.onInit(args);
-    loadData(() => onLoadData());
-  }
-
-  @override
-  Future<void> onRefresh([BuildContext? context]) async {
-    super.onRefresh(context);
-    await onLoadData();
-  }
-
-  Future<void> onLoadData() async {
+  Future<void> getProfileRepositories() async {
     try {
       emit(ProfileRepositoryLoading());
       final response = await repository.getProfileRepository(
-        requestParams: requestParams,
+        requestParams: RequestParams(
+          cancelToken: cancelToken,
+          cachedKey: CachedKey.USER_REPOSITORY,
+        ),
         username: 'nandakista',
       );
       emit(ProfileRepositoryLoaded(response));

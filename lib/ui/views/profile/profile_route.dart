@@ -13,11 +13,14 @@ final profileRoute = [
     builder: (context, state) {
       return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => sl<ProfileCubit>()..onInit()),
-          BlocProvider(create: (_) => sl<ProfileRepositoryCubit>()..onInit()),
+          BlocProvider(create: (_) => sl<ProfileCubit>()..getProfile()),
+          BlocProvider(
+            create:
+                (_) => sl<ProfileRepositoryCubit>()..getProfileRepositories(),
+          ),
         ],
         child: const ProfileView(),
       );
-    }
+    },
   ),
 ];
