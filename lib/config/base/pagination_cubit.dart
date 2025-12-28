@@ -1,7 +1,7 @@
-// /* Created by
-//    Varcant
-//    nanda.kista@gmail.com
-// */
+/* Created by
+   Varcant
+   nanda.kista@gmail.com
+*/
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,11 +23,11 @@ abstract class PaginationCubit<T> extends Cubit<T> with ConnectivityMixin {
     });
   }
 
+  String get cachedKey => '';
+
   void autoReconnect();
 
   void refreshPage() {}
-
-  String get cachedKey => '';
 
   @override
   Future<void> close() {
