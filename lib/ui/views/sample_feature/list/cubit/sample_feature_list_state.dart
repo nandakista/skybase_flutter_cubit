@@ -21,6 +21,7 @@ class PaginationState<T> {
   PaginationState<T> copyWith({
     List<T>? items,
     int? page,
+    int? pageSize,
     bool? isLoading,
     bool? hasNextPage,
     Object? error,
@@ -28,9 +29,25 @@ class PaginationState<T> {
     return PaginationState<T>(
       items: items ?? this.items,
       page: page ?? this.page,
+      pageSize: pageSize ?? this.pageSize,
       isLoading: isLoading ?? this.isLoading,
       hasNextPage: hasNextPage ?? this.hasNextPage,
-      error: error ?? this.error,
+      /// Prevent to save current value if error is null
+      /// Because error == null indicate that the state is [loading]
+      error: error,
     );
+  }
+
+  @override
+  String toString() {
+    return '\n'
+        '⚠️============= PaginationState ================\n'
+        '- items: ${items.length}\n'
+        '- page: $page\n'
+        '- pageSize: $pageSize\n'
+        '- isLoading: $isLoading\n'
+        '- hasNextPage: $hasNextPage\n'
+        '- error: $error\n'
+        '⚠️============== PaginationState ===============';
   }
 }
