@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
@@ -56,14 +57,11 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           final cubit = context.read<ProfileCubit>();
-          final data = (state is ProfileLoaded) ? state.result : null;
-          final errMessage = (state is ProfileError) ? state.message : null;
-
           return StateView.page(
-            loadingEnabled: state is ProfileLoading,
-            errorEnabled: state is ProfileError,
-            emptyEnabled: false,
-            errorTitle: errMessage,
+            loadingEnabled: state.status.isLoading,
+            errorEnabled: state.status.isError,
+            emptyEnabled: state.status.isEmpty,
+            errorTitle: state.error.toString(),
             onRetry: () => cubit.getProfile(),
             onRefresh: () => cubit.getProfile(),
             child: Padding(
@@ -73,11 +71,11 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                   SkyImage(
                     shapeImage: ShapeImage.circle,
                     size: 40,
-                    src: '${data?.avatarUrl}&s=200',
+                    src: '${state.result?.avatarUrl}&s=200',
                   ),
                   const SizedBox(height: 12),
-                  Text(data?.name ?? '--', style: AppStyle.headline3),
-                  Text(data?.bio ?? '--'),
+                  Text(state.result?.name ?? '--', style: AppStyle.headline3),
+                  Text(state.result?.bio ?? '--'),
                   const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +83,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                       Column(
                         children: [
                           Text(
-                            '${data?.repository ?? 0}',
+                            '${state.result?.repository ?? 0}',
                             style: AppStyle.headline3,
                           ),
                           const Text('Repository'),
@@ -94,7 +92,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                       Column(
                         children: [
                           Text(
-                            '${data?.followers ?? 0}',
+                            '${state.result?.followers ?? 0}',
                             style: AppStyle.headline3,
                           ),
                           const Text('Follower'),
@@ -103,7 +101,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                       Column(
                         children: [
                           Text(
-                            '${data?.following ?? 0}',
+                            '${state.result?.following ?? 0}',
                             style: AppStyle.headline3,
                           ),
                           const Text('Following'),
@@ -115,13 +113,13 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                   Row(
                     children: [
                       const Icon(Icons.location_city),
-                      Text(' ${data?.company ?? '--'}'),
+                      Text(' ${state.result?.company ?? '--'}'),
                     ],
                   ),
                   Row(
                     children: [
                       const Icon(Icons.location_on),
-                      Text(' ${data?.location ?? '--'}'),
+                      Text(' ${state.result?.location ?? '--'}'),
                     ],
                   ),
                   const SizedBox(height: 8),

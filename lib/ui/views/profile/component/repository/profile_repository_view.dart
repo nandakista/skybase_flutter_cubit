@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
@@ -36,24 +37,20 @@ class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
     return BlocBuilder<ProfileRepositoryCubit, ProfileRepositoryState>(
       builder: (context, state) {
         final cubit = context.read<ProfileRepositoryCubit>();
-        final data = (state is ProfileRepositoryLoaded) ? state.result : null;
-        final errMessage =
-            (state is ProfileRepositoryError) ? state.message : null;
-
         return StateView.component(
-          loadingEnabled: state is ProfileRepositoryLoading,
-          errorEnabled: state is ProfileRepositoryError,
-          emptyEnabled: state is ProfileRepositoryInitial,
-          errorTitle: errMessage,
+          loadingEnabled: state.status.isLoading,
+          errorEnabled: state.status.isError,
+          emptyEnabled: state.status.isEmpty,
+          errorTitle: state.error.toString(),
           onRetry: () => cubit.getProfileRepositories(),
           loadingView: const ShimmerSampleFeatureList(),
           child: ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: data?.length,
+            itemCount: state.result?.length,
             itemBuilder: (context, index) {
-              final item = data?[index];
+              final item = state.result?[index];
               return ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: SkyImage(

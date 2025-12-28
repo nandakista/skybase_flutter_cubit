@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/config/base/request_param.dart';
+import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/data/models/user/user.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
@@ -13,11 +14,11 @@ class ProfileCubit extends BaseCubit<ProfileState> {
 
   final AuthRepository repository;
 
-  ProfileCubit(this.repository) : super(ProfileInitial());
+  ProfileCubit(this.repository) : super(ProfileState());
 
   Future<void> getProfile() async {
     try {
-      emit(ProfileLoading());
+      emit(state.copyWith(status: RequestStatus.loading));
       final response = await repository.getProfile(
         requestParams: RequestParams(
           cancelToken: cancelToken,
@@ -25,9 +26,9 @@ class ProfileCubit extends BaseCubit<ProfileState> {
         ),
         username: 'nandakista',
       );
-      emit(ProfileLoaded(response));
+      emit(state.copyWith(result: response));
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      emit(state.copyWith(error: e));
     }
   }
 }

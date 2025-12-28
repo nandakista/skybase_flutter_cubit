@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/config/base/request_param.dart';
+import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/repositories/sample_feature/sample_feature_repository.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
@@ -13,15 +14,14 @@ class SampleFeatureDetailCubit extends BaseCubit<SampleFeatureDetailState> {
 
   final SampleFeatureRepository repository;
 
-  SampleFeatureDetailCubit(this.repository)
-    : super(SampleFeatureDetailInitial());
+  SampleFeatureDetailCubit(this.repository) : super(SampleFeatureDetailState());
 
   Future<void> getUserDetail({
     required int userId,
     required String userName,
   }) async {
     try {
-      emit(SampleFeatureDetailLoading());
+      emit(state.copyWith(status: RequestStatus.loading));
       final response = await repository.getDetailUser(
         requestParams: RequestParams(
           cancelToken: cancelToken,
@@ -31,9 +31,9 @@ class SampleFeatureDetailCubit extends BaseCubit<SampleFeatureDetailState> {
         id: userId,
         username: userName,
       );
-      emit(SampleFeatureDetailLoaded(response));
+      emit(state.copyWith(status: RequestStatus.success, result: response));
     } catch (e) {
-      emit(SampleFeatureDetailError(e.toString()));
+      emit(state.copyWith(status: RequestStatus.error, error: e));
     }
   }
 }

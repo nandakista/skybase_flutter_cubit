@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/config/base/request_param.dart';
+import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
@@ -14,11 +15,11 @@ class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState> {
   String tag = 'ProfileRepositoryCubit::->';
 
   final AuthRepository repository;
-  ProfileRepositoryCubit(this.repository) : super(ProfileRepositoryInitial());
+  ProfileRepositoryCubit(this.repository) : super(ProfileRepositoryState());
 
   Future<void> getProfileRepositories() async {
     try {
-      emit(ProfileRepositoryLoading());
+      emit(state.copyWith(status: RequestStatus.loading));
       final response = await repository.getProfileRepository(
         requestParams: RequestParams(
           cancelToken: cancelToken,
@@ -26,10 +27,10 @@ class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState> {
         ),
         username: 'nandakista',
       );
-      emit(ProfileRepositoryLoaded(response));
+      emit(state.copyWith(status: RequestStatus.success, result: response));
     } catch (e, stackTrace) {
       log('Error $e, $stackTrace');
-      emit(ProfileRepositoryError(e.toString()));
+      emit(state.copyWith(error: e));
     }
   }
 }
