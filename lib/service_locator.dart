@@ -12,7 +12,6 @@ import 'package:skybase/data/repositories/sample_feature/sample_feature_reposito
 import 'package:skybase/data/sources/server/auth/auth_sources.dart';
 import 'package:skybase/data/sources/server/auth/auth_sources_impl.dart';
 import 'package:skybase/data/sources/server/sample_feature/sample_feature_sources.dart';
-import 'package:skybase/ui/views/intro/cubit/intro_cubit.dart';
 import 'package:skybase/ui/views/login/cubit/login_cubit.dart';
 import 'package:skybase/ui/views/profile/component/repository/cubit/profile_repository_cubit.dart';
 import 'package:skybase/ui/views/profile/cubit/profile_cubit.dart';
@@ -71,7 +70,6 @@ class ServiceLocator {
     );
 
     // Provider
-    sl.registerFactory(() => IntroCubit());
     sl.registerFactory(() => LoginCubit(sl<AuthRepository>()));
     sl.registerFactory(() => ProfileCubit(sl<AuthRepository>()));
     sl.registerFactory(() => SettingCubit());

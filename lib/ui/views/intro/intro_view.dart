@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/ui/views/intro/cubit/intro_cubit.dart';
+import 'package:skybase/core/database/storage/storage_key.dart';
+import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/ui/views/intro/intro_data.dart';
 import 'package:skybase/ui/views/intro/widgets/intro_indicator.dart';
+import 'package:skybase/ui/views/login/login_view.dart';
 
 import 'widgets/intro_content.dart';
 
-class IntroView extends StatelessWidget {
+class IntroView extends StatefulWidget {
   static const String route = '/intro';
 
   const IntroView({super.key});
+
+  @override
+  State<IntroView> createState() => _IntroViewState();
+}
+
+class _IntroViewState extends State<IntroView> {
+  PageController pageController = PageController(initialPage: 0);
+  int currentIndex = 0;
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,36 +37,37 @@ class IntroView extends StatelessWidget {
             Container(
               height: kToolbarHeight,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: BlocBuilder<IntroCubit, IntroState>(
-                builder: (context, state) {
-                  final cubit = context.read<IntroCubit>();
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      (state is IntroFirstPage)
-                          ? const SizedBox.shrink()
-                          : InkWell(
-                              onTap: () => cubit.onPreviousPage(),
-                              child: const Icon(Icons.arrow_back),
-                            ),
-                      (state is IntroLastPage)
-                          ? const SizedBox.shrink()
-                          : GestureDetector(
-                              onTap: () => cubit.onSkipPage(),
-                              child: const Text(
-                                "Lewati",
-                                style: TextStyle(color: AppColors.primary),
-                              ),
-                            ),
-                    ],
-                  );
-                },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  (currentIndex == 0)
+                      ? const SizedBox()
+                      : InkWell(
+                        onTap: () {
+                          pageController.previousPage(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 260),
+                          );
+                        },
+                        child: const Icon(Icons.arrow_back),
+                      ),
+                  if (currentIndex != 2)
+                    GestureDetector(
+                      onTap: () {
+                        pageController.jumpToPage(2);
+                      },
+                      child: const Text(
+                        "Lewati",
+                        style: TextStyle(color: AppColors.primary),
+                      ),
+                    ),
+                ],
               ),
             ),
             Expanded(
               child: PageView.builder(
                 itemCount: introItem.length,
-                controller: context.read<IntroCubit>().pageController,
+                controller: pageController,
                 itemBuilder: (context, index) {
                   final item = introItem[index];
                   return IntroContent(
@@ -60,56 +77,67 @@ class IntroView extends StatelessWidget {
                   );
                 },
                 onPageChanged: (index) {
-                  context.read<IntroCubit>().onChangePage(index);
+                  setState(() {
+                    currentIndex = index;
+                  });
                 },
               ),
             ),
             const SizedBox(height: 46),
-            BlocBuilder<IntroCubit, IntroState>(
-                builder: (context, state) {
-                final bloc = context.read<IntroCubit>();
-                return SizedBox(
-                  height: kBottomNavigationBarHeight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 40,
-                        child: Visibility(
-                          visible: !bloc.isFirstPage,
-                          child: InkWell(
-                            onTap: () => bloc.onPreviousPage(),
-                            child: const Icon(
-                              Icons.arrow_back,
-                              color: AppColors.primary,
-                            ),
-                          ),
+            SizedBox(
+              height: kBottomNavigationBarHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 40,
+                    child: Visibility(
+                      visible: currentIndex != 0,
+                      child: InkWell(
+                        onTap: () {
+                          pageController.previousPage(
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 260),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
+                          color: AppColors.primary,
                         ),
                       ),
-                      const SizedBox(width: 48),
-                      IntroIndicator(
-                        itemCount: introItem.length,
-                        currentIndex: bloc.currentIndex,
-                      ),
-                      const SizedBox(width: 48),
-                      SizedBox(
-                        width: 40,
-                        child: Visibility(
-                          visible: bloc.isLastPage,
-                          child: GestureDetector(
-                            onTap: () => bloc.onDonePage(context),
-                            child: const Text(
-                              'Done',
-                              style: TextStyle(color: AppColors.primary),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                );
-              }
+                  const SizedBox(width: 48),
+                  IntroIndicator(
+                    itemCount: introItem.length,
+                    currentIndex: currentIndex,
+                  ),
+                  const SizedBox(width: 48),
+                  SizedBox(
+                    width: 40,
+                    child: Visibility(
+                      visible: currentIndex == 3,
+                      child: GestureDetector(
+                        onTap: () {
+                          StorageManager.instance.save<bool>(
+                            StorageKey.FIRST_INSTALL,
+                            false,
+                          );
+                          Navigation.instance.pushReplacement(
+                            context,
+                            LoginView.route,
+                          );
+                        },
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(color: AppColors.primary),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 46),
           ],
