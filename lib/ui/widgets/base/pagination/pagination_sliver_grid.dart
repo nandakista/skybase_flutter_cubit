@@ -14,10 +14,12 @@ import 'package:skybase/ui/widgets/base/pagination/pagination_delegate.dart';
 class PaginationSliverGrid<T> extends StatelessWidget {
   const PaginationSliverGrid({
     super.key,
-    required this.pagingController,
+    required this.pagingState,
+    required this.fetchNextPage,
     required this.itemBuilder,
     required this.gridDelegate,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.onRefresh,
     this.padding,
     this.showNewPageErrorIndicatorAsGridChild = false,
@@ -51,10 +53,12 @@ class PaginationSliverGrid<T> extends StatelessWidget {
     this.emptySubtitleStyle,
   });
 
-  final PagingController<int, T> pagingController;
+  final PagingState<int, T> pagingState;
+  final void Function() fetchNextPage;
   final ItemWidgetBuilder<T> itemBuilder;
   final SliverGridDelegate gridDelegate;
   final VoidCallback onRetry;
+  final VoidCallback onRetryLastRequest;
   final bool showNewPageErrorIndicatorAsGridChild;
   final bool showNewPageProgressIndicatorAsGridChild;
   final bool showNoMoreItemsIndicatorAsGridChild;
@@ -97,7 +101,8 @@ class PaginationSliverGrid<T> extends StatelessWidget {
       padding: padding ?? EdgeInsets.zero,
       sliver: PagedSliverGrid(
         gridDelegate: gridDelegate,
-        pagingController: pagingController,
+        state: pagingState,
+        fetchNextPage: fetchNextPage,
         addRepaintBoundaries: addRepaintBoundaries,
         addSemanticIndexes: addSemanticIndexes,
         addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -109,8 +114,10 @@ class PaginationSliverGrid<T> extends StatelessWidget {
             showNewPageProgressIndicatorAsGridChild,
         shrinkWrapFirstPageIndicators: shrinkWrapFirstPageIndicators,
         builderDelegate: PaginationDelegate<T>(
-          pagingController: pagingController,
+          pagingState: pagingState,
+          fetchNextPage: fetchNextPage,
           onRetry: onRetry,
+          onRetryLastRequest: onRetryLastRequest,
           loadingView: loadingView,
           emptyView: emptyView,
           emptyRetryEnabled: emptyRetryEnabled,

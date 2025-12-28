@@ -20,9 +20,11 @@ enum PaginationType {
 class PaginationStateView<T> extends StatelessWidget {
   const PaginationStateView.list({
     super.key,
-    required this.pagingController,
+    required this.pagingState,
+    required this.fetchNextPage,
     required this.itemBuilder,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.onRefresh,
     this.loadingView,
     this.emptyView,
@@ -80,10 +82,12 @@ class PaginationStateView<T> extends StatelessWidget {
 
   const PaginationStateView.grid({
     super.key,
-    required this.pagingController,
+    required this.pagingState,
+    required this.fetchNextPage,
     required this.itemBuilder,
     required this.gridDelegate,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.onRefresh,
     this.showNewPageErrorIndicatorAsGridChild,
     this.showNewPageProgressIndicatorAsGridChild,
@@ -140,7 +144,8 @@ class PaginationStateView<T> extends StatelessWidget {
 
   // Pagination properties
   final PaginationType type;
-  final PagingController<int, T> pagingController;
+  final PagingState<int, T> pagingState;
+  final void Function() fetchNextPage;
   final ItemWidgetBuilder<T> itemBuilder;
 
   // Widget properties
@@ -186,6 +191,7 @@ class PaginationStateView<T> extends StatelessWidget {
   final bool shrinkWrapFirstPageIndicators;
   final VoidCallback? onRefresh;
   final VoidCallback onRetry;
+  final VoidCallback onRetryLastRequest;
   final Widget? emptyImageWidget;
   final String? emptyImage;
   final String? errorTitle;
@@ -277,7 +283,8 @@ class PaginationStateView<T> extends StatelessWidget {
   Widget _buildPagedList() {
     return PagedListView.separated(
       key: key,
-      pagingController: pagingController,
+      state: pagingState,
+      fetchNextPage: fetchNextPage,
       builderDelegate: _builderDelete(),
       addAutomaticKeepAlives: addAutomaticKeepAlives ?? true,
       addRepaintBoundaries: addRepaintBoundaries ?? true,
@@ -305,7 +312,8 @@ class PaginationStateView<T> extends StatelessWidget {
   Widget _buildPagedSliverList() {
     return PagedSliverList(
       key: key,
-      pagingController: pagingController,
+      state: pagingState,
+      fetchNextPage: fetchNextPage,
       builderDelegate: _builderDelete(),
       addAutomaticKeepAlives: addAutomaticKeepAlives ?? true,
       addRepaintBoundaries: addRepaintBoundaries ?? true,
@@ -320,7 +328,8 @@ class PaginationStateView<T> extends StatelessWidget {
   Widget _buildPagedGrid() {
     return PagedGridView(
       key: key,
-      pagingController: pagingController,
+      state: pagingState,
+      fetchNextPage: fetchNextPage,
       builderDelegate: _builderDelete(),
       gridDelegate: gridDelegate!,
       addAutomaticKeepAlives: addAutomaticKeepAlives ?? true,
@@ -351,7 +360,8 @@ class PaginationStateView<T> extends StatelessWidget {
   Widget _buildPagedSliverGrid() {
     return PagedSliverGrid(
       key: key,
-      pagingController: pagingController,
+      state: pagingState,
+      fetchNextPage: fetchNextPage,
       builderDelegate: _builderDelete(),
       gridDelegate: gridDelegate!,
       addAutomaticKeepAlives: addAutomaticKeepAlives ?? true,
@@ -369,8 +379,10 @@ class PaginationStateView<T> extends StatelessWidget {
 
   PagedChildBuilderDelegate<T> _builderDelete() {
     return PaginationDelegate<T>(
-      pagingController: pagingController,
+      pagingState: pagingState,
+      fetchNextPage: fetchNextPage,
       onRetry: onRetry,
+      onRetryLastRequest: onRetryLastRequest,
       loadingView: loadingView,
       emptyView: emptyView,
       emptyRetryEnabled: emptyRetryEnabled,

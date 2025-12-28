@@ -13,9 +13,11 @@ import 'package:skybase/ui/widgets/platform_loading_indicator.dart';
 
 // ignore: non_constant_identifier_names
 PagedChildBuilderDelegate<T> PaginationDelegate<T>({
-  required PagingController<int, T> pagingController,
+  required PagingState<int, T> pagingState,
+  required void Function() fetchNextPage,
   required ItemWidgetBuilder<T> itemBuilder,
   required VoidCallback onRetry,
+  required VoidCallback onRetryLastRequest,
   Widget? loadingView,
   Widget? emptyView,
   Widget? emptyImageWidget,
@@ -68,7 +70,7 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           imageWidth: imageWidth,
           emptyRetryEnabled: emptyRetryEnabled,
           onRetry: () {
-            pagingController.refresh();
+            pagingState.reset();
             onRetry();
           },
           physics: const NeverScrollableScrollPhysics(),
@@ -79,7 +81,7 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           errorImage: errorImage,
           errorImageWidget: errorImageWidget,
           errorTitle:
-              '${errorTitle ?? pagingController.error ?? 'txt_err_general_formal'.tr()}',
+              '${errorTitle ?? pagingState.error ?? 'txt_err_general_formal'.tr()}',
           errorSubtitle: errorSubtitle,
           horizontalSpacing: horizontalSpacing ?? 24,
           verticalSpacing: verticalSpacing ?? 24,
@@ -91,8 +93,8 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           retryWidget: retryWidget,
           physics: const BouncingScrollPhysics(),
           onRetry: () {
+            pagingState.reset();
             onRetry();
-            pagingController.retryLastFailedRequest();
           },
         ),
     noMoreItemsIndicatorBuilder: (ctx) =>
@@ -100,7 +102,9 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
     newPageErrorIndicatorBuilder: (ctx) =>
         errorLoadMoreView ??
         InkWell(
-          onTap: onRetry,
+          onTap: () {
+            onRetryLastRequest();
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

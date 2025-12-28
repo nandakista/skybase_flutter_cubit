@@ -21,15 +21,15 @@ mixin ConnectivityMixin {
       streamConnectivity = connectivity.onConnectivityChanged.listen(
         (connection) {
           if (connection.contains(ConnectivityResult.none)) {
-            log('Connectivity: Disconnect from internet $connection');
+            log('🛜❌Connectivity: Disconnect from internet $connection');
           } else {
-            log('Connectivity: Connect to $connection');
+            log('🛜✅Connectivity: Connect to $connection');
             onRefresh();
           }
         },
       );
     } catch (e, stackTrace) {
-      log('Failed stream connectivity :', error: e, stackTrace: stackTrace);
+      log('🛜❌Failed stream connectivity :', error: e, stackTrace: stackTrace);
     }
   }
 

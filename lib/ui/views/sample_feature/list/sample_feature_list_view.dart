@@ -9,6 +9,7 @@ import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
 import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/ui/views/sample_feature/detail/sample_feature_detail_view.dart';
+import 'package:skybase/config/base/pagination_state_adapter.dart';
 import 'package:skybase/ui/widgets/base/pagination_state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_list.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
@@ -29,11 +30,12 @@ class SampleFeatureListView extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<SampleFeatureListCubit>();
           return PaginationStateView<SampleFeature>.list(
-            pagingController: cubit.pagingController,
+            pagingState: toPagingState<SampleFeature>(state.pagination),
+            fetchNextPage: () => cubit.fetchNextPage(),
             loadingView: const ShimmerSampleFeatureList(),
-            onRefresh: () => cubit.onRefresh(),
-            scrollController: cubit.scrollController,
-            onRetry: () => cubit.onRefresh(context),
+            onRefresh: () => cubit.refreshPage(),
+            onRetry: () => cubit.refreshPage(),
+            onRetryLastRequest: () => cubit.fetchNextPage(),
             itemBuilder: (BuildContext context, item, int index) {
               return ListTile(
                 onTap: () {

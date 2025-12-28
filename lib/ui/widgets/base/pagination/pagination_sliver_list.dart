@@ -15,9 +15,11 @@ import 'package:skybase/ui/widgets/grouped_listview.dart';
 class PaginationSliverList<T> extends StatelessWidget {
   const PaginationSliverList({
     super.key,
-    required this.pagingController,
+    required this.pagingState,
+    required this.fetchNextPage,
     required this.itemBuilder,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.loadingView,
     this.emptyView,
     this.errorView,
@@ -53,9 +55,11 @@ class PaginationSliverList<T> extends StatelessWidget {
     this.semanticIndexCallback,
   });
 
-  final PagingController<int, T> pagingController;
+  final PagingState<int, T> pagingState;
+  final void Function() fetchNextPage;
   final ItemWidgetBuilder<T> itemBuilder;
   final VoidCallback onRetry;
+  final VoidCallback onRetryLastRequest;
   final bool emptyRetryEnabled;
   final Widget? loadingView;
   final Widget? emptyView;
@@ -96,15 +100,18 @@ class PaginationSliverList<T> extends StatelessWidget {
       padding: padding ?? EdgeInsets.zero,
       sliver: PagedSliverList.separated(
         shrinkWrapFirstPageIndicators: shrinkWrapFirstPageIndicators,
-        pagingController: pagingController,
+        state: pagingState,
+        fetchNextPage: fetchNextPage,
         semanticIndexCallback: semanticIndexCallback,
         itemExtent: itemExtent,
         addAutomaticKeepAlives: addAutomaticKeepAlives,
         addSemanticIndexes: addSemanticIndexes,
         addRepaintBoundaries: addRepaintBoundaries,
         builderDelegate: PaginationDelegate<T>(
-          pagingController: pagingController,
+          pagingState: pagingState,
+          fetchNextPage: fetchNextPage,
           onRetry: onRetry,
+          onRetryLastRequest: onRetryLastRequest,
           loadingView: loadingView,
           emptyView: emptyView,
           emptyRetryEnabled: emptyRetryEnabled,
