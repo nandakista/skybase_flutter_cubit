@@ -1,6 +1,6 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import 'sample_feature_list_cubit.dart';
+import 'pagination_state.dart';
 
 
 /// Convert [PaginationState] from Cubit to [PagingState] from infinite_scroll_pagination
