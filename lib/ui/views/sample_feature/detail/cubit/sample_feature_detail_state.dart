@@ -1,31 +1,29 @@
 part of 'sample_feature_detail_cubit.dart';
 
 @immutable
-sealed class SampleFeatureDetailState extends Equatable {
-  const SampleFeatureDetailState();
+class SampleFeatureDetailState extends Equatable {
+  final RequestStatus status;
+  final SampleFeature? result;
+  final Object? error;
+
+  const SampleFeatureDetailState({
+    this.status = RequestStatus.initial,
+    this.result,
+    this.error,
+  });
+
+  SampleFeatureDetailState copyWith({
+    RequestStatus? status,
+    SampleFeature? result,
+    Object? error,
+  }) {
+    return SampleFeatureDetailState(
+      status: status ?? this.status,
+      result: result ?? this.result,
+      error: error,
+    );
+  }
 
   @override
-  List<Object?> get props => [];
-}
-
-class SampleFeatureDetailInitial extends SampleFeatureDetailState {}
-
-class SampleFeatureDetailLoading extends SampleFeatureDetailState {}
-
-class SampleFeatureDetailError extends SampleFeatureDetailState {
-  final String message;
-
-  const SampleFeatureDetailError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
-
-class SampleFeatureDetailLoaded extends SampleFeatureDetailState {
-  final SampleFeature result;
-
-  const SampleFeatureDetailLoaded(this.result);
-
-  @override
-  List<Object> get props => [result];
+  List<Object?> get props => [status, result, error];
 }

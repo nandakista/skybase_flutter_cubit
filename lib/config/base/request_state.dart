@@ -1,13 +1,13 @@
-enum RequestState { initial, empty, loading, success, error }
+enum RequestStatus { initial, empty, loading, success, error }
 
-extension RequestStateExt on RequestState {
-  bool get isInitial => this == RequestState.initial;
+extension RequestStateExt on RequestStatus {
+  bool get isInitial => this == RequestStatus.initial;
 
-  bool get isEmpty => this == RequestState.empty;
+  bool get isEmpty => this == RequestStatus.empty;
 
-  bool get isLoading => this == RequestState.loading;
+  bool get isLoading => this == RequestStatus.loading;
 
-  bool get isSuccess => this == RequestState.success;
+  bool get isSuccess => this == RequestStatus.success;
 
-  bool get isError => this == RequestState.error;
+  bool get isError => this == RequestStatus.error;
 }

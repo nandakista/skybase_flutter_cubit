@@ -1,43 +1,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/base/base_cubit.dart';
+import 'package:skybase/config/base/request_param.dart';
+import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/data/models/user/user.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
-import 'package:skybase/ui/views/profile/component/repository/cubit/profile_repository_cubit.dart';
+import 'package:skybase/data/sources/local/cached_key.dart';
 
 part 'profile_state.dart';
 
-class ProfileCubit extends BaseCubit<ProfileState, User> {
+class ProfileCubit extends BaseCubit<ProfileState> {
   String tag = 'ProfileCubit::->';
 
   final AuthRepository repository;
 
-  ProfileCubit(this.repository) : super(ProfileInitial());
+  ProfileCubit(this.repository) : super(ProfileState());
 
-  @override
-  void onInit([args]) {
-    super.onInit(args);
-    loadData(() => onLoadData());
-  }
-
-  @override
-  Future<void> onRefresh([BuildContext? context]) async {
-    super.onRefresh(context);
-    await context?.read<ProfileRepositoryCubit>().onRefresh();
-    await onLoadData();
-  }
-
-  Future<void> onLoadData() async {
+  Future<void> getProfile() async {
     try {
-      emitLoading(ProfileLoading());
+      emit(state.copyWith(status: RequestStatus.loading));
       final response = await repository.getProfile(
-        requestParams: requestParams,
+        requestParams: RequestParams(
+          cancelToken: cancelToken,
+          cachedKey: CachedKey.PROFILE,
+        ),
         username: 'nandakista',
       );
-      emitSuccess(ProfileLoaded(response));
+      emit(state.copyWith(result: response));
     } catch (e) {
-      emitError(ProfileError(e.toString()));
+      emit(state.copyWith(error: e));
     }
   }
 }
