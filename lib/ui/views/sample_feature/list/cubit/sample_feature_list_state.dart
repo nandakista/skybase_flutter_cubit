@@ -30,38 +30,7 @@ class PaginationState<T> {
       page: page ?? this.page,
       isLoading: isLoading ?? this.isLoading,
       hasNextPage: hasNextPage ?? this.hasNextPage,
-      error: error,
+      error: error ?? this.error,
     );
   }
 }
-
-//
-// @immutable
-// sealed class SampleFeatureListState extends Equatable {
-//   const SampleFeatureListState();
-//
-//   @override
-//   List<Object?> get props => [];
-// }
-//
-// class SampleFeatureListInitial extends SampleFeatureListState {}
-//
-// class SampleFeatureListLoading extends SampleFeatureListState {}
-//
-// class SampleFeatureListError extends SampleFeatureListState {
-//   final String message;
-//
-//   const SampleFeatureListError(this.message);
-//
-//   @override
-//   List<Object> get props => [message];
-// }
-//
-// class SampleFeatureListLoaded extends SampleFeatureListState {
-//   final List<SampleFeature> result;
-//
-//   const SampleFeatureListLoaded(this.result);
-//
-//   @override
-//   List<Object> get props => [result];
-// }

@@ -17,6 +17,7 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
   required void Function() fetchNextPage,
   required ItemWidgetBuilder<T> itemBuilder,
   required VoidCallback onRetry,
+  required VoidCallback onRetryLastRequest,
   Widget? loadingView,
   Widget? emptyView,
   Widget? emptyImageWidget,
@@ -92,6 +93,7 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
           retryWidget: retryWidget,
           physics: const BouncingScrollPhysics(),
           onRetry: () {
+            pagingState.reset();
             onRetry();
           },
         ),
@@ -100,7 +102,9 @@ PagedChildBuilderDelegate<T> PaginationDelegate<T>({
     newPageErrorIndicatorBuilder: (ctx) =>
         errorLoadMoreView ??
         InkWell(
-          onTap: onRetry,
+          onTap: () {
+            onRetryLastRequest();
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

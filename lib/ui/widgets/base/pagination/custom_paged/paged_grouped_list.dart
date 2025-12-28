@@ -84,7 +84,6 @@ class PagedSliverGroupedListView<PageKeyType, T, G> extends StatelessWidget {
     this.sortGroupItems,
   });
 
-  // final PagingController<PageKeyType, T> pagingController;
   final PagingState<PageKeyType, T> pagingState;
   final void Function() fetchNextPage;
   final PagedChildBuilderDelegate<T> builderDelegate;
@@ -103,30 +102,26 @@ class PagedSliverGroupedListView<PageKeyType, T, G> extends StatelessWidget {
       IndexedWidgetBuilder itemBuilder,
       int itemCount, {
       WidgetBuilder? statusIndicatorBuilder,
-    }) =>
-        MultiSliver(
-          children: [
-            SliverGroupedListView(
-              data: pagingState.items ?? <T>[],
-              groupBy: groupBy,
-              itemBuilder: (context, index, item) =>
-                  itemBuilder(context, index),
-              groupHeaderBuilder: groupHeaderBuilder,
-              separatorGroupBuilder: (BuildContext context, int index) {
-                return const SizedBox.shrink();
-              },
-              groupFooterBuilder: groupFooterBuilder,
-              separatorHeader: separatorHeader,
-              separator: separator,
-              sortGroupBy: sortGroupBy,
-              sortGroupItems: sortGroupItems,
-            ),
-            if (statusIndicatorBuilder != null)
-              SliverToBoxAdapter(
-                child: statusIndicatorBuilder(context),
-              )
-          ],
-        );
+    }) => MultiSliver(
+      children: [
+        SliverGroupedListView(
+          data: pagingState.items ?? <T>[],
+          groupBy: groupBy,
+          itemBuilder: (context, index, item) => itemBuilder(context, index),
+          groupHeaderBuilder: groupHeaderBuilder,
+          separatorGroupBuilder: (BuildContext context, int index) {
+            return const SizedBox.shrink();
+          },
+          groupFooterBuilder: groupFooterBuilder,
+          separatorHeader: separatorHeader,
+          separator: separator,
+          sortGroupBy: sortGroupBy,
+          sortGroupItems: sortGroupItems,
+        ),
+        if (statusIndicatorBuilder != null)
+          SliverToBoxAdapter(child: statusIndicatorBuilder(context)),
+      ],
+    );
 
     return PagedLayoutBuilder<PageKeyType, T>(
       layoutProtocol: PagedLayoutProtocol.sliver,
@@ -134,39 +129,27 @@ class PagedSliverGroupedListView<PageKeyType, T, G> extends StatelessWidget {
       fetchNextPage: fetchNextPage,
       builderDelegate: builderDelegate,
       shrinkWrapFirstPageIndicators: shrinkWrapFirstPageIndicators,
-      completedListingBuilder: (
-        context,
-        itemBuilder,
-        itemCount,
-        noMoreItemsIndicatorBuilder,
-      ) =>
-          buildLayout(
-        itemBuilder,
-        itemCount,
-        statusIndicatorBuilder: noMoreItemsIndicatorBuilder,
-      ),
-      loadingListingBuilder: (
-        context,
-        itemBuilder,
-        itemCount,
-        progressIndicatorBuilder,
-      ) =>
-          buildLayout(
-        itemBuilder,
-        itemCount,
-        statusIndicatorBuilder: progressIndicatorBuilder,
-      ),
-      errorListingBuilder: (
-        context,
-        itemBuilder,
-        itemCount,
-        errorIndicatorBuilder,
-      ) =>
-          buildLayout(
-        itemBuilder,
-        itemCount,
-        statusIndicatorBuilder: errorIndicatorBuilder,
-      ),
+      completedListingBuilder:
+          (context, itemBuilder, itemCount, noMoreItemsIndicatorBuilder) =>
+              buildLayout(
+                itemBuilder,
+                itemCount,
+                statusIndicatorBuilder: noMoreItemsIndicatorBuilder,
+              ),
+      loadingListingBuilder:
+          (context, itemBuilder, itemCount, progressIndicatorBuilder) =>
+              buildLayout(
+                itemBuilder,
+                itemCount,
+                statusIndicatorBuilder: progressIndicatorBuilder,
+              ),
+      errorListingBuilder:
+          (context, itemBuilder, itemCount, errorIndicatorBuilder) =>
+              buildLayout(
+                itemBuilder,
+                itemCount,
+                statusIndicatorBuilder: errorIndicatorBuilder,
+              ),
     );
   }
 }

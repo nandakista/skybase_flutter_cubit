@@ -35,6 +35,7 @@ class SampleFeatureListView extends StatelessWidget {
             loadingView: const ShimmerSampleFeatureList(),
             onRefresh: () => cubit.refresh(),
             onRetry: () => cubit.refresh(),
+            onRetryLastRequest: () => cubit.fetchNextPage(),
             itemBuilder: (BuildContext context, item, int index) {
               return ListTile(
                 onTap: () {

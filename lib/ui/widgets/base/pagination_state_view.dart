@@ -24,6 +24,7 @@ class PaginationStateView<T> extends StatelessWidget {
     required this.fetchNextPage,
     required this.itemBuilder,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.onRefresh,
     this.loadingView,
     this.emptyView,
@@ -86,6 +87,7 @@ class PaginationStateView<T> extends StatelessWidget {
     required this.itemBuilder,
     required this.gridDelegate,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.onRefresh,
     this.showNewPageErrorIndicatorAsGridChild,
     this.showNewPageProgressIndicatorAsGridChild,
@@ -189,6 +191,7 @@ class PaginationStateView<T> extends StatelessWidget {
   final bool shrinkWrapFirstPageIndicators;
   final VoidCallback? onRefresh;
   final VoidCallback onRetry;
+  final VoidCallback onRetryLastRequest;
   final Widget? emptyImageWidget;
   final String? emptyImage;
   final String? errorTitle;
@@ -379,6 +382,7 @@ class PaginationStateView<T> extends StatelessWidget {
       pagingState: pagingState,
       fetchNextPage: fetchNextPage,
       onRetry: onRetry,
+      onRetryLastRequest: onRetryLastRequest,
       loadingView: loadingView,
       emptyView: emptyView,
       emptyRetryEnabled: emptyRetryEnabled,

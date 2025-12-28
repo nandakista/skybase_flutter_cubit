@@ -19,6 +19,7 @@ class PaginationSliverList<T> extends StatelessWidget {
     required this.fetchNextPage,
     required this.itemBuilder,
     required this.onRetry,
+    required this.onRetryLastRequest,
     this.loadingView,
     this.emptyView,
     this.errorView,
@@ -58,6 +59,7 @@ class PaginationSliverList<T> extends StatelessWidget {
   final void Function() fetchNextPage;
   final ItemWidgetBuilder<T> itemBuilder;
   final VoidCallback onRetry;
+  final VoidCallback onRetryLastRequest;
   final bool emptyRetryEnabled;
   final Widget? loadingView;
   final Widget? emptyView;
@@ -109,6 +111,7 @@ class PaginationSliverList<T> extends StatelessWidget {
           pagingState: pagingState,
           fetchNextPage: fetchNextPage,
           onRetry: onRetry,
+          onRetryLastRequest: onRetryLastRequest,
           loadingView: loadingView,
           emptyView: emptyView,
           emptyRetryEnabled: emptyRetryEnabled,
