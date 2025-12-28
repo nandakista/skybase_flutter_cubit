@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:skybase/config/base/pagination_cubit.dart';
 import 'package:skybase/config/base/request_param.dart';
@@ -19,15 +22,19 @@ class SampleFeatureListCubit extends PaginationCubit<SampleFeatureListState> {
 
   @override
   void refreshPage() async {
-    emit(const SampleFeatureListState());
+    emit(state.copyWith(pagination: PaginationState()));
+    await fetchNextPage();
+  }
+
+  Future<void> search(String query) async {
+    if (state.query == query) return;
+    emit(state.copyWith(query: query, pagination: PaginationState()));
     await fetchNextPage();
   }
 
   Future<void> fetchNextPage() async {
     if (pagination.isLoading || !pagination.hasNextPage) return;
-    emit(
-      SampleFeatureListState(pagination: pagination.copyWith(isLoading: true)),
-    );
+    emit(state.copyWith(pagination: pagination.copyWith(isLoading: true)));
     try {
       final response = await repository.getUsers(
         requestParams: RequestParams(
@@ -36,10 +43,11 @@ class SampleFeatureListCubit extends PaginationCubit<SampleFeatureListState> {
         ),
         page: pagination.page,
         perPage: pagination.pageSize,
+        username: state.query,
       );
       final isLastPage = response.length < pagination.pageSize;
       emit(
-        SampleFeatureListState(
+        state.copyWith(
           pagination: pagination.copyWith(
             isLoading: false,
             items: [...pagination.items, ...response],
@@ -48,9 +56,10 @@ class SampleFeatureListCubit extends PaginationCubit<SampleFeatureListState> {
           ),
         ),
       );
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log('❌ Error while fetch data: $e, $stackTrace');
       emit(
-        SampleFeatureListState(
+        state.copyWith(
           pagination: pagination.copyWith(isLoading: false, error: e),
         ),
       );

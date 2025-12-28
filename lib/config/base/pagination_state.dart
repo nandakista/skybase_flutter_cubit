@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class PaginationState<T> {
+class PaginationState<T> extends Equatable {
   final List<T> items;
   final int page;
   final int pageSize;
@@ -32,6 +33,7 @@ class PaginationState<T> {
       pageSize: pageSize ?? this.pageSize,
       isLoading: isLoading ?? this.isLoading,
       hasNextPage: hasNextPage ?? this.hasNextPage,
+
       /// Prevent to save current value if error is null
       /// Because error == null indicate that the state is [loading]
       error: error,
@@ -50,4 +52,14 @@ class PaginationState<T> {
         '- error: $error\n'
         '⚠️============== PaginationState ===============';
   }
+
+  @override
+  List<Object?> get props => [
+    items,
+    page,
+    pageSize,
+    isLoading,
+    hasNextPage,
+    error,
+  ];
 }
