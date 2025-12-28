@@ -28,6 +28,10 @@ class _IntroViewState extends State<IntroView> {
     super.dispose();
   }
 
+  bool get isLastPage => currentIndex == introItem.length - 1;
+
+  bool get isFirstPage => currentIndex == 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,7 @@ class _IntroViewState extends State<IntroView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  (currentIndex == 0)
+                  (isFirstPage)
                       ? const SizedBox()
                       : InkWell(
                         onTap: () {
@@ -51,7 +55,7 @@ class _IntroViewState extends State<IntroView> {
                         },
                         child: const Icon(Icons.arrow_back),
                       ),
-                  if (currentIndex != 2)
+                  if (!isLastPage)
                     GestureDetector(
                       onTap: () {
                         pageController.jumpToPage(2);
@@ -93,7 +97,7 @@ class _IntroViewState extends State<IntroView> {
                   SizedBox(
                     width: 40,
                     child: Visibility(
-                      visible: currentIndex != 0,
+                      visible: !isFirstPage,
                       child: InkWell(
                         onTap: () {
                           pageController.previousPage(
@@ -117,7 +121,7 @@ class _IntroViewState extends State<IntroView> {
                   SizedBox(
                     width: 40,
                     child: Visibility(
-                      visible: currentIndex == 3,
+                      visible: isLastPage,
                       child: GestureDetector(
                         onTap: () {
                           StorageManager.instance.save<bool>(
