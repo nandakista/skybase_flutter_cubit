@@ -33,7 +33,10 @@ class _SampleFeatureListViewState extends State<SampleFeatureListView>
   void initState() {
     super.initState();
     listenConnectivity(() {
-      context.read<SampleFeatureListCubit>().refreshPage();
+      final state = context.read<SampleFeatureListCubit>().state;
+      if (state.pagination.isError) {
+        context.read<SampleFeatureListCubit>().refreshPage();
+      }
     });
   }
 
