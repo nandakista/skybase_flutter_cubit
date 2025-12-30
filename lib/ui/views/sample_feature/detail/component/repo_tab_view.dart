@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
@@ -68,8 +69,8 @@ class RepoTabView extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              const SkyImage(
-                                src: 'assets/images/ic_fork.svg',
+                              SkyImage(
+                                src: AppIcons.icFork.path,
                                 height: 14,
                                 color: Colors.grey,
                               ),

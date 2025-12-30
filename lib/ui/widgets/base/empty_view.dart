@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 
 /* Created by
@@ -55,7 +56,7 @@ class EmptyView extends StatelessWidget {
           children: [
             emptyImageWidget ??
                 Image.asset(
-                  emptyImage ?? 'assets/images/img_empty.png',
+                  emptyImage ?? AppImages.imgEmpty.path,
                   height: imageHeight,
                   width: imageWidth,
                 ),

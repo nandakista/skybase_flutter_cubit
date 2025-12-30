@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 
+import 'generated/fonts.gen.dart';
+
 class AppTheme {
   static ThemeData get light {
     return ThemeData(
@@ -12,9 +14,7 @@ class AppTheme {
         surfaceTint: Colors.white,
         brightness: Brightness.light,
       ),
-      primaryColor: AppColors.primary,
-      primarySwatch: AppColors.materialPrimary,
-      fontFamily: "Poppins",
+      fontFamily: FontFamily.poppins,
       inputDecorationTheme: inputDecorationTheme(),
       checkboxTheme: checkboxThemeData(),
       radioTheme: radioThemeData(),
@@ -42,9 +42,7 @@ class AppTheme {
         surfaceTint: Colors.transparent,
         brightness: Brightness.dark,
       ),
-      primaryColor: AppColors.primary,
-      primarySwatch: AppColors.materialPrimary,
-      fontFamily: "Poppins",
+      fontFamily: FontFamily.poppins,
       inputDecorationTheme: inputDecorationTheme(),
       checkboxTheme: checkboxThemeData(),
       radioTheme: radioThemeData(),
@@ -122,7 +120,7 @@ class AppTheme {
           return null;
         }
         if (states.contains(WidgetState.selected)) {
-          return AppColors.materialAccent[200];
+          return AppColors.primary;
         }
         return null;
       }),
@@ -159,13 +157,6 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12),
       ),
     );
-  }
-}
-
-extension DarkMode on BuildContext {
-  bool get isDarkMode {
-    final brightness = MediaQuery.of(this).platformBrightness;
-    return brightness == Brightness.dark;
   }
 }
 

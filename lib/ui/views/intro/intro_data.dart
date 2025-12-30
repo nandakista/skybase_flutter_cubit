@@ -1,3 +1,5 @@
+import 'package:skybase/config/themes/app_colors.dart';
+
 class IntroData {
   final String image;
   final String tittle;
@@ -12,15 +14,15 @@ class IntroData {
 
 final List<IntroData> introItem = [
   IntroData(
-      image: "assets/images/img_pv_1.png",
+      image: AppImages.imgPv1.path,
       tittle: "Skybase Getx",
       description: "Code base for mobile platform using Getx, Dio, etc."),
   IntroData(
-      image: "assets/images/img_pv_2.png",
+      image: AppImages.imgPv2.path,
       tittle: "Skybase Getx",
       description: "Lets create beautiful apps with us."),
   IntroData(
-      image: "assets/images/img_pv_3.png",
+      image: AppImages.imgPv2.path,
       tittle: "Skybase Getx",
       description: "Created By Varcant"),
 ];

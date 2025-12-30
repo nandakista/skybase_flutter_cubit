@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/core/extension/string_extension.dart';
 import 'package:skybase/core/helper/media_helper.dart';
 import 'package:skybase/ui/widgets/media/preview/media_preview_page.dart';
@@ -135,7 +136,7 @@ class SkyImage extends StatelessWidget {
           BaseImage(
             src: generateByName.isNotNullAndNotEmpty
                 ? MediaHelper.generateAvatarByName(generateByName ?? 'user')
-                : placeholderSrc ?? 'assets/images/img_not_found.png',
+                : placeholderSrc ?? AppImages.imgNotFound.path,
             width: width,
             height: height,
             fit: placeholderFit ?? BoxFit.contain,

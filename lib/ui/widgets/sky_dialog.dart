@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/config/themes/app_style.dart';
-import 'package:skybase/config/themes/app_theme.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 
 /* Created by
@@ -100,7 +100,7 @@ class DialogAlert extends StatelessWidget {
         isDismissible: isDismissible,
         header: Padding(
           padding: const EdgeInsets.all(6.0),
-          child: header ?? Image.asset('assets/images/ic_success.png'),
+          child: header ?? Image.asset(AppIcons.icSuccess.path),
         ),
         onConfirm: onConfirm,
         backgroundColorHeader: backgroundColorHeader,
@@ -121,7 +121,7 @@ class DialogAlert extends StatelessWidget {
         isDismissible: isDismissible,
         header: Padding(
           padding: const EdgeInsets.all(6.0),
-          child: header ?? Image.asset('assets/images/ic_failed.png'),
+          child: header ?? Image.asset(AppIcons.icFailed.path),
         ),
         onConfirm: onConfirm,
         backgroundColorHeader: backgroundColorHeader,
@@ -145,7 +145,7 @@ class DialogAlert extends StatelessWidget {
         isDismissible: isDismissible,
         header: header ??
             Image.asset(
-              'assets/images/ic_warning.png',
+              AppIcons.icWarning.path,
               color: Colors.orange,
             ),
         onConfirm: onConfirm,
@@ -174,7 +174,7 @@ class DialogAlert extends StatelessWidget {
         isDismissible: isDismissible,
         header: Padding(
           padding: const EdgeInsets.all(6),
-          child: header ?? Image.asset('assets/images/ic_failed.png'),
+          child: header ?? Image.asset(AppIcons.icFailed.path),
         ),
         onConfirm: onConfirm,
         onCancel: onCancel,
@@ -197,7 +197,7 @@ class DialogAlert extends StatelessWidget {
         isDismissible: isDismissible,
         header: header ??
             Image.asset(
-              'assets/images/ic_warning.png',
+              AppIcons.icWarning.path,
               color: Colors.orange,
             ),
         onConfirm: onConfirm,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/base/request_state.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
@@ -91,8 +92,8 @@ class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
                         ),
                         Row(
                           children: [
-                            const SkyImage(
-                              src: 'assets/images/ic_fork.svg',
+                            SkyImage(
+                              src: AppIcons.icFork.path,
                               height: 14,
                               color: Colors.grey,
                             ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/core/helper/bottom_sheet_helper.dart';
 import 'package:skybase/core/helper/media_helper.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
@@ -48,7 +49,7 @@ class AvatarPicker extends StatelessWidget {
                   (namePlaceholder != null
                       ? MediaHelper.generateAvatarByName(
                           namePlaceholder.toString())
-                      : 'assets/images/img_placeholder_user.png'),
+                      : AppImages.imgPlaceholderUser.path),
               fit: BoxFit.cover,
             ),
           ),

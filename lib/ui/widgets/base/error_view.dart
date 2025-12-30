@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 
 /* Created by
@@ -53,7 +54,7 @@ class ErrorView extends StatelessWidget {
           children: [
             errorImageWidget ??
                 Image.asset(
-                  errorImage ?? 'assets/images/img_error.png',
+                  errorImage ?? AppImages.imgError.path,
                   height: imageHeight,
                   width: imageWidth,
                 ),

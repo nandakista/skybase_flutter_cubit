@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
@@ -23,8 +24,8 @@ class CrashErrorView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SkyImage(
-              src: 'assets/images/img_error.png',
+            SkyImage(
+              src: AppImages.imgError.path,
               height: 144,
               fit: BoxFit.cover,
             ),
