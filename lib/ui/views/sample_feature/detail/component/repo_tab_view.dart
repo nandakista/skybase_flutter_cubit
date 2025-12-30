@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
@@ -20,72 +20,67 @@ class RepoTabView extends StatelessWidget {
       itemBuilder: (_, index) {
         final Repo? repos = data.repositoryList?[index];
         return (repos == null)
-            ? Center(
-                child: Text('txt_no_repository'.tr()),
-              )
+            ? Center(child: Text('txt_no_repository'.tr()))
             : ListTile(
-                leading: SkyImage(
-                  size: 30,
-                  shapeImage: ShapeImage.circle,
-                  src: '${repos.owner.avatarUrl}&s=200',
-                ),
-                title: Text(repos.name.toString(), style: AppStyle.body2),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Language: ${repos.language ?? '--'}',
-                      style: AppStyle.body3,
+              leading: SkyImage(
+                size: 30,
+                shapeImage: ShapeImage.circle,
+                src: '${repos.owner.avatarUrl}&s=200',
+              ),
+              title: Text(
+                repos.name.toString(),
+                style: context.typography.body2,
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Language: ${repos.language ?? '--'}',
+                    style: context.typography.body3,
+                  ),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 80),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.star_border, size: 16),
+                            Text(
+                              ' ${repos.totalStar}',
+                              style: context.typography.body3,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.remove_red_eye_outlined, size: 16),
+                            Text(
+                              ' ${repos.totalWatch}',
+                              style: context.typography.body3,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SkyImage(
+                              src: AppIcons.icFork.path,
+                              height: 14,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              ' ${repos.totalFork}',
+                              style: context.typography.body3,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 80),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star_border,
-                                size: 16,
-                              ),
-                              Text(
-                                ' ${repos.totalStar}',
-                                style: AppStyle.body3,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.remove_red_eye_outlined,
-                                size: 16,
-                              ),
-                              Text(
-                                ' ${repos.totalWatch}',
-                                style: AppStyle.body3,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SkyImage(
-                                src: AppIcons.icFork.path,
-                                height: 14,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                ' ${repos.totalFork}',
-                                style: AppStyle.body3,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
+                  ),
+                ],
+              ),
+            );
       },
     );
   }

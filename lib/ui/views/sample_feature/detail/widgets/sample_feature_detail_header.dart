@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
 class SampleFeatureDetailHeader extends StatelessWidget {
@@ -33,7 +33,7 @@ class SampleFeatureDetailHeader extends StatelessWidget {
             children: [
               Text(
                 repositoryCount.toString(),
-                style: AppStyle.headline3,
+                style: context.typography.headline3,
               ),
               const Text('Repository'),
             ],
@@ -42,7 +42,7 @@ class SampleFeatureDetailHeader extends StatelessWidget {
             children: [
               Text(
                 followerCount.toString(),
-                style: AppStyle.headline3,
+                style: context.typography.headline3,
               ),
               const Text('Follower'),
             ],
@@ -51,7 +51,7 @@ class SampleFeatureDetailHeader extends StatelessWidget {
             children: [
               Text(
                 followingCount.toString(),
-                style: AppStyle.headline3,
+                style: context.typography.headline3,
               ),
               const Text('Following'),
             ],

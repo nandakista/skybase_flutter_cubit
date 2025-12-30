@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 
 /* Created by
    Varcant
@@ -116,7 +116,8 @@ class SkyButton extends StatelessWidget {
       child: ElevatedButton.icon(
         icon: Visibility(
           visible: (leading != null || icon != null),
-          child: leading ??
+          child:
+              leading ??
               Icon(
                 icon,
                 color: iconColor ?? ((outlineMode) ? color : Colors.white),
@@ -125,22 +126,25 @@ class SkyButton extends StatelessWidget {
         onPressed: (enabled) ? onPressed : null,
         style: ElevatedButton.styleFrom(
           elevation: elevation,
-          backgroundColor: gradient != null
-              ? Colors.transparent
-              : (outlineMode)
+          backgroundColor:
+              gradient != null
+                  ? Colors.transparent
+                  : (outlineMode)
                   ? Theme.of(context).scaffoldBackgroundColor
                   : color,
-          padding: (icon != null || leading != null)
-              ? const EdgeInsets.symmetric(horizontal: 10, vertical: 10)
-              : const EdgeInsets.fromLTRB(0, 10, 10, 10),
+          padding:
+              (icon != null || leading != null)
+                  ? const EdgeInsets.symmetric(horizontal: 10, vertical: 10)
+                  : const EdgeInsets.fromLTRB(0, 10, 10, 10),
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius ?? BorderRadius.circular(radiusValue),
             side: BorderSide(
-              color: enabled
-                  ? (outlineMode)
-                      ? borderColor ?? color
-                      : borderColor ?? Colors.transparent
-                  : Colors.transparent,
+              color:
+                  enabled
+                      ? (outlineMode)
+                          ? borderColor ?? color
+                          : borderColor ?? Colors.transparent
+                      : Colors.transparent,
               width: borderWidth ?? 1.5,
               style: BorderStyle.solid,
             ),
@@ -150,16 +154,21 @@ class SkyButton extends StatelessWidget {
           padding: padding,
           child: FittedBox(
             fit: BoxFit.scaleDown,
-            child: child ??
+            child:
+                child ??
                 Text(
                   text ?? '',
                   textAlign: TextAlign.center,
-                  style: AppStyle.subtitle4.copyWith(
+                  style: context.typography.subtitle4.copyWith(
                     fontSize: fontSize,
                     fontWeight: fontWeight,
-                    color: (!enabled)
-                        ? Colors.grey.shade400
-                        : textColor ?? (outlineMode ? color : textColor ?? Colors.white),
+                    color:
+                        (!enabled)
+                            ? Colors.grey.shade400
+                            : textColor ??
+                                (outlineMode
+                                    ? color
+                                    : textColor ?? Colors.white),
                   ),
                 ),
           ),

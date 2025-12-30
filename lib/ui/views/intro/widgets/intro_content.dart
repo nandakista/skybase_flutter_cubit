@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
 class IntroContent extends StatelessWidget {
@@ -20,11 +20,7 @@ class IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SkyImage(
-          src: image,
-          height: 270,
-          fit: BoxFit.cover,
-        ),
+        SkyImage(src: image, height: 270, fit: BoxFit.cover),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Column(
@@ -32,13 +28,17 @@ class IntroContent extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: AppStyle.subtitle2.copyWith(fontWeight: FontWeight.w500),
+                style: context.typography.subtitle2.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 description,
                 textAlign: TextAlign.center,
-                style: AppStyle.subtitle4.copyWith(fontWeight: FontWeight.w400),
+                style: context.typography.subtitle4.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ],
           ),

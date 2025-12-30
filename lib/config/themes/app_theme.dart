@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 
+import 'app_typography.dart';
+import 'default_typography.dart';
 import 'generated/fonts.gen.dart';
 
 class AppTheme {
@@ -32,6 +34,55 @@ class AppTheme {
         ),
       ),
       tabBarTheme: TabBarThemeData(indicatorColor: AppColors.secondary),
+      textTheme: TextTheme(
+        displayLarge: DefaultTypography.displayLarge,
+        displayMedium: DefaultTypography.displayMedium,
+        titleSmall: DefaultTypography.titleSmall,
+        bodyLarge: DefaultTypography.bodyLarge,
+        bodyMedium: DefaultTypography.bodyMedium,
+        bodySmall: DefaultTypography.bodySmall,
+        labelLarge: DefaultTypography.labelLarge,
+        labelMedium: DefaultTypography.labelMedium,
+        labelSmall: DefaultTypography.labelSmall,
+      ),
+      extensions: [
+        AppTypography(
+          headline1: const TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+          headline2: const TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+          headline3: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+          headline4: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+          title1: const TextStyle(fontSize: 40),
+          title2: const TextStyle(fontSize: 34),
+          title3: const TextStyle(fontSize: 30),
+          title4: const TextStyle(fontSize: 28),
+          subtitle1: const TextStyle(fontSize: 24),
+          subtitle2: const TextStyle(fontSize: 20),
+          subtitle3: const TextStyle(fontSize: 18),
+          subtitle4: const TextStyle(fontSize: 16),
+          body1: const TextStyle(fontSize: 14),
+          body2: const TextStyle(fontSize: 13),
+          body3: const TextStyle(fontSize: 11),
+          small: const TextStyle(fontSize: 9),
+          verySmall: const TextStyle(fontSize: 8),
+          link: const TextStyle(fontSize: 18, color: Colors.blue),
+        ),
+      ],
     );
   }
 
@@ -72,6 +123,55 @@ class AppTheme {
         ),
       ),
       tabBarTheme: TabBarThemeData(indicatorColor: AppColors.secondary),
+      textTheme: TextTheme(
+        displayLarge: DefaultTypography.displayLarge,
+        displayMedium: DefaultTypography.displayMedium,
+        titleSmall: DefaultTypography.titleSmall,
+        bodyLarge: DefaultTypography.bodyLarge,
+        bodyMedium: DefaultTypography.bodyMedium,
+        bodySmall: DefaultTypography.bodySmall,
+        labelLarge: DefaultTypography.labelLarge,
+        labelMedium: DefaultTypography.labelMedium,
+        labelSmall: DefaultTypography.labelSmall,
+      ),
+      extensions: [
+        AppTypography(
+          headline1: const TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+          headline2: const TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w800,
+            color: Colors.black,
+          ),
+          headline3: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+          headline4: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+          title1: const TextStyle(fontSize: 40),
+          title2: const TextStyle(fontSize: 34),
+          title3: const TextStyle(fontSize: 30),
+          title4: const TextStyle(fontSize: 28),
+          subtitle1: const TextStyle(fontSize: 24),
+          subtitle2: const TextStyle(fontSize: 20),
+          subtitle3: const TextStyle(fontSize: 18),
+          subtitle4: const TextStyle(fontSize: 16),
+          body1: const TextStyle(fontSize: 14),
+          body2: const TextStyle(fontSize: 13),
+          body3: const TextStyle(fontSize: 11),
+          small: const TextStyle(fontSize: 9),
+          verySmall: const TextStyle(fontSize: 8),
+          link: const TextStyle(fontSize: 18, color: Colors.blue),
+        ),
+      ],
     );
   }
 

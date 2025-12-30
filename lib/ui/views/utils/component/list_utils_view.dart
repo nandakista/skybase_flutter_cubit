@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/grouped_listview.dart';
@@ -19,6 +19,7 @@ class ListUtilsView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ..._buildSection(
+              context: context,
               page: 1,
               title: 'Sample Grouped ListView',
               content: StateView.component(
@@ -41,8 +42,8 @@ class ListUtilsView extends StatelessWidget {
                     return Text(
                       group.toString(),
                       textAlign: TextAlign.center,
-                      style: AppStyle.headline4.copyWith(
-                        fontWeight: AppStyle.semiBold,
+                      style: context.typography.headline4.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
                     );
                   },
@@ -50,7 +51,7 @@ class ListUtilsView extends StatelessWidget {
                     return Text(
                       item['name'],
                       textAlign: TextAlign.start,
-                      style: AppStyle.body1,
+                      style: context.typography.body1,
                     );
                   },
                   groupBy: (element) => element['group'],
@@ -65,12 +66,13 @@ class ListUtilsView extends StatelessWidget {
   }
 
   List<Widget> _buildSection({
+    required BuildContext context,
     required int page,
     required String title,
     required Widget content,
   }) {
     return [
-      Text('Page $page', style: AppStyle.subtitle2),
+      Text('Page $page', style: context.typography.subtitle2),
       const SizedBox(height: 12),
       Center(child: Text(title)),
       Container(

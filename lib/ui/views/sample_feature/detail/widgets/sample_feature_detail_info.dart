@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 
 class SampleFeatureDetailInfo extends StatelessWidget {
   const SampleFeatureDetailInfo({
@@ -23,7 +23,7 @@ class SampleFeatureDetailInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          Text(name, style: AppStyle.headline4),
+          Text(name, style: context.typography.headline4),
           Text(bio),
           const SizedBox(height: 8),
           Row(

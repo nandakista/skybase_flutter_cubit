@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/database/storage/storage_key.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/service_locator.dart';
 import 'package:skybase/ui/widgets/sky_dialog.dart';
 
@@ -32,30 +32,33 @@ class LocaleManager {
             children: [
               Text(
                 'txt_choose_language'.tr(),
-                style: AppStyle.subtitle2.copyWith(color: AppColors.primary),
+                style: context.typography.subtitle2.copyWith(
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(height: 16),
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: locales.length,
-                separatorBuilder: (context, index) =>
-                const Divider(thickness: 1.5),
-                itemBuilder: (context, index) => InkWell(
-                  onTap: () {
-                    final locale = locales.entries.toList()[index].value;
-                    updateLocale(context, locale);
-                    Navigation.instance.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      locales.entries.toList()[index].key,
-                      style: AppStyle.body1,
+                separatorBuilder:
+                    (context, index) => const Divider(thickness: 1.5),
+                itemBuilder:
+                    (context, index) => InkWell(
+                      onTap: () {
+                        final locale = locales.entries.toList()[index].value;
+                        updateLocale(context, locale);
+                        Navigation.instance.pop(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          locales.entries.toList()[index].key,
+                          style: context.typography.body1,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
+              ),
             ],
           ),
         );
@@ -73,8 +76,9 @@ class LocaleManager {
   }
 
   Locale get getCurrentLocale {
-    String? currentLanguageCode =
-        StorageManager.instance.get(StorageKey.CURRENT_LOCALE);
+    String? currentLanguageCode = StorageManager.instance.get(
+      StorageKey.CURRENT_LOCALE,
+    );
     if (currentLanguageCode != null) {
       return currentLanguageCode.toLocale();
     } else {

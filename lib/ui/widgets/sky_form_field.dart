@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/core/helper/validator.dart';
 
 class SkyFormField extends StatelessWidget {
@@ -114,15 +114,15 @@ class SkyFormField extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     endText.toString(),
-                    style: AppStyle.subtitle4.copyWith(color: Colors.grey),
+                    style: context.typography.subtitle4.copyWith(color: Colors.grey),
                   ),
                 ),
         errorText: validate ? 'Field cannot be empty!' : null,
         hintText: hint,
         labelText: (label != null) ? label : null,
         floatingLabelStyle: TextStyle(color: textColor),
-        labelStyle: AppStyle.body2.copyWith(color: hintColor),
-        hintStyle: hintStyle ?? AppStyle.body2.copyWith(color: hintColor),
+        labelStyle: context.typography.body2.copyWith(color: hintColor),
+        hintStyle: hintStyle ?? context.typography.body2.copyWith(color: hintColor),
       ),
       style: style,
       validator:
@@ -219,13 +219,13 @@ class SkyPasswordFormField extends StatelessWidget {
                 : Align(
                   widthFactor: 1,
                   alignment: Alignment.centerRight,
-                  child: Text(endText.toString(), style: AppStyle.subtitle4),
+                  child: Text(endText.toString(), style: context.typography.subtitle4),
                 ),
         hintText: hint,
         labelText: (label != null) ? label : null,
         floatingLabelStyle: TextStyle(color: textColor),
-        labelStyle: AppStyle.body2.copyWith(color: hintColor),
-        hintStyle: AppStyle.body2.copyWith(color: hintColor),
+        labelStyle: context.typography.body2.copyWith(color: hintColor),
+        hintStyle: context.typography.body2.copyWith(color: hintColor),
       ),
       obscureText: hiddenText,
       maxLength: maxLength,

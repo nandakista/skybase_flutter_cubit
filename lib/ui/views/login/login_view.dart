@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/core/helper/dialog_helper.dart';
 import 'package:skybase/core/helper/form_state_extension.dart';
 import 'package:skybase/core/helper/validator.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/keyboard_dismissible.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
@@ -85,12 +85,12 @@ class _LoginViewState extends State<LoginView> {
                               children: [
                                 Text(
                                   'txt_login'.tr(),
-                                  style: AppStyle.headline2,
+                                  style: context.typography.headline2,
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
                                   'txt_login_subtitle'.tr(),
-                                  style: AppStyle.subtitle4,
+                                  style: context.typography.subtitle4,
                                 ),
                               ],
                             ),

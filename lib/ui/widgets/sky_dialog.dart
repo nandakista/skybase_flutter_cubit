@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 
@@ -239,8 +238,8 @@ class DialogAlert extends StatelessWidget {
                       const SizedBox(height: 64),
                       Text(
                         title,
-                        style: AppStyle.subtitle3.copyWith(
-                          fontWeight: AppStyle.semiBold,
+                        style: context.typography.subtitle3.copyWith(
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -254,14 +253,14 @@ class DialogAlert extends StatelessWidget {
                         text: confirmText,
                         color: confirmColor ?? AppColors.primary,
                         onPressed: onConfirm,
-                        fontWeight: AppStyle.semiBold,
+                        fontWeight: FontWeight.w400,
                       ),
                       const SizedBox(height: 8),
                       Visibility(
                         visible: (onCancel != null),
                         child: SkyButton(
                           text: cancelText ?? 'txt_no'.tr(),
-                          fontWeight: AppStyle.semiBold,
+                          fontWeight: FontWeight.w400,
                           color: cancelColor ?? AppColors.primary,
                           onPressed: onCancel,
                           outlineMode: true,

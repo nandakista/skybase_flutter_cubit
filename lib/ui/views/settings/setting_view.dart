@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:skybase/config/app/app_info.dart';
-import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/themes/theme_manager.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
@@ -38,7 +38,7 @@ class _SettingViewState extends State<SettingView> {
             children: [
               Text(
                 '${'txt_version'.tr()} ${AppInfo.appVersion}',
-                style: AppStyle.body2.copyWith(color: Colors.grey),
+                style: context.typography.body2.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 12),
               SkyButton(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_list.dart';
@@ -60,13 +60,13 @@ class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
                   src: '${item?.owner.avatarUrl}&s=200',
                   enablePreview: true,
                 ),
-                title: Text(item?.name ?? '', style: AppStyle.body2),
+                title: Text(item?.name ?? '', style: context.typography.body2),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Language: ${item?.language ?? '--'}',
-                      style: AppStyle.body3,
+                      style: context.typography.body3,
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -77,7 +77,7 @@ class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
                             const Icon(Icons.star_border, size: 16),
                             Text(
                               ' ${item?.totalStar ?? 0}',
-                              style: AppStyle.body3,
+                              style: context.typography.body3,
                             ),
                           ],
                         ),
@@ -86,7 +86,7 @@ class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
                             const Icon(Icons.remove_red_eye_outlined, size: 16),
                             Text(
                               ' ${item?.totalWatch ?? 0}',
-                              style: AppStyle.body3,
+                              style: context.typography.body3,
                             ),
                           ],
                         ),
@@ -99,7 +99,7 @@ class _ProfileRepositoryViewState extends State<ProfileRepositoryView>
                             ),
                             Text(
                               ' ${item?.totalFork ?? 0}',
-                              style: AppStyle.body3,
+                              style: context.typography.body3,
                             ),
                           ],
                         ),

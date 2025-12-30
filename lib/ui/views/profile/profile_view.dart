@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/base/request_state.dart';
-import 'package:skybase/config/themes/app_style.dart';
 import 'package:skybase/config/base/main_navigation.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/views/settings/setting_view.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
@@ -74,7 +74,10 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                     src: '${state.result?.avatarUrl}&s=200',
                   ),
                   const SizedBox(height: 12),
-                  Text(state.result?.name ?? '--', style: AppStyle.headline3),
+                  Text(
+                    state.result?.name ?? '--',
+                    style: context.typography.headline3,
+                  ),
                   Text(state.result?.bio ?? '--'),
                   const SizedBox(height: 24),
                   Row(
@@ -84,7 +87,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                         children: [
                           Text(
                             '${state.result?.repository ?? 0}',
-                            style: AppStyle.headline3,
+                            style: context.typography.headline3,
                           ),
                           const Text('Repository'),
                         ],
@@ -93,7 +96,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                         children: [
                           Text(
                             '${state.result?.followers ?? 0}',
-                            style: AppStyle.headline3,
+                            style: context.typography.headline3,
                           ),
                           const Text('Follower'),
                         ],
@@ -102,7 +105,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                         children: [
                           Text(
                             '${state.result?.following ?? 0}',
-                            style: AppStyle.headline3,
+                            style: context.typography.headline3,
                           ),
                           const Text('Following'),
                         ],
@@ -126,7 +129,10 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
                   const Divider(color: Colors.black38),
                   Row(
                     children: [
-                      Text('Repository List', style: AppStyle.headline3),
+                      Text(
+                        'Repository List',
+                        style: context.typography.headline3,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:skybase/config/themes/app_style.dart';
+import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
@@ -17,22 +17,20 @@ class FollowingTabView extends StatelessWidget {
       itemBuilder: (_, index) {
         final SampleFeature? user = data.followingList?[index];
         return (user == null)
-            ? Center(
-                child: Text('txt_no_following'.tr()),
-              )
+            ? Center(child: Text('txt_no_following'.tr()))
             : ListTile(
-                leading: SkyImage(
-                  size: 30,
-                  shapeImage: ShapeImage.circle,
-                  src: '${user.avatarUrl}&s=200',
-                  // onTap: () => controller.onChooseUser(user: user),
-                ),
-                title: Text(user.username.toString()),
-                subtitle: Text(
-                  user.gitUrl.toString(),
-                  style: AppStyle.body2,
-                ),
-              );
+              leading: SkyImage(
+                size: 30,
+                shapeImage: ShapeImage.circle,
+                src: '${user.avatarUrl}&s=200',
+                // onTap: () => controller.onChooseUser(user: user),
+              ),
+              title: Text(user.username.toString()),
+              subtitle: Text(
+                user.gitUrl.toString(),
+                style: context.typography.body2,
+              ),
+            );
       },
     );
   }
