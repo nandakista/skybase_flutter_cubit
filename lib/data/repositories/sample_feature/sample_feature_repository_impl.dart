@@ -26,7 +26,7 @@ class SampleFeatureRepositoryImpl extends BaseRepository
       return await loadCachedList(
         cachedKey: requestParams.cachedKey.toString(),
         loadWhen: page == 1 && username == null,
-        onLoad: () async => await apiService.getUsers(
+        loader: () async => await apiService.getUsers(
           cancelToken: requestParams.cancelToken,
           page: page,
           perPage: perPage,
@@ -58,7 +58,7 @@ class SampleFeatureRepositoryImpl extends BaseRepository
       return await loadCached(
         cachedKey: requestParams.cachedKey.toString(),
         cachedId: requestParams.cachedId,
-        onLoad: () async => await apiService
+        loader: () async => await apiService
             .getDetailUser(cancelToken: requestParams.cancelToken, username: username)
             .then(
           (res) async {

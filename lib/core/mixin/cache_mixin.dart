@@ -50,8 +50,6 @@ mixin CacheMixin {
 
   Future<T?> getCacheObject<T>({
     required String key,
-    required String? cachedId,
-    String? customFieldId,
   }) async {
     log("$_tag get cache, key : $key");
     dynamic cache = await storage.get(key);
@@ -59,19 +57,9 @@ mixin CacheMixin {
       CacheData cacheData = CacheData.fromJson(jsonDecode(cache));
       _logging(cacheData, key);
       Map<String, dynamic> cacheMap = cacheData.value as Map<String, dynamic>;
-      if (cachedId == _getId(cache: cacheMap, customFieldId: customFieldId)) {
-        return CachedModelConverter<T>().fromJson(cacheMap);
-      }
+      return CachedModelConverter<T>().fromJson(cacheMap);
     }
     return null;
-  }
-
-  String _getId({
-    required Map<String, dynamic> cache,
-    String? customFieldId,
-  }) {
-    if (customFieldId != null) return customFieldId.toString();
-    return (cache['id']).toString();
   }
 
   Future<void> saveCachedObject<T>({

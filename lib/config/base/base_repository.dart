@@ -10,10 +10,9 @@ import 'package:skybase/core/mixin/cache_mixin.dart';
 abstract class BaseRepository with CacheMixin {
   final String _tag = 'BaseRepository::->';
 
-  /// Save list data in cache, only when [loadWhen] is true
   Future<List<T>> loadCachedList<T>({
     required String cachedKey,
-    required Future<List<T>> Function() onLoad,
+    required Future<List<T>> Function() loader,
     bool loadWhen = false,
   }) async {
     try {
@@ -21,15 +20,15 @@ abstract class BaseRepository with CacheMixin {
       if (loadWhen) {
         result = await getCachedList(key: cachedKey);
         if (result.isNotEmpty) {
-          onLoad().then((value) => saveCachedList(key: cachedKey, list: value));
+          loader().then((value) => saveCachedList(key: cachedKey, list: value));
           return result;
         } else {
-          result = await onLoad();
+          result = await loader();
           await saveCachedList(key: cachedKey, list: result);
           return result;
         }
       } else {
-        result = await onLoad();
+        result = await loader();
         return result;
       }
     } catch (e, stackTrace) {
@@ -38,32 +37,20 @@ abstract class BaseRepository with CacheMixin {
     }
   }
 
-  /// Save object data to cache.
-  ///
-  /// Set **[onlyCacheLast]** to true if you want to cache only the last data you've open.
-  ///
-  /// Set **[customFieldId]** to your actual data id if your data id is not using "id".
-  /// For example: the id of user data is user_id
   Future<T> loadCached<T>({
     required String cachedKey,
-    required Future<T> Function() onLoad,
+    required Future<T> Function() loader,
     required String? cachedId,
-    bool onlyCacheLast = false,
     String? customFieldId,
   }) async {
     try {
       String key = cachedKey;
-      if (!onlyCacheLast) key = '$cachedKey/$cachedId';
-      T? cacheData = await getCacheObject(
-        key: key,
-        cachedId: cachedId,
-        customFieldId: customFieldId,
-      );
+      T? cacheData = await getCacheObject(key: key);
       if (cacheData != null) {
-        onLoad().then((value) => saveCachedObject(key: key, data: value));
+        loader().then((value) => saveCachedObject(key: key, data: value));
         return cacheData;
       } else {
-        final response = await onLoad();
+        final response = await loader();
         await saveCachedObject(key: key, data: response);
         return response;
       }
