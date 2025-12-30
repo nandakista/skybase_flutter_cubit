@@ -37,6 +37,7 @@ class _SampleFeatureDetailViewState extends State<SampleFeatureDetailView>
       context.read<SampleFeatureDetailCubit>().getUserDetail(
         userId: widget.userIdArgs,
         userName: widget.usernameArgs,
+        invalidateCache: true,
       );
     });
   }
@@ -65,11 +66,13 @@ class _SampleFeatureDetailViewState extends State<SampleFeatureDetailView>
                   () => cubit.getUserDetail(
                     userId: widget.userIdArgs,
                     userName: widget.usernameArgs,
+                    invalidateCache: true,
                   ),
               onRetry:
                   () => cubit.getUserDetail(
                     userId: widget.userIdArgs,
                     userName: widget.usernameArgs,
+                    invalidateCache: true,
                   ),
               child: Column(
                 children: [

@@ -5,7 +5,6 @@ import 'package:skybase/config/auth_manager/auth_manager.dart';
 import 'package:skybase/config/base/base_cubit.dart';
 import 'package:skybase/config/base/request_param.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
-import 'package:skybase/data/sources/local/cached_key.dart';
 
 part 'login_state.dart';
 
@@ -38,10 +37,7 @@ class LoginCubit extends BaseCubit<LoginState> {
     emit(LoginLoading());
     try {
       final response = await repository.getProfile(
-        requestParams: RequestParams(
-          cancelToken: cancelToken,
-          cachedKey: CachedKey.PROFILE,
-        ),
+        requestParams: RequestParams(cancelToken: cancelToken),
         username: 'nandakista',
       );
       await AuthManager.instance.login(

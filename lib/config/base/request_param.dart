@@ -2,12 +2,10 @@ import 'package:dio/dio.dart';
 
 class RequestParams {
   CancelToken cancelToken;
-  String? cachedKey;
-  String? cachedId;
+  bool? invalidateCache;
 
   RequestParams({
     required this.cancelToken,
-    this.cachedKey,
-    this.cachedId,
+    this.invalidateCache,
   });
 }
