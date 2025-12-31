@@ -26,7 +26,7 @@ class ProfileRepositoryCubit extends BaseCubit<ProfileRepositoryState> {
       emit(state.copyWith(status: RequestStatus.success, result: response));
     } catch (e, stackTrace) {
       log('Error $e, $stackTrace');
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(status: RequestStatus.error, error: e));
     }
   }
 }

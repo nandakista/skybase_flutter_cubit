@@ -22,9 +22,9 @@ class ProfileCubit extends BaseCubit<ProfileState> {
         requestParams: RequestParams(cancelToken: cancelToken),
         username: 'nandakista',
       );
-      emit(state.copyWith(result: response));
+      emit(state.copyWith(status: RequestStatus.success, result: response));
     } catch (e) {
-      emit(state.copyWith(error: e));
+      emit(state.copyWith(status: RequestStatus.error, error: e));
     }
   }
 }
