@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/base/request_state.dart';
-import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 import 'package:skybase/ui/views/settings/setting_view.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
@@ -44,8 +44,7 @@ class _ProfileViewState extends State<ProfileView> with ConnectivityMixin {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed:
-                () => Navigation.instance.push(context, SettingView.route),
+            onPressed: () => navigator.push(SettingView.route),
             icon: Icon(
               CupertinoIcons.settings,
               color: Theme.of(context).iconTheme.color,

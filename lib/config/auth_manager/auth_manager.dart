@@ -9,7 +9,7 @@ import 'package:skybase/core/database/secure_storage/secure_storage_manager.dart
 import 'package:skybase/core/database/storage/cache_data.dart';
 import 'package:skybase/data/models/user/user.dart';
 import 'package:skybase/service_locator.dart';
-import 'package:skybase/config/base/main_navigation.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 import 'package:skybase/ui/views/intro/intro_view.dart';
 import 'package:skybase/ui/views/login/login_view.dart';
 import 'package:skybase/ui/views/main_navigation/main_nav_view.dart';
@@ -44,11 +44,11 @@ class AuthManager {
     return switch (state) {
       AppType.INITIAL => await setup(),
       AppType.FIRST_INSTALL =>
-        Navigation.instance.pushAllReplacementNoContext(IntroView.route),
+        navigator.pushAllReplacement(IntroView.route),
       AppType.UNAUTHENTICATED =>
-        Navigation.instance.pushAllReplacementNoContext(LoginView.route),
+        navigator.pushAllReplacement(LoginView.route),
       AppType.AUTHENTICATED =>
-        Navigation.instance.pushAllReplacementNoContext(MainNavView.route),
+        navigator.pushAllReplacement(MainNavView.route),
     };
   }
 

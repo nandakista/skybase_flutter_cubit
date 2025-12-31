@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/helper/bottom_sheet_helper.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 import 'package:skybase/ui/widgets/media/attachments_source_bottom_sheet.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
@@ -88,7 +88,7 @@ class BottomSheetUtilsView extends StatelessWidget {
       enabledFileSource: false,
       onAttachmentsSelected: (file) {
         // controller.selectedProof.value = image;
-        Navigation.instance.pop(context);
+        navigator.pop();
       },
       onMultipleAttachmentsSelected: (List<File> files) {},
     );

@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/database/storage/storage_key.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/core/extension/context_extension.dart';
 import 'package:skybase/service_locator.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 import 'package:skybase/ui/widgets/sky_dialog.dart';
 
 /* Created by
@@ -48,7 +48,7 @@ class LocaleManager {
                       onTap: () {
                         final locale = locales.entries.toList()[index].value;
                         updateLocale(context, locale);
-                        Navigation.instance.pop(context);
+                        navigator.pop();
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10),

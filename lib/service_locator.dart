@@ -1,3 +1,8 @@
+/* Created by
+   Varcant
+   nanda.kista@gmail.com
+*/
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -5,7 +10,6 @@ import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skybase/data/sources/local/cache_manager.dart';
-import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/localization/locale_manager.dart';
 import 'package:skybase/data/repositories/auth/auth_repository.dart';
 import 'package:skybase/data/repositories/auth/auth_repository_impl.dart';
@@ -28,11 +32,9 @@ import 'core/database/storage/storage_manager.dart';
 import 'core/database/secure_storage/secure_storage_manager.dart';
 import 'data/repositories/sample_feature/sample_feature_repository.dart';
 import 'data/sources/server/sample_feature/sample_feature_sources_impl.dart';
-
-/* Created by
-   Varcant
-   nanda.kista@gmail.com
-*/
+import 'ui/routes/navigator/app_navigator.dart';
+import 'ui/routes/app_routes.dart';
+import 'ui/routes/navigator/go_router_navigator.dart';
 
 final sl = GetIt.instance;
 
@@ -55,7 +57,9 @@ class ServiceLocator {
     sl.registerLazySingleton(() => ThemeManager());
     sl.registerLazySingleton(() => CacheManager());
     sl.registerSingleton(AuthManager());
-    sl.registerLazySingleton(() => Navigation());
+    sl.registerLazySingleton<AppNavigator>(
+      () => GoRouterNavigator(AppRoutes.router),
+    );
 
     // Repository
     sl.registerLazySingleton<AuthRepository>(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/config/themes/app_colors.dart';
 import 'package:skybase/core/database/storage/storage_key.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 import 'package:skybase/ui/views/intro/intro_data.dart';
 import 'package:skybase/ui/views/intro/widgets/intro_indicator.dart';
 import 'package:skybase/ui/views/login/login_view.dart';
@@ -128,10 +128,7 @@ class _IntroViewState extends State<IntroView> {
                             StorageKey.FIRST_INSTALL,
                             false,
                           );
-                          Navigation.instance.pushReplacement(
-                            context,
-                            LoginView.route,
-                          );
+                          navigator.pushReplacement(LoginView.route);
                         },
                         child: const Text(
                           'Done',

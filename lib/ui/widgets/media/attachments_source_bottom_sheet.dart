@@ -6,10 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:skybase/config/base/main_navigation.dart';
 import 'package:skybase/core/helper/file_helper.dart';
 import 'package:skybase/core/helper/media_helper.dart';
 import 'package:skybase/core/helper/permission_helper.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 
 /* Created by
    Varcant
@@ -66,7 +66,7 @@ class AttachmentsSourceBottomSheet extends StatelessWidget {
           leading: cameraIcon,
           title: cameraLabel ?? Text('txt_camera'.tr()),
           onTap: () {
-            Navigation.instance.pop(context);
+            navigator.pop();
             _onPickImage(pageContext, ImageSource.camera);
           },
         ),
@@ -74,7 +74,7 @@ class AttachmentsSourceBottomSheet extends StatelessWidget {
           leading: galleryIcon,
           title: galleryLabel ?? Text('txt_gallery'.tr()),
           onTap: () {
-            Navigation.instance.pop(context);
+            navigator.pop();
             _onPickImage(pageContext, ImageSource.gallery);
           },
         ),
@@ -83,7 +83,7 @@ class AttachmentsSourceBottomSheet extends StatelessWidget {
             leading: fileIcon,
             title: fileLabel ?? Text('txt_document'.tr()),
             onTap: () {
-              Navigation.instance.pop(context);
+              navigator.pop();
               _onPickFile(pageContext);
             },
           ),
@@ -184,7 +184,7 @@ class AttachmentsSourceBottomSheet extends StatelessWidget {
         );
       }
       onAttachmentsSelected(imageFile);
-      if (context.mounted) Navigation.instance.pop(context);
+      if (context.mounted) navigator.pop();
     }
   }
 
@@ -195,7 +195,7 @@ class AttachmentsSourceBottomSheet extends StatelessWidget {
       imageQuality: imageQuality,
     );
     onMultipleAttachmentsSelected(result.map((e) => File(e.path)).toList());
-    if (context.mounted) Navigation.instance.pop(context);
+    if (context.mounted) navigator.pop();
   }
 
   Future<void> _onPickFile(BuildContext context) async {
@@ -206,6 +206,6 @@ class AttachmentsSourceBottomSheet extends StatelessWidget {
         ) ??
         [];
     onMultipleAttachmentsSelected(result);
-    if (context.mounted) Navigation.instance.pop(context);
+    if (context.mounted) navigator.pop();
   }
 }

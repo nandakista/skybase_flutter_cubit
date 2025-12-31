@@ -8,7 +8,7 @@ import 'package:skybase/core/helper/dialog_helper.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/sources/local/cached_key.dart';
-import 'package:skybase/config/base/main_navigation.dart';
+import 'package:skybase/ui/routes/navigator/app_navigator.dart';
 import 'package:skybase/ui/views/sample_feature/detail/sample_feature_detail_view.dart';
 import 'package:skybase/config/base/pagination_state_extension.dart';
 import 'package:skybase/ui/widgets/base/pagination_state_view.dart';
@@ -63,8 +63,7 @@ class _SampleFeatureListViewState extends State<SampleFeatureListView>
             itemBuilder: (BuildContext context, item, int index) {
               return ListTile(
                 onTap: () {
-                  Navigation.instance.push(
-                    context,
+                  navigator.push(
                     SampleFeatureDetailView.route,
                     arguments: {'id': item.id, 'username': item.username},
                   );
