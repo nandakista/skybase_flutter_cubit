@@ -11,7 +11,7 @@ import 'package:skybase/ui/widgets/keyboard_dismissible.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 import 'package:skybase/ui/widgets/sky_form_field.dart';
 
-import 'cubit/login_cubit.dart';
+import 'login_cubit.dart';
 
 class LoginView extends StatefulWidget {
   static const String route = '/login';

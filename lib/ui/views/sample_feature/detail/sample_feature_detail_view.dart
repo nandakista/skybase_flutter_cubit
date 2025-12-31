@@ -9,7 +9,7 @@ import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_detail.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 
-import 'cubit/sample_feature_detail_cubit.dart';
+import 'sample_feature_detail_cubit.dart';
 
 class SampleFeatureDetailView extends StatefulWidget {
   static const String route = '/user-detail';

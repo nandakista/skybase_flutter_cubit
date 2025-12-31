@@ -17,12 +17,12 @@ import 'package:skybase/data/repositories/sample_feature/sample_feature_reposito
 import 'package:skybase/data/sources/server/auth/auth_sources.dart';
 import 'package:skybase/data/sources/server/auth/auth_sources_impl.dart';
 import 'package:skybase/data/sources/server/sample_feature/sample_feature_sources.dart';
-import 'package:skybase/ui/views/login/cubit/login_cubit.dart';
-import 'package:skybase/ui/views/profile/component/repository/cubit/profile_repository_cubit.dart';
-import 'package:skybase/ui/views/profile/cubit/profile_cubit.dart';
-import 'package:skybase/ui/views/sample_feature/detail/cubit/sample_feature_detail_cubit.dart';
-import 'package:skybase/ui/views/sample_feature/list/cubit/sample_feature_list_cubit.dart';
-import 'package:skybase/ui/views/settings/cubit/setting_cubit.dart';
+import 'package:skybase/ui/views/login/login_cubit.dart';
+import 'package:skybase/ui/views/profile/component/repository/profile_repository_cubit.dart';
+import 'package:skybase/ui/views/profile/profile_cubit.dart';
+import 'package:skybase/ui/views/sample_feature/detail/sample_feature_detail_cubit.dart';
+import 'package:skybase/ui/views/sample_feature/list/sample_feature_list_cubit.dart';
+import 'package:skybase/ui/views/settings/setting_cubit.dart';
 
 import 'config/auth_manager/auth_manager.dart';
 import 'config/network/api_config.dart';

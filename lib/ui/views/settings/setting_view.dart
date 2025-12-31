@@ -9,7 +9,7 @@ import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';
 
-import 'cubit/setting_cubit.dart';
+import 'setting_cubit.dart';
 
 class SettingView extends StatefulWidget {
   static const String route = '/setting';

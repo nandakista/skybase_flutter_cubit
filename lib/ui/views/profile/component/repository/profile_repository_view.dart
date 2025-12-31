@@ -8,7 +8,7 @@ import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_list.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
-import 'cubit/profile_repository_cubit.dart';
+import 'profile_repository_cubit.dart';
 
 class ProfileRepositoryView extends StatefulWidget {
   const ProfileRepositoryView({super.key});

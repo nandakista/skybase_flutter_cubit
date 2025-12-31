@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:skybase/service_locator.dart';
 import 'package:skybase/ui/views/login/login_view.dart';
 
-import 'cubit/login_cubit.dart';
+import 'login_cubit.dart';
 
 final loginRoute = [
   GoRoute(

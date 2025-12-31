@@ -10,7 +10,7 @@ import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
 import 'component/repository/profile_repository_view.dart';
-import 'cubit/profile_cubit.dart';
+import 'profile_cubit.dart';
 
 class ProfileView extends StatefulWidget {
   static const String route = '/profile';

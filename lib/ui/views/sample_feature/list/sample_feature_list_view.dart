@@ -16,7 +16,7 @@ import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_image.dart';
 
-import 'cubit/sample_feature_list_cubit.dart';
+import 'sample_feature_list_cubit.dart';
 
 class SampleFeatureListView extends StatefulWidget {
   static const String route = '/user-list';
