@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skybase/data/sources/local/cache_manager.dart';
 import 'package:skybase/core/localization/locale_manager.dart';
@@ -42,7 +41,7 @@ class ServiceLocator {
   static Future<void> init() async {
     if (kReleaseMode) debugPrint = (String? message, {int? wrapWidth}) {};
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    AppInfo.setInfo(await PackageInfo.fromPlatform());
+    await AppInfo.init();
 
     // _initConfig
     sl.registerSingleton(const FlutterSecureStorage());

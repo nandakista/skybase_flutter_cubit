@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/config/base/request_state.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/core/extension/context_extension.dart';
+import 'package:skybase/core/extension/build_context_extension.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/ui/widgets/base/state_view.dart';
 import 'package:skybase/ui/widgets/shimmer/sample_feature/shimmer_sample_feature_list.dart';

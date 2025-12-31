@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skybase/core/extension/context_extension.dart';
+import 'package:skybase/core/extension/build_context_extension.dart';
 
 class SampleFeatureDetailInfo extends StatelessWidget {
   const SampleFeatureDetailInfo({

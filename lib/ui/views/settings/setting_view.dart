@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:skybase/config/app/app_info.dart';
 import 'package:skybase/config/themes/theme_manager.dart';
-import 'package:skybase/core/extension/context_extension.dart';
+import 'package:skybase/core/extension/build_context_extension.dart';
 import 'package:skybase/ui/widgets/colored_status_bar.dart';
 import 'package:skybase/ui/widgets/sky_appbar.dart';
 import 'package:skybase/ui/widgets/sky_button.dart';

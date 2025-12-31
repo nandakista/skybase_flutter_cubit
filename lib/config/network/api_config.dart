@@ -21,6 +21,6 @@ class DioClient {
 
   static void setInterceptor() {
     DioClient.instance.interceptors.clear();
-    DioClient.instance.interceptors.add(ApiInterceptors(DioClient.instance));
+    DioClient.instance.interceptors.add(ApiInterceptors(instance));
   }
 }

@@ -7,8 +7,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AppInfo {
   static late PackageInfo packageInfo;
 
-  static void setInfo(PackageInfo info) {
-    packageInfo = info;
+  static Future<void> init() async {
+    packageInfo = await PackageInfo.fromPlatform();
   }
 
   static String appVersion = AppInfo.packageInfo.version;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:skybase/core/extension/context_extension.dart';
+import 'package:skybase/core/extension/build_context_extension.dart';
 import 'package:skybase/ui/widgets/shimmer/shimmer_text.dart';
 
 /* Created by

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skybase/core/database/storage/storage_manager.dart';
 import 'package:skybase/config/themes/app_colors.dart';
-import 'package:skybase/core/extension/context_extension.dart';
+import 'package:skybase/core/extension/build_context_extension.dart';
 import 'package:skybase/core/helper/dialog_helper.dart';
 import 'package:skybase/core/mixin/connectivity_mixin.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';

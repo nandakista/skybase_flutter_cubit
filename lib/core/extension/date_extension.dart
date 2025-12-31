@@ -7,7 +7,7 @@ import 'package:skybase/core/database/storage/storage_manager.dart';
    Varcant
    nanda.kista@gmail.com
 */
-extension DateTimeExt on DateTime {
+extension DateTimeExtension on DateTime {
   DateTime copy() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch, isUtc: isUtc);
 
