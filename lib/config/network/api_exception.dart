@@ -50,7 +50,7 @@ mixin NetworkException implements Exception {
     };
   }
 
-  NetworkExceptionData getErrorException(error) {
+  NetworkExceptionData getErrorException(dynamic error) {
     if (error is Exception) {
       try {
         NetworkExceptionData networkExceptions;

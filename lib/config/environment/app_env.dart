@@ -22,7 +22,7 @@ class AppEnv {
   static late ConfigData config;
   static Environment env = Environment.DEVELOPMENT;
 
-  static set({
+  static void set({
     required Environment environment,
     required ConfigData configuration,
   }) {

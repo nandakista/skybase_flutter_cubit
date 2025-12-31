@@ -261,7 +261,7 @@ class AppTheme {
 }
 
 class AppOrientation {
-  static lock(DeviceOrientation orientation) {
+  static Future<void> lock(DeviceOrientation orientation) {
     return SystemChrome.setPreferredOrientations([orientation]);
   }
 }

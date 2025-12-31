@@ -5,13 +5,13 @@ import 'package:skybase/ui/widgets/platform_loading_indicator.dart';
 import 'package:skybase/ui/widgets/sky_dialog.dart';
 
 class LoadingDialog {
-  static show(BuildContext context, {bool? dismissible}) {
-    return showGeneralDialog(
+  static Future<T?> show<T>(BuildContext context, {bool? dismissible}) {
+    return showGeneralDialog<T>(
       context: context,
       barrierLabel: 'Barrier',
       barrierDismissible: dismissible ?? false,
       barrierColor: Colors.black.withValues(alpha: 0.5),
-      pageBuilder: (_, __, ___) {
+      pageBuilder: (_, _, _) {
         return Center(
           child: Container(
             height: 80,
@@ -28,11 +28,11 @@ class LoadingDialog {
     );
   }
 
-  static dismiss(BuildContext context) => navigator.pop();
+  static void dismiss(BuildContext context) => navigator.pop();
 }
 
 class DialogHelper {
-  static failed({
+  static Future<T?> failed<T>({
     required BuildContext context,
     required String message,
     VoidCallback? onConfirm,
@@ -40,7 +40,7 @@ class DialogHelper {
     bool? isDismissible,
     String? title,
   }) {
-    return showDialog(
+    return showDialog<T>(
       barrierDismissible: isDismissible ?? true,
       context: context,
       builder: (context) => DialogAlert.error(
@@ -53,7 +53,7 @@ class DialogHelper {
     );
   }
 
-  static success({
+  static Future<T?> success<T>({
     required BuildContext context,
     required String message,
     required VoidCallback onConfirm,
@@ -61,7 +61,7 @@ class DialogHelper {
     bool? isDismissible,
     String? title,
   }) {
-    return showDialog(
+    return showDialog<T>(
       barrierDismissible: isDismissible ?? false,
       context: context,
       builder: (context) => DialogAlert.success(
@@ -74,7 +74,7 @@ class DialogHelper {
     );
   }
 
-  static warning({
+  static Future<T?> warning<T>({
     required BuildContext context,
     required String message,
     required VoidCallback onConfirm,
@@ -85,7 +85,7 @@ class DialogHelper {
     String? cancelText,
     VoidCallback? onCancel,
 }) {
-    return showDialog(
+    return showDialog<T>(
       barrierDismissible: isDismissible ?? true,
       context: context,
       builder: (context) => DialogAlert.warning(
@@ -101,7 +101,7 @@ class DialogHelper {
     );
   }
 
-  static retry({
+  static Future<T?> retry<T>({
     required BuildContext context,
     required String message,
     required VoidCallback onConfirm,
@@ -112,7 +112,7 @@ class DialogHelper {
     String? cancelText,
     VoidCallback? onCancel,
 }) {
-    return showDialog(
+    return showDialog<T>(
       barrierDismissible: isDismissible ?? true,
       context: context,
       builder: (context) => DialogAlert.retry(
@@ -128,7 +128,7 @@ class DialogHelper {
     );
   }
 
-  static force({
+  static Future<T?> force<T>({
     required BuildContext context,
     required String message,
     required VoidCallback onConfirm,
@@ -138,7 +138,7 @@ class DialogHelper {
     VoidCallback? onCancel,
     String? confirmText,
   }) {
-    return showDialog(
+    return showDialog<T>(
       barrierDismissible: false,
       context: context,
       builder: (context) => DialogAlert.force(
@@ -153,5 +153,5 @@ class DialogHelper {
     );
   }
 
-  static dismiss(BuildContext context) => navigator.pop();
+  static void dismiss(BuildContext context) => navigator.pop();
 }

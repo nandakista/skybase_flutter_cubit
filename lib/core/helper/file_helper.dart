@@ -87,7 +87,7 @@ class FileHelper {
     }
   }
 
-  static downloadAndOpenFile({required String url, String? fileName}) async {
+  static Future<void> downloadAndOpenFile({required String url, String? fileName}) async {
     final name = fileName ?? url.split('/').last;
     final file = await downloadFilePath(url, name);
     debugPrint('Path : $file');
