@@ -13,11 +13,7 @@ sealed class NetworkExceptionData with ApiMessage {
   final String? message;
   final Response? response;
 
-  NetworkExceptionData({
-    this.prefix,
-    this.message,
-    this.response,
-  });
+  NetworkExceptionData({this.prefix, this.message, this.response});
 
   @override
   String toString() {
@@ -44,9 +40,9 @@ mixin NetworkException implements Exception {
       413 => RequestEntityTooLargeException(),
       500 || 503 => InternalServerErrorException(),
       _ => FetchDataException(
-          message: 'Received invalid status code: $statusCode',
-          response: response,
-        ),
+        message: 'Received invalid status code: $statusCode',
+        response: response,
+      ),
     };
   }
 
@@ -60,9 +56,10 @@ mixin NetworkException implements Exception {
             DioExceptionType.connectionTimeout => ConnectionTimeOutException(),
             DioExceptionType.receiveTimeout => ReceiveTimeOutException(),
             DioExceptionType.sendTimeout => SendTimeOutException(),
-            DioExceptionType.unknown => error.error is SocketException
-                ? SocketException()
-                : FetchDataException(),
+            DioExceptionType.unknown =>
+              error.error is SocketException
+                  ? SocketException()
+                  : FetchDataException(),
             DioExceptionType.badResponse => handleResponse(error.response!),
             DioExceptionType.badCertificate => BadCertificateException(),
             DioExceptionType.connectionError => ConnectionTimeOutException(),
@@ -102,62 +99,63 @@ final class SendTimeOutException extends NetworkExceptionData {
 
 final class InternalServerErrorException extends NetworkExceptionData {
   InternalServerErrorException()
-      : super(message: 'txt_internal_server_error'.tr());
+    : super(message: 'txt_internal_server_error'.tr());
 }
 
 final class RequestEntityTooLargeException extends NetworkExceptionData {
   RequestEntityTooLargeException({super.response})
-      : super(message: 'txt_request_entity_to_large'.tr());
+    : super(message: 'txt_request_entity_to_large'.tr());
 }
 
 final class FetchDataException extends NetworkExceptionData {
   FetchDataException({String? message, super.response})
-      : super(message: message ?? 'txt_error_during_communication'.tr());
+    : super(message: message ?? 'txt_error_during_communication'.tr());
 }
 
 final class NotFoundException extends NetworkExceptionData {
   NotFoundException({String? message, super.response})
-      : super(message: message ?? 'txt_not_found'.tr());
+    : super(message: message ?? 'txt_not_found'.tr());
 }
 
 final class BadRequestException extends NetworkExceptionData {
   BadRequestException({super.response})
-      : super(
-            prefix: 'txt_bad_request'.tr(),
-            message: '${'txt_message'.tr()}: ${response?.statusMessage}');
+    : super(
+        prefix: 'txt_bad_request'.tr(),
+        message: '${'txt_message'.tr()}: ${response?.statusMessage}',
+      );
 }
 
 final class BadCertificateException extends NetworkExceptionData {
   BadCertificateException({super.response})
-      : super(message: 'txt_bad_certificate'.tr());
+    : super(message: 'txt_bad_certificate'.tr());
 }
 
 final class UnauthorisedException extends NetworkExceptionData {
   UnauthorisedException({super.response})
-      : super(message: 'txt_unauthorized'.tr());
+    : super(message: 'txt_unauthorized'.tr());
 }
 
 final class InvalidInputException extends NetworkExceptionData {
   InvalidInputException({super.response})
-      : super(message: 'txt_invalid_input'.tr());
+    : super(message: 'txt_invalid_input'.tr());
 }
 
 final class RequestCancelled extends NetworkExceptionData {
   RequestCancelled({super.response})
-      : super(message: 'txt_request_cancel'.tr());
+    : super(message: 'txt_request_cancel'.tr());
 }
 
 final class SocketException extends NetworkExceptionData {
   SocketException({super.response})
-      : super(message: 'txt_no_internet_connection'.tr());
+    : super(message: 'txt_no_internet_connection'.tr());
 }
 
 final class UnexpectedError extends NetworkExceptionData {
   UnexpectedError({super.response})
-      : super(message: 'txt_unexpected_error'.tr());
+    : super(message: 'txt_unexpected_error'.tr());
 }
 
 final class UnableToProcess extends NetworkExceptionData {
   UnableToProcess({super.response})
-      : super(message: 'txt_unable_to_process'.tr());
+    : super(message: 'txt_unable_to_process'.tr());
 }

@@ -43,12 +43,9 @@ class AuthManager {
   void authChanged(AppType state) async {
     return switch (state) {
       AppType.INITIAL => await setup(),
-      AppType.FIRST_INSTALL =>
-        navigator.pushAllReplacement(IntroView.route),
-      AppType.UNAUTHENTICATED =>
-        navigator.pushAllReplacement(LoginView.route),
-      AppType.AUTHENTICATED =>
-        navigator.pushAllReplacement(MainNavView.route),
+      AppType.FIRST_INSTALL => navigator.pushAllReplacement(IntroView.route),
+      AppType.UNAUTHENTICATED => navigator.pushAllReplacement(LoginView.route),
+      AppType.AUTHENTICATED => navigator.pushAllReplacement(MainNavView.route),
     };
   }
 
@@ -174,9 +171,7 @@ class AuthManager {
   /// * No need to decode or call fromJson again when you used this helper
   User? get user {
     if (storage.has(StorageKey.USERS)) {
-      return User.fromJson(
-        jsonDecode(storage.get<String>(StorageKey.USERS)),
-      );
+      return User.fromJson(jsonDecode(storage.get<String>(StorageKey.USERS)));
     } else {
       return null;
     }
