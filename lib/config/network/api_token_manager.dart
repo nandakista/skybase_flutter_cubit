@@ -10,7 +10,6 @@ import 'package:dio/dio.dart';
 import 'package:skybase/config/environment/app_env.dart';
 import 'package:skybase/config/auth_manager/auth_manager.dart';
 import 'package:skybase/core/database/secure_storage/secure_storage_manager.dart';
-import 'package:skybase/config/network/api_config.dart';
 import 'package:skybase/config/network/api_exception.dart';
 import 'package:skybase/config/network/api_response.dart';
 
@@ -82,7 +81,7 @@ abstract base class ApiTokenManager extends QueuedInterceptorsWrapper {
     try {
       String? token = await SecureStorageManager.instance.getToken();
       final responseBody = await Dio().post(
-        '${DioClient.baseURL}auth/refresh',
+        '${AppEnv.config.baseUrl}/auth/refresh',
         data: jsonEncode({'refresh_token': refreshToken}),
         options: Options(
           headers: {

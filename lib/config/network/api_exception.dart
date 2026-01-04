@@ -1,3 +1,8 @@
+/* Created by
+   Varcant
+   nanda.kista@gmail.com
+*/
+
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -5,10 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:skybase/config/network/api_message.dart';
 import 'package:skybase/config/network/api_response.dart';
 
-/* Created by
-   Varcant
-   nanda.kista@gmail.com
-*/
 
 sealed class NetworkExceptionData with ApiMessage {
   final String message;

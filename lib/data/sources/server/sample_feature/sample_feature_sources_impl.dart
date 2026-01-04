@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:skybase/config/network/api_request.dart';
+import 'package:skybase/config/network/api_client.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/models/sample_feature/sample_feature.dart';
 import 'package:skybase/data/sources/server/sample_feature/sample_feature_sources.dart';
@@ -16,7 +16,7 @@ class SampleFeatureSourcesImpl implements SampleFeatureSources {
     String? username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/search/users',
         queryParameters: {
           'q': username ?? 'nanda',
@@ -40,7 +40,7 @@ class SampleFeatureSourcesImpl implements SampleFeatureSources {
     required String username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/users/$username',
       );
       return SampleFeature.fromJson(res.data);
@@ -56,7 +56,7 @@ class SampleFeatureSourcesImpl implements SampleFeatureSources {
     required String username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/users/$username/followers',
       );
       return List<SampleFeature>.from(
@@ -74,7 +74,7 @@ class SampleFeatureSourcesImpl implements SampleFeatureSources {
     required String username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/users/$username/following',
       );
       return List<SampleFeature>.from(
@@ -92,7 +92,7 @@ class SampleFeatureSourcesImpl implements SampleFeatureSources {
     required String username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/users/$username/repos',
         queryParameters: {'type': 'all'},
       );

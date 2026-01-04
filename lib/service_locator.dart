@@ -24,7 +24,7 @@ import 'package:skybase/ui/views/sample_feature/list/sample_feature_list_cubit.d
 import 'package:skybase/ui/views/settings/setting_cubit.dart';
 
 import 'config/auth_manager/auth_manager.dart';
-import 'config/network/api_config.dart';
+import 'config/network/api_client.dart';
 import 'config/themes/theme_manager.dart';
 import 'config/app/app_info.dart';
 import 'core/database/storage/storage_manager.dart';
@@ -46,7 +46,7 @@ class ServiceLocator {
     // _initConfig
     sl.registerSingleton(const FlutterSecureStorage());
     sl.registerLazySingleton(() => Dio());
-    sl.registerLazySingleton(() => DioClient());
+    ApiClient.init();
     sl.registerSingleton<SharedPreferences>(sharedPreferences);
 
     // _initService

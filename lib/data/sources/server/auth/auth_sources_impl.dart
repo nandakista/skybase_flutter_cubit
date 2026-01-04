@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:skybase/config/environment/app_env.dart';
+import 'package:skybase/config/network/api_client.dart';
 import 'package:skybase/core/database/secure_storage/secure_storage_manager.dart';
-import 'package:skybase/config/network/api_request.dart';
 import 'package:skybase/config/network/api_response.dart';
 import 'package:skybase/data/models/repo/repo.dart';
 import 'package:skybase/data/models/user/user.dart';
@@ -21,7 +21,7 @@ class AuthSourcesImpl extends AuthSources {
     required String password,
   }) async {
     try {
-      final response = await ApiRequest.post(
+      final response = await ApiClient.call.post(
         url: 'auth/login',
         body: {
           'phone': phoneNumber,
@@ -66,7 +66,7 @@ class AuthSourcesImpl extends AuthSources {
     required String username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/users/$username',
         cancelToken: cancelToken,
       );
@@ -83,7 +83,7 @@ class AuthSourcesImpl extends AuthSources {
     required String username,
   }) async {
     try {
-      final res = await ApiRequest.get(
+      final res = await ApiClient.call.get(
         url: '/users/$username/repos?type=all',
         cancelToken: cancelToken,
       );
