@@ -50,7 +50,7 @@ class ApiClient {
       ..addAll([ApiLogInterceptors(), ApiTokenInterceptors(_dio)]);
   }
 
-  Future<Response> post({
+  Future<Response> post<T>({
     required String url,
     bool useToken = true,
     String? contentType = Headers.jsonContentType,
@@ -59,7 +59,7 @@ class ApiClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      return await ApiClient._dio
+      final response = await ApiClient._dio
           .post(
             url,
             data: _buildBody(contentType: contentType, body: body),
@@ -68,13 +68,15 @@ class ApiClient {
             cancelToken: cancelToken,
           )
           .safeError();
+      return response;
+      // return ApiResponse<T>.fromJson(response.data);
     } catch (e, stackTrace) {
       log('❌ $tag $e, $stackTrace');
       rethrow;
     }
   }
 
-  Future<Response> get({
+  Future<Response> get<T>({
     required String url,
     bool useToken = true,
     String? contentType = Headers.jsonContentType,
@@ -82,7 +84,7 @@ class ApiClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      return await ApiClient._dio
+      final response = await ApiClient._dio
           .get(
             url,
             options: await _buildOptions(contentType: contentType),
@@ -90,13 +92,15 @@ class ApiClient {
             cancelToken: cancelToken,
           )
           .safeError();
+      return response;
+      // return ApiResponse<T>.fromJson(response.data);
     } catch (e, stackTrace) {
       log('❌ $tag $e, $stackTrace');
       rethrow;
     }
   }
 
-  Future<Response> patch({
+  Future<Response> patch<T>({
     required String url,
     bool useToken = true,
     String? contentType = Headers.jsonContentType,
@@ -105,7 +109,7 @@ class ApiClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      return await ApiClient._dio
+      final response = await ApiClient._dio
           .patch(
             url,
             data: _buildBody(contentType: contentType, body: body),
@@ -114,13 +118,15 @@ class ApiClient {
             cancelToken: cancelToken,
           )
           .safeError();
+      return response;
+      // return ApiResponse<T>.fromJson(response.data);
     } catch (e, stackTrace) {
       log('❌ $tag $e, $stackTrace');
       rethrow;
     }
   }
 
-  Future<Response> put({
+  Future<Response> put<T>({
     required String url,
     bool useToken = true,
     String? contentType = Headers.jsonContentType,
@@ -129,7 +135,7 @@ class ApiClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      return await ApiClient._dio
+      final response = await ApiClient._dio
           .put(
             url,
             data: _buildBody(contentType: contentType, body: body),
@@ -138,13 +144,15 @@ class ApiClient {
             cancelToken: cancelToken,
           )
           .safeError();
+      return response;
+      // return ApiResponse<T>.fromJson(response.data);
     } catch (e, stackTrace) {
       log('❌ $tag $e, $stackTrace');
       rethrow;
     }
   }
 
-  Future<Response> delete({
+  Future<Response> delete<T>({
     required String url,
     bool useToken = true,
     String? contentType = Headers.jsonContentType,
@@ -152,7 +160,7 @@ class ApiClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      return await ApiClient._dio
+      final response = await ApiClient._dio
           .delete(
             url,
             options: await _buildOptions(contentType: contentType),
@@ -160,6 +168,8 @@ class ApiClient {
             cancelToken: cancelToken,
           )
           .safeError();
+      return response;
+      // return ApiResponse<T>.fromJson(response.data);
     } catch (e, stackTrace) {
       log('❌ $tag $e, $stackTrace');
       rethrow;
