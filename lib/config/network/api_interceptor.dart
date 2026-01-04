@@ -16,7 +16,7 @@ final class ApiInterceptors extends ApiTokenManager
   Future<dynamic> onRequest(options, handler) async {
     if (kDebugMode) {
       debugPrint('');
-      debugPrint('# ⏳  REQUEST');
+      debugPrint('# ⏳REQUEST');
       debugPrint('--> ${options.method.toUpperCase()} - ${options.uri}');
       debugPrint('Headers: ${options.headers}');
       debugPrint('Query Params: ${options.queryParameters}');
@@ -33,7 +33,7 @@ final class ApiInterceptors extends ApiTokenManager
   Future<dynamic> onResponse(Response response, handler) async {
     if (kDebugMode) {
       debugPrint('');
-      debugPrint('# ✅ RESPONSE');
+      debugPrint('# ✅RESPONSE');
       debugPrint('<-- ${(response.requestOptions.uri)}');
       debugPrint('Status Code : ${response.statusCode} ');
       debugPrint('Headers: ${response.headers}');
@@ -47,7 +47,7 @@ final class ApiInterceptors extends ApiTokenManager
   Future<dynamic> onError(DioException err, handler) async {
     if (kDebugMode) {
       debugPrint('');
-      debugPrint('# ❌ ERROR');
+      debugPrint('# ❌ERROR');
       debugPrint('<-- ${err.response?.requestOptions.baseUrl}');
       debugPrint('Status Code : ${err.response?.statusCode} ');
       debugPrint('Error Message : ${err.error} ');
