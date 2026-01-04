@@ -1,7 +1,11 @@
+/* Created by
+   Varcant
+   nanda.kista@gmail.com
+*/
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:skybase/config/environment/app_env.dart';
 import 'package:skybase/config/auth_manager/auth_manager.dart';
 import 'package:skybase/core/database/secure_storage/secure_storage_manager.dart';
@@ -10,10 +14,6 @@ import 'package:skybase/config/network/api_exception.dart';
 import 'package:skybase/config/network/api_request.dart';
 import 'package:skybase/config/network/api_response.dart';
 
-/* Created by
-   Varcant
-   nanda.kista@gmail.com
-*/
 enum TokenType {
   /// When your app no need token authentication.
   NONE,
@@ -25,8 +25,7 @@ enum TokenType {
   REFRESH_TOKEN,
 }
 
-abstract base class ApiTokenManager extends QueuedInterceptorsWrapper
-    with NetworkException {
+abstract base class ApiTokenManager extends QueuedInterceptorsWrapper {
   final authManager = AuthManager.instance;
   final secureStorage = SecureStorageManager.instance;
 
@@ -88,12 +87,10 @@ abstract base class ApiTokenManager extends QueuedInterceptorsWrapper
           headers: headers,
           contentType: Headers.jsonContentType,
         ),
-      );
+      ).safeError();
       return ApiResponse.fromJson(responseBody.data).data['token'];
-    } on DioException catch (error) {
-      debugPrint(getErrorException(error).toString());
-      await authManager.logout();
-      return error.toString();
+    } catch (e) {
+      rethrow;
     }
   }
 

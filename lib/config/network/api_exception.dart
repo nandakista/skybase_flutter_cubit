@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:skybase/config/network/api_message.dart';
@@ -9,11 +11,10 @@ import 'package:skybase/config/network/api_response.dart';
 */
 
 sealed class NetworkExceptionData with ApiMessage {
-  final String? prefix;
-  final String? message;
+  final String message;
   final Response? response;
 
-  NetworkExceptionData({this.prefix, this.message, this.response});
+  NetworkExceptionData({required this.message, this.response});
 
   @override
   String toString() {
@@ -22,14 +23,14 @@ sealed class NetworkExceptionData with ApiMessage {
       ApiResponse res = ApiResponse.fromJson(response?.data);
       result = convertMessage(res.error ?? res.message);
     } else {
-      result += (prefix != null) ? '$prefix, $message' : '$message';
+      result += message;
     }
     return result;
   }
 }
 
-mixin NetworkException implements Exception {
-  NetworkExceptionData handleResponse(Response response) {
+class NetworkException implements Exception {
+  static NetworkExceptionData handleResponse(Response response) {
     int statusCode = response.statusCode!;
     return switch (statusCode) {
       400 || 403 || 422 => BadRequestException(response: response),
@@ -46,7 +47,7 @@ mixin NetworkException implements Exception {
     };
   }
 
-  NetworkExceptionData getErrorException(dynamic error) {
+  static NetworkExceptionData getErrorException(dynamic error) {
     if (error is Exception) {
       try {
         NetworkExceptionData networkExceptions;
@@ -85,6 +86,17 @@ mixin NetworkException implements Exception {
   }
 }
 
+extension FutureExtension<T> on Future<T> {
+  Future<T> safeError({bool originalException = false}) {
+    return catchError((error, stackTrace) async {
+      final exception = NetworkException.getErrorException(error);
+      log('Stack trace = $stackTrace');
+
+      throw originalException ? exception : exception.message;
+    });
+  }
+}
+
 final class ConnectionTimeOutException extends NetworkExceptionData {
   ConnectionTimeOutException() : super(message: 'txt_connection_timeout'.tr());
 }
@@ -119,10 +131,7 @@ final class NotFoundException extends NetworkExceptionData {
 
 final class BadRequestException extends NetworkExceptionData {
   BadRequestException({super.response})
-    : super(
-        prefix: 'txt_bad_request'.tr(),
-        message: '${'txt_message'.tr()}: ${response?.statusMessage}',
-      );
+    : super(message: '${'txt_bad_request'.tr()}: ${response?.statusMessage}');
 }
 
 final class BadCertificateException extends NetworkExceptionData {

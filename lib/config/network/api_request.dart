@@ -13,15 +13,11 @@ import 'api_exception.dart';
    nanda.kista@gmail.com
 */
 
-Map<String, String> headers = {
-  HttpHeaders.authorizationHeader: '',
-};
+Map<String, String> headers = {HttpHeaders.authorizationHeader: ''};
 
 /// Base Request for calling API.
 /// * Can be modify as needed.
 class ApiRequest {
-  static final _networkUtils = NetworkUtilsRequest();
-
   static Future<Response> post({
     required String url,
     bool useToken = true,
@@ -30,16 +26,19 @@ class ApiRequest {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
   }) async {
-    await _networkUtils.tokenManager(useToken);
-    return await _networkUtils.safeFetch(
-      () => DioClient.instance.post(
+    try {
+      await _tokenManager(useToken);
+      return await DioClient.instance.post(
         url,
-        data: _networkUtils.setBody(contentType: contentType, body: body),
+        data: _setBody(contentType: contentType, body: body),
         options: Options(headers: headers, contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
-      ),
-    );
+      ).safeError();
+    } catch (e, stackTrace) {
+      debugPrint('Api Request -> $e, $stackTrace');
+      rethrow;
+    }
   }
 
   static Future<Response> get({
@@ -49,15 +48,18 @@ class ApiRequest {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
   }) async {
-    await _networkUtils.tokenManager(useToken);
-    return await _networkUtils.safeFetch(
-      () => DioClient.instance.get(
+    try {
+      await _tokenManager(useToken);
+      return await DioClient.instance.get(
         url,
         options: Options(headers: headers, contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
-      ),
-    );
+      ).safeError();
+    } catch (e, stackTrace) {
+      debugPrint('Api Request -> $e, $stackTrace');
+      rethrow;
+    }
   }
 
   static Future<Response> patch({
@@ -68,16 +70,19 @@ class ApiRequest {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
   }) async {
-    await _networkUtils.tokenManager(useToken);
-    return await _networkUtils.safeFetch(
-      () => DioClient.instance.patch(
+    try {
+      await _tokenManager(useToken);
+      return await DioClient.instance.patch(
         url,
-        data: _networkUtils.setBody(contentType: contentType, body: body),
+        data: _setBody(contentType: contentType, body: body),
         options: Options(headers: headers, contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
-      ),
-    );
+      ).safeError();
+    } catch (e, stackTrace) {
+      debugPrint('Api Request -> $e, $stackTrace');
+      rethrow;
+    }
   }
 
   static Future<Response> put({
@@ -88,16 +93,19 @@ class ApiRequest {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
   }) async {
-    await _networkUtils.tokenManager(useToken);
-    return await _networkUtils.safeFetch(
-      () => DioClient.instance.put(
+    try {
+      await _tokenManager(useToken);
+      return await DioClient.instance.put(
         url,
-        data: _networkUtils.setBody(contentType: contentType, body: body),
+        data: _setBody(contentType: contentType, body: body),
         options: Options(headers: headers, contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
-      ),
-    );
+      ).safeError();
+    } catch (e, stackTrace) {
+      debugPrint('Api Request -> $e, $stackTrace');
+      rethrow;
+    }
   }
 
   static Future<Response> delete({
@@ -107,23 +115,21 @@ class ApiRequest {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
   }) async {
-    await _networkUtils.tokenManager(useToken);
-    return await _networkUtils.safeFetch(
-      () => DioClient.instance.delete(
+    try {
+      await _tokenManager(useToken);
+      return await DioClient.instance.delete(
         url,
         options: Options(headers: headers),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
-      ),
-    );
+      ).safeError();
+    } catch (e, stackTrace) {
+      debugPrint('Api Request -> $e, $stackTrace');
+      rethrow;
+    }
   }
-}
 
-final class NetworkUtilsRequest with NetworkException {
-  Object? setBody({
-    required String? contentType,
-    required Object? body,
-  }) {
+  static Object? _setBody({required String? contentType, required Object? body}) {
     if (contentType == Headers.jsonContentType) {
       return body = jsonEncode(body);
     } else if (contentType == Headers.formUrlEncodedContentType) {
@@ -136,27 +142,14 @@ final class NetworkUtilsRequest with NetworkException {
     }
   }
 
-  Future<void> tokenManager(bool useToken) async {
+  static Future<void> _tokenManager(bool useToken) async {
     DioClient.setInterceptor();
     // String? token = await SecureStorageManager.instance.getToken();
     if (useToken) {
-      headers[HttpHeaders.authorizationHeader] = 'token ${AppEnv.config.clientToken}';
+      headers[HttpHeaders.authorizationHeader] =
+      'token ${AppEnv.config.clientToken}';
     } else {
       headers.clear();
-    }
-  }
-
-  Future<Response> safeFetch(Future<Response> Function() tryFetch) async {
-    try {
-      final response = await tryFetch();
-      // return ApiResponse.fromJson(response.data);
-      return response;
-    } on DioException catch (e, stackTrace) {
-      debugPrint('Api Request -> $e, $stackTrace');
-      throw getErrorException(e);
-    } catch (e, stackTrace) {
-      debugPrint('Api Request -> $e, $stackTrace');
-      rethrow;
     }
   }
 }
