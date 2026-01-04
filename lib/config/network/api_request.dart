@@ -1,5 +1,9 @@
+/* Created by
+   Varcant
+   nanda.kista@gmail.com
+*/
+
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +11,6 @@ import 'package:skybase/config/environment/app_env.dart';
 
 import 'api_config.dart';
 import 'api_exception.dart';
-
-/* Created by
-   Varcant
-   nanda.kista@gmail.com
-*/
-
-Map<String, String> headers = {HttpHeaders.authorizationHeader: ''};
 
 /// Base Request for calling API.
 /// * Can be modify as needed.
@@ -27,11 +24,10 @@ class ApiRequest {
     CancelToken? cancelToken,
   }) async {
     try {
-      await _tokenManager(useToken);
       return await DioClient.instance.post(
         url,
-        data: _setBody(contentType: contentType, body: body),
-        options: Options(headers: headers, contentType: contentType),
+        data: _buildBody(contentType: contentType, body: body),
+        options: await _buildOptions(contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       ).safeError();
@@ -49,10 +45,9 @@ class ApiRequest {
     CancelToken? cancelToken,
   }) async {
     try {
-      await _tokenManager(useToken);
       return await DioClient.instance.get(
         url,
-        options: Options(headers: headers, contentType: contentType),
+        options: await _buildOptions(contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       ).safeError();
@@ -71,11 +66,10 @@ class ApiRequest {
     CancelToken? cancelToken,
   }) async {
     try {
-      await _tokenManager(useToken);
       return await DioClient.instance.patch(
         url,
-        data: _setBody(contentType: contentType, body: body),
-        options: Options(headers: headers, contentType: contentType),
+        data: _buildBody(contentType: contentType, body: body),
+        options: await _buildOptions(contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       ).safeError();
@@ -94,11 +88,10 @@ class ApiRequest {
     CancelToken? cancelToken,
   }) async {
     try {
-      await _tokenManager(useToken);
       return await DioClient.instance.put(
         url,
-        data: _setBody(contentType: contentType, body: body),
-        options: Options(headers: headers, contentType: contentType),
+        data: _buildBody(contentType: contentType, body: body),
+        options: await _buildOptions(contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       ).safeError();
@@ -116,10 +109,9 @@ class ApiRequest {
     CancelToken? cancelToken,
   }) async {
     try {
-      await _tokenManager(useToken);
       return await DioClient.instance.delete(
         url,
-        options: Options(headers: headers),
+        options: await _buildOptions(contentType: contentType),
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       ).safeError();
@@ -129,7 +121,7 @@ class ApiRequest {
     }
   }
 
-  static Object? _setBody({required String? contentType, required Object? body}) {
+  static Object? _buildBody({required String? contentType, required Object? body}) {
     if (contentType == Headers.jsonContentType) {
       return body = jsonEncode(body);
     } else if (contentType == Headers.formUrlEncodedContentType) {
@@ -142,14 +134,29 @@ class ApiRequest {
     }
   }
 
-  static Future<void> _tokenManager(bool useToken) async {
-    DioClient.setInterceptor();
-    // String? token = await SecureStorageManager.instance.getToken();
-    if (useToken) {
-      headers[HttpHeaders.authorizationHeader] =
-      'token ${AppEnv.config.clientToken}';
-    } else {
-      headers.clear();
-    }
+  static Future<Options> _buildOptions({
+    Map<String, dynamic>? headers,
+    String? contentType,
+  }) async {
+    // Uncomment this if you wanna use ApiTokenInterceptor
+    // DioClient.setTokenInterceptor();
+
+    final Map<String, dynamic> newHeaders = {'Accept': 'application/json'};
+
+    newHeaders.addAll(headers ?? {});
+
+    // TODO: Adjust based on your token
+    // final token = await SecureStorageManager().getToken() ?? "";
+    // if (!newHeaders.containsKey("Authorization") && token.isNotEmpty) {
+    //   newHeaders["Authorization"] = 'Bearer $token';
+    // }
+
+    // TODO: Remove this, only for Github APIs
+    newHeaders["Authorization"] = 'token ${AppEnv.config.clientToken}';
+
+    return Options(
+      headers: newHeaders,
+      contentType: contentType,
+    );
   }
 }

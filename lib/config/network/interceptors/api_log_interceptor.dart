@@ -1,19 +1,14 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-
-import 'api_token_manager.dart';
-
 /* Created by
    Varcant
    nanda.kista@gmail.com
 */
-final class ApiInterceptors extends ApiTokenManager
-    implements QueuedInterceptorsWrapper {
-  ApiInterceptors(this._dio);
-  final Dio _dio;
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+
+final class ApiLogInterceptors extends InterceptorsWrapper {
   @override
-  Future<dynamic> onRequest(options, handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (kDebugMode) {
       debugPrint('');
       debugPrint('# ⏳REQUEST');
@@ -26,11 +21,14 @@ final class ApiInterceptors extends ApiTokenManager
       }
       debugPrint('--> END ${options.method.toUpperCase()}');
     }
-    return handler.next(options);
+    return super.onRequest(options, handler);
   }
 
   @override
-  Future<dynamic> onResponse(Response response, handler) async {
+  Future<dynamic> onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  ) async {
     if (kDebugMode) {
       debugPrint('');
       debugPrint('# ✅RESPONSE');
@@ -44,7 +42,7 @@ final class ApiInterceptors extends ApiTokenManager
   }
 
   @override
-  Future<dynamic> onError(DioException err, handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     if (kDebugMode) {
       debugPrint('');
       debugPrint('# ❌ERROR');
@@ -56,10 +54,6 @@ final class ApiInterceptors extends ApiTokenManager
       debugPrint('Response Path : ${err.response?.requestOptions.uri}');
       debugPrint('<-- End HTTP');
     }
-    handleToken(
-      dio: _dio,
-      err: err,
-      handler: handler,
-    );
+    return super.onError(err, handler);
   }
 }

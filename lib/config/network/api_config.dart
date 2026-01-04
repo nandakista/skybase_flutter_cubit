@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:skybase/config/environment/app_env.dart';
-import 'package:skybase/config/network/api_interceptor.dart';
+import 'package:skybase/config/network/interceptors/api_log_interceptor.dart';
+import 'package:skybase/config/network/interceptors/api_token_interceptor.dart';
 import 'package:skybase/service_locator.dart';
 
 /* Created by
@@ -14,13 +15,21 @@ class DioClient {
   static Dio get instance => sl<DioClient>()._dio;
 
   DioClient() {
-    _dio.options.baseUrl = baseURL;
-    _dio.options.connectTimeout = const Duration(seconds: 60); //60s
-    _dio.options.receiveTimeout = const Duration(seconds: 30); //30s
+    _dio.options
+      ..baseUrl = baseURL
+      ..connectTimeout = const Duration(seconds: 60)
+      ..receiveTimeout = const Duration(seconds: 30);
+
+    _dio.interceptors.add(ApiLogInterceptors());
   }
 
-  static void setInterceptor() {
+  static void setTokenInterceptor() {
     DioClient.instance.interceptors.clear();
-    DioClient.instance.interceptors.add(ApiInterceptors(instance));
+    DioClient.instance.interceptors
+      ..clear()
+      ..addAll([
+        ApiLogInterceptors(),
+        ApiTokenInterceptors(instance),
+      ]);
   }
 }
